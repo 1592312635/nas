@@ -1,14 +1,17 @@
 package com.minyan.nascommon.po;
 
-import java.io.Serializable;
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serializable;
+import java.util.Date;
+
 /**
- * @author 
- * 
+ * @author
+ *
  */
 @Data
+@TableName("nas_activity_info")
 public class ActivityInfoPO implements Serializable {
     /**
      * 主键
@@ -18,37 +21,42 @@ public class ActivityInfoPO implements Serializable {
     /**
      * 活动id
      */
-    private Integer activity_id;
+    private Integer activityId;
 
     /**
      * 活动名称
      */
-    private String activity_name;
+    private String activityName;
+
+    /**
+     * 启用状态
+     */
+    private Integer status;
 
     /**
      * 开始时间
      */
-    private Date begin_time;
+    private Date beginTime;
 
     /**
      * 结束时间
      */
-    private Date end_time;
+    private Date endTime;
 
     /**
      * 创建时间
      */
-    private Date create_time;
+    private Date createTime;
 
     /**
      * 更新时间
      */
-    private Date update_time;
+    private Date updateTime;
 
     /**
      * 删除标识(1删除0未删除)
      */
-    private Integer del_tag;
+    private Integer delTag;
 
     private static final long serialVersionUID = 1L;
 }

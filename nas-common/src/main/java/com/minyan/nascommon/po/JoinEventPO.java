@@ -2,6 +2,8 @@ package com.minyan.nascommon.po;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
@@ -9,43 +11,44 @@ import lombok.Data;
  * 
  */
 @Data
+@TableName("nas_join_event")
 public class JoinEventPO implements Serializable {
     private Long id;
 
     /**
      * 用户注册id
      */
-    private String user_id;
+    private String userId;
 
     /**
      * 事件id
      */
-    private Long event_id;
+    private Long eventId;
 
     /**
      * 奖品规则id
      */
-    private Long reward_rule_id;
+    private Long rewardRuleId;
 
     /**
      * 调度时间
      */
-    private Date schedule_time;
+    private Date scheduleTime;
 
     /**
      * 创建时间
      */
-    private Date create_time;
+    private Date createTime;
 
     /**
      * 更新时间
      */
-    private Date update_time;
+    private Date updateTime;
 
     /**
      * 删除标识(1删除0未删除)
      */
-    private Integer del_tag;
+    private Integer delTag;
 
     private static final long serialVersionUID = 1L;
 }

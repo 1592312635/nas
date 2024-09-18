@@ -1,5 +1,6 @@
 package com.minyan.nasdao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.minyan.nascommon.po.AcitvityRewardPO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -9,6 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface NasAcitvityRewardDAO extends MyBatisBaseDao<AcitvityRewardPO, Long> {
+public interface NasAcitvityRewardDAO extends BaseMapper<AcitvityRewardPO> {
 
 }

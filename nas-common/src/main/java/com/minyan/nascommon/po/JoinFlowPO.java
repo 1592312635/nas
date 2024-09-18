@@ -2,6 +2,8 @@ package com.minyan.nascommon.po;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
@@ -9,6 +11,7 @@ import lombok.Data;
  * 活动参与记录表
  */
 @Data
+@TableName("nas+join_flow")
 public class JoinFlowPO implements Serializable {
     /**
      * 主键
@@ -18,17 +21,17 @@ public class JoinFlowPO implements Serializable {
     /**
      * 用户注册id
      */
-    private String user_id;
+    private String userId;
 
     /**
      * 行为
      */
-    private Integer flow_type;
+    private Integer flowType;
 
     /**
      * 操作对象
      */
-    private Integer flow_sub_type;
+    private Integer flowSubType;
 
     /**
      * 预留字段1
@@ -83,32 +86,32 @@ public class JoinFlowPO implements Serializable {
     /**
      * 状态(0待处理1完成2失败)
      */
-    private Integer flow_status;
+    private Integer flowStatus;
 
     /**
      * 确认状态(0待确认1已确认)
      */
-    private Integer ack_status;
+    private Integer ackStatus;
 
     /**
      * 调度时间
      */
-    private Date schedule_time;
+    private Date scheduleTime;
 
     /**
      * 创建时间
      */
-    private Date create_time;
+    private Date createTime;
 
     /**
      * 更新时间
      */
-    private Date update_time;
+    private Date updateTime;
 
     /**
      * 删除标识(1删除0未删除)
      */
-    private Integer del_tag;
+    private Integer delTag;
 
     private static final long serialVersionUID = 1L;
 }

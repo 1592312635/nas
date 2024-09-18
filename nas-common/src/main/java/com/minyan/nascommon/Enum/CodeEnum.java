@@ -1,0 +1,21 @@
+package com.minyan.nascommon.Enum;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+/**
+ * @decription 返回值统一code
+ * @author minyan.he
+ * @date 2024/6/24 13:23
+ */
+@AllArgsConstructor
+@Getter
+public enum CodeEnum {
+  SUCCESS("200", "成功"),
+  FAIL("9999", "失败"),
+
+  IDEMPOTENT_EXIST("100000", "幂等性校验失败"),
+  ;
+  private final String code;
+  private final String message;
+}

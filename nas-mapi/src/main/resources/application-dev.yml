@@ -30,6 +30,14 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
 
-mybatis:
-  mapper-locations: classpath:mapper/*.xml
+# MyBatis-Plus 配置
+mybatis-plus:
   type-aliases-package: com.minyan.nascommon.po
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: AUTO
+      logic-delete-value: 1
+      logic-not-delete-value: 0

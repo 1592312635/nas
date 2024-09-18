@@ -2,6 +2,8 @@ package com.minyan.nascommon.po;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
@@ -9,6 +11,7 @@ import lombok.Data;
  * 活动事件表
  */
 @Data
+@TableName("nas_activity_event")
 public class ActivityEventPO implements Serializable {
     /**
      * 主键
@@ -18,37 +21,37 @@ public class ActivityEventPO implements Serializable {
     /**
      * 活动id
      */
-    private Long activity_id;
+    private Long activityId;
 
     /**
      * 模块id
      */
-    private Long module_id;
+    private Long moduleId;
 
     /**
      * 事件名称
      */
-    private String event_name;
+    private String eventName;
 
     /**
      * 事件类型
      */
-    private String event_type;
+    private String eventType;
 
     /**
      * 创建时间
      */
-    private Date create_time;
+    private Date createTime;
 
     /**
      * 更新时间
      */
-    private Date update_time;
+    private Date updateTime;
 
     /**
      * 删除标识(1删除0未删除)
      */
-    private Integer del_tag;
+    private Integer delTag;
 
     private static final long serialVersionUID = 1L;
 }

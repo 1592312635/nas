@@ -1,122 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minyan.nasdao.NasActivityInfoDAO">
-  <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.ActivityInfoPO">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="activity_id" jdbcType="INTEGER" property="activity_id" />
-    <result column="activity_name" jdbcType="VARCHAR" property="activity_name" />
-    <result column="begin_time" jdbcType="TIMESTAMP" property="begin_time" />
-    <result column="end_time" jdbcType="TIMESTAMP" property="end_time" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
-    <result column="del_tag" jdbcType="INTEGER" property="del_tag" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, activity_id, activity_name, begin_time, end_time, create_time, update_time, del_tag
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from nas_activity_info
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from nas_activity_info
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ActivityInfoPO" useGeneratedKeys="true">
-    insert into nas_activity_info (activity_id, activity_name, begin_time, 
-      end_time, create_time, update_time, 
-      del_tag)
-    values (#{activity_id,jdbcType=INTEGER}, #{activity_name,jdbcType=VARCHAR}, #{begin_time,jdbcType=TIMESTAMP}, 
-      #{end_time,jdbcType=TIMESTAMP}, #{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, 
-      #{del_tag,jdbcType=INTEGER})
-  </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ActivityInfoPO" useGeneratedKeys="true">
-    insert into nas_activity_info
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="activity_id != null">
-        activity_id,
-      </if>
-      <if test="activity_name != null">
-        activity_name,
-      </if>
-      <if test="begin_time != null">
-        begin_time,
-      </if>
-      <if test="end_time != null">
-        end_time,
-      </if>
-      <if test="create_time != null">
-        create_time,
-      </if>
-      <if test="update_time != null">
-        update_time,
-      </if>
-      <if test="del_tag != null">
-        del_tag,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="activity_id != null">
-        #{activity_id,jdbcType=INTEGER},
-      </if>
-      <if test="activity_name != null">
-        #{activity_name,jdbcType=VARCHAR},
-      </if>
-      <if test="begin_time != null">
-        #{begin_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="end_time != null">
-        #{end_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="create_time != null">
-        #{create_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="update_time != null">
-        #{update_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="del_tag != null">
-        #{del_tag,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.minyan.nascommon.po.ActivityInfoPO">
-    update nas_activity_info
-    <set>
-      <if test="activity_id != null">
-        activity_id = #{activity_id,jdbcType=INTEGER},
-      </if>
-      <if test="activity_name != null">
+    <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.ActivityInfoPO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="activity_id" jdbcType="INTEGER" property="activity_id"/>
+        <result column="activity_name" jdbcType="VARCHAR" property="activity_name"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="begin_time" jdbcType="TIMESTAMP" property="begin_time"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="end_time"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="create_time"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="update_time"/>
+        <result column="del_tag" jdbcType="INTEGER" property="del_tag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, activity_id, activity_name, status, begin_time, end_time, create_time, update_time, del_tag
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from nas_activity_info
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from nas_activity_info
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ActivityInfoPO"
+            useGeneratedKeys="true">
+        insert into nas_activity_info (activity_id, activity_name, begin_time,
+        end_time, create_time, update_time,
+        del_tag)
+        values (#{activity_id,jdbcType=INTEGER}, #{activity_name,jdbcType=VARCHAR}, #{begin_time,jdbcType=TIMESTAMP},
+        #{end_time,jdbcType=TIMESTAMP}, #{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP},
+        #{del_tag,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ActivityInfoPO"
+            useGeneratedKeys="true">
+        insert into nas_activity_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="activity_id != null">
+                activity_id,
+            </if>
+            <if test="activity_name != null">
+                activity_name,
+            </if>
+            <if test="begin_time != null">
+                begin_time,
+            </if>
+            <if test="end_time != null">
+                end_time,
+            </if>
+            <if test="create_time != null">
+                create_time,
+            </if>
+            <if test="update_time != null">
+                update_time,
+            </if>
+            <if test="del_tag != null">
+                del_tag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="activity_id != null">
+                #{activity_id,jdbcType=INTEGER},
+            </if>
+            <if test="activity_name != null">
+                #{activity_name,jdbcType=VARCHAR},
+            </if>
+            <if test="begin_time != null">
+                #{begin_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="end_time != null">
+                #{end_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="create_time != null">
+                #{create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="update_time != null">
+                #{update_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="del_tag != null">
+                #{del_tag,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.minyan.nascommon.po.ActivityInfoPO">
+        update nas_activity_info
+        <set>
+            <if test="activity_id != null">
+                activity_id = #{activity_id,jdbcType=INTEGER},
+            </if>
+            <if test="activity_name != null">
+                activity_name = #{activity_name,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="begin_time != null">
+                begin_time = #{begin_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="end_time != null">
+                end_time = #{end_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="create_time != null">
+                create_time = #{create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="update_time != null">
+                update_time = #{update_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="del_tag != null">
+                del_tag = #{del_tag,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.ActivityInfoPO">
+        update nas_activity_info
+        set activity_id = #{activity_id,jdbcType=INTEGER},
         activity_name = #{activity_name,jdbcType=VARCHAR},
-      </if>
-      <if test="begin_time != null">
+        status = #{status,jdbcType=INTEGER},
         begin_time = #{begin_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="end_time != null">
         end_time = #{end_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="create_time != null">
         create_time = #{create_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="update_time != null">
         update_time = #{update_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="del_tag != null">
-        del_tag = #{del_tag,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.ActivityInfoPO">
-    update nas_activity_info
-    set activity_id = #{activity_id,jdbcType=INTEGER},
-      activity_name = #{activity_name,jdbcType=VARCHAR},
-      begin_time = #{begin_time,jdbcType=TIMESTAMP},
-      end_time = #{end_time,jdbcType=TIMESTAMP},
-      create_time = #{create_time,jdbcType=TIMESTAMP},
-      update_time = #{update_time,jdbcType=TIMESTAMP},
-      del_tag = #{del_tag,jdbcType=INTEGER}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+        del_tag = #{del_tag,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
 </mapper>

@@ -1,14 +1,17 @@
 package com.minyan.nascommon.po;
 
-import java.io.Serializable;
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serializable;
+import java.util.Date;
+
 /**
- * @author 
+ * @author
  * 活动奖品规则表
  */
 @Data
+@TableName("nas_reward_rule")
 public class RewardRulePO implements Serializable {
     /**
      * 主键
@@ -18,42 +21,42 @@ public class RewardRulePO implements Serializable {
     /**
      * 活动id
      */
-    private Long activity_id;
+    private Long activityId;
 
     /**
      * 模块id
      */
-    private Long module_id;
+    private Long moduleId;
 
     /**
      * 事件id
      */
-    private Long event_id;
+    private Long eventId;
 
     /**
      * 奖品类型
      */
-    private Integer reward_type;
+    private Integer rewardType;
 
     /**
      * 奖品id
      */
-    private Long reward_id;
+    private Long rewardId;
 
     /**
      * 创建时间
      */
-    private Date create_time;
+    private Date createTime;
 
     /**
      * 更新时间
      */
-    private Date update_time;
+    private Date updateTime;
 
     /**
      * 删除标识(1删除0未删除)
      */
-    private Integer del_tag;
+    private Integer delTag;
 
     private static final long serialVersionUID = 1L;
 }

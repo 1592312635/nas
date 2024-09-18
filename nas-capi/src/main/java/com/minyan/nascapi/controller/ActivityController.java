@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2024/9/18 10:02
  */
 @RestController
-@RequestMapping("/v1/activity")
+@RequestMapping("/c/v1/activity")
 public class ActivityController {
 
 }

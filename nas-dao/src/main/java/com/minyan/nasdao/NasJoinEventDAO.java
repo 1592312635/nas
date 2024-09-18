@@ -1,5 +1,6 @@
 package com.minyan.nasdao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.minyan.nascommon.po.JoinEventPO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -9,5 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface NasJoinEventDAO extends MyBatisBaseDao<JoinEventPO, Long> {
+public interface NasJoinEventDAO extends BaseMapper<JoinEventPO> {
 }

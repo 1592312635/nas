@@ -2,6 +2,8 @@ package com.minyan.nascommon.po;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
@@ -9,6 +11,7 @@ import lombok.Data;
  * 
  */
 @Data
+@TableName("nas_join_record")
 public class JoinRecordPO implements Serializable {
     /**
      * 主键
@@ -18,42 +21,42 @@ public class JoinRecordPO implements Serializable {
     /**
      * 活动id
      */
-    private Long activity_id;
+    private Long activityId;
 
     /**
      * 模块id
      */
-    private Long module_id;
+    private Long moduleId;
 
     /**
      * 用户注册id
      */
-    private String user_id;
+    private String userId;
 
     /**
      * 参与类型(JoinTypeEnum)
      */
-    private Integer join_type;
+    private Integer joinType;
 
     /**
      * 额外参与信息
      */
-    private String join_info;
+    private String joinInfo;
 
     /**
      * 创建时间
      */
-    private Date create_time;
+    private Date createTime;
 
     /**
      * 更新时间
      */
-    private Date update_time;
+    private Date updateTime;
 
     /**
      * 删除标识
      */
-    private Integer del_tag;
+    private Integer delTag;
 
     private static final long serialVersionUID = 1L;
 }
