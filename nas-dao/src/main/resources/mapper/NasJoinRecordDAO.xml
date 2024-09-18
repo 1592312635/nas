@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minyan.nasdao.NasJoinRecordDAO">
+  <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.JoinRecordPO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="activity_id" jdbcType="BIGINT" property="activity_id" />
+    <result column="module_id" jdbcType="BIGINT" property="module_id" />
+    <result column="user_id" jdbcType="VARCHAR" property="user_id" />
+    <result column="join_type" jdbcType="INTEGER" property="join_type" />
+    <result column="join_info" jdbcType="VARCHAR" property="join_info" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
+    <result column="del_tag" jdbcType="INTEGER" property="del_tag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, activity_id, module_id, user_id, join_type, join_info, create_time, update_time, 
+    del_tag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from nas_join_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from nas_join_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.JoinRecordPO" useGeneratedKeys="true">
+    insert into nas_join_record (activity_id, module_id, user_id, 
+      join_type, join_info, create_time, 
+      update_time, del_tag)
+    values (#{activity_id,jdbcType=BIGINT}, #{module_id,jdbcType=BIGINT}, #{user_id,jdbcType=VARCHAR}, 
+      #{join_type,jdbcType=INTEGER}, #{join_info,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}, 
+      #{update_time,jdbcType=TIMESTAMP}, #{del_tag,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.JoinRecordPO" useGeneratedKeys="true">
+    insert into nas_join_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="activity_id != null">
+        activity_id,
+      </if>
+      <if test="module_id != null">
+        module_id,
+      </if>
+      <if test="user_id != null">
+        user_id,
+      </if>
+      <if test="join_type != null">
+        join_type,
+      </if>
+      <if test="join_info != null">
+        join_info,
+      </if>
+      <if test="create_time != null">
+        create_time,
+      </if>
+      <if test="update_time != null">
+        update_time,
+      </if>
+      <if test="del_tag != null">
+        del_tag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="activity_id != null">
+        #{activity_id,jdbcType=BIGINT},
+      </if>
+      <if test="module_id != null">
+        #{module_id,jdbcType=BIGINT},
+      </if>
+      <if test="user_id != null">
+        #{user_id,jdbcType=VARCHAR},
+      </if>
+      <if test="join_type != null">
+        #{join_type,jdbcType=INTEGER},
+      </if>
+      <if test="join_info != null">
+        #{join_info,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null">
+        #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="update_time != null">
+        #{update_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="del_tag != null">
+        #{del_tag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.minyan.nascommon.po.JoinRecordPO">
+    update nas_join_record
+    <set>
+      <if test="activity_id != null">
+        activity_id = #{activity_id,jdbcType=BIGINT},
+      </if>
+      <if test="module_id != null">
+        module_id = #{module_id,jdbcType=BIGINT},
+      </if>
+      <if test="user_id != null">
+        user_id = #{user_id,jdbcType=VARCHAR},
+      </if>
+      <if test="join_type != null">
+        join_type = #{join_type,jdbcType=INTEGER},
+      </if>
+      <if test="join_info != null">
+        join_info = #{join_info,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null">
+        create_time = #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="update_time != null">
+        update_time = #{update_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="del_tag != null">
+        del_tag = #{del_tag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.JoinRecordPO">
+    update nas_join_record
+    set activity_id = #{activity_id,jdbcType=BIGINT},
+      module_id = #{module_id,jdbcType=BIGINT},
+      user_id = #{user_id,jdbcType=VARCHAR},
+      join_type = #{join_type,jdbcType=INTEGER},
+      join_info = #{join_info,jdbcType=VARCHAR},
+      create_time = #{create_time,jdbcType=TIMESTAMP},
+      update_time = #{update_time,jdbcType=TIMESTAMP},
+      del_tag = #{del_tag,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
