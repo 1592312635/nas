@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface NasAcitvityRewardDAO extends MyBatisBaseDao<AcitvityRewardPO, Long> {
+
 }

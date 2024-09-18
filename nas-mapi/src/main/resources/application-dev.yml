@@ -18,17 +18,17 @@ spring:
         max-wait: 100ms #连接等待时间
 
 server:
-  port: 8021
+  port: 8022
 
 eureka:
   instance:
     hostname: nascapi
     appname: nascapi
   client:
-    register-with-eureka: true
-    fetch-registry: true
+    register-with-eureka: false
+    fetch-registry: false
     serviceUrl:
-      defaultZone: http://148.135.93.196:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

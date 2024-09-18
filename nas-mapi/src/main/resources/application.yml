@@ -1,6 +1,6 @@
 spring:
   application:
-    name: currencycapi
+    name: currencymapi
   datasource:
     url: jdbc:mysql://148.135.93.196:3306/nas
     username: nas
@@ -22,8 +22,8 @@ server:
 
 eureka:
   instance:
-    hostname: nascapi
-    appname: nascapi
+    hostname: nasmapi
+    appname: nasmapi
   client:
     register-with-eureka: true
     fetch-registry: true
