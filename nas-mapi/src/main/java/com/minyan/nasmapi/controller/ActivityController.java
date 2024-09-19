@@ -1,7 +1,9 @@
 package com.minyan.nasmapi.controller;
 
+import com.minyan.nascommon.param.MActivityInfoDetailQueryParam;
 import com.minyan.nascommon.param.MActivityInfoQueryParam;
 import com.minyan.nascommon.vo.ApiResult;
+import com.minyan.nascommon.vo.MActivityInfoDetailVO;
 import com.minyan.nascommon.vo.MActivityInfoVO;
 import com.minyan.nasmapi.service.ActivityService;
 import org.slf4j.Logger;
@@ -30,6 +32,11 @@ public class ActivityController {
     @RequestMapping("/info")
     ApiResult<List<MActivityInfoVO>> getActivityInfo(@RequestBody @Validated MActivityInfoQueryParam param) {
         return activityService.getActivityInfoList(param);
+    }
+
+    @RequestMapping("/detail")
+    ApiResult<MActivityInfoDetailVO> getActivityInfoDetail(@RequestBody @Validated MActivityInfoDetailQueryParam param) {
+        return activityService.getActivityInfoDetail(param);
     }
 
 }

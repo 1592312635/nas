@@ -1,7 +1,9 @@
 package com.minyan.nasmapi.service;
 
+import com.minyan.nascommon.param.MActivityInfoDetailQueryParam;
 import com.minyan.nascommon.param.MActivityInfoQueryParam;
 import com.minyan.nascommon.vo.ApiResult;
+import com.minyan.nascommon.vo.MActivityInfoDetailVO;
 import com.minyan.nascommon.vo.MActivityInfoVO;
 
 import java.util.List;
@@ -13,4 +15,6 @@ import java.util.List;
  */
 public interface ActivityService {
     ApiResult<List<MActivityInfoVO>> getActivityInfoList(MActivityInfoQueryParam param);
+
+    ApiResult<MActivityInfoDetailVO> getActivityInfoDetail(MActivityInfoDetailQueryParam param);
 }

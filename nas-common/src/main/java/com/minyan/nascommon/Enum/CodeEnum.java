@@ -15,6 +15,8 @@ public enum CodeEnum {
   FAIL("9999", "失败"),
 
   IDEMPOTENT_EXIST("100000", "幂等性校验失败"),
+  ACTIVITY_NOT_EXIST("100001", "活动不存在"),
+  MODULE_NOT_EXIST("100002", "模块不存在"),
   ;
   private final String code;
   private final String message;
