@@ -1,14 +1,15 @@
 package com.minyan.nascommon.po;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.minyan.nascommon.vo.MModuleInfoDetailVO;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-
 /**
- * @author 
- * 
+ * @author
+ *
  */
 @Data
 @TableName("nas_module_info")
@@ -56,4 +57,19 @@ public class ModuleInfoPO implements Serializable {
     private Integer delTag;
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 转化查询模块详情出参
+     * @param po
+     * @return
+     */
+    public static MModuleInfoDetailVO poConvertToVo(ModuleInfoPO po) {
+        MModuleInfoDetailVO mModuleInfoDetailVO = new MModuleInfoDetailVO();
+        mModuleInfoDetailVO.setActivityId(po.getActivityId());
+        mModuleInfoDetailVO.setModuleId(po.getModuleId());
+        mModuleInfoDetailVO.setModuleName(po.getModuleName());
+        mModuleInfoDetailVO.setBeginTime(po.getBeginTime());
+        mModuleInfoDetailVO.setEndTime(po.getEndTime());
+        return mModuleInfoDetailVO;
+    }
 }

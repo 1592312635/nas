@@ -9,5 +9,11 @@ import lombok.Data;
  */
 @Data
 public class MReceiveLimitDetailVO {
-
+    private Long receiveRuleId;
+    private Integer eventId;
+    private Integer ruleType;
+    private Long receiveLimitId;
+    private String eventKey;
+    private String limitJson;
+    private Integer limitType;
 }

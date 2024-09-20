@@ -17,5 +17,5 @@ public class MRewardRuleDetailVO {
     private Long eventId;
     private Integer rewardType;
     private Long rewardId;
-    private List<MRewardLimitDetailVO> mRewardLimitDetailVOList;
+    private List<MRewardLimitDetailVO> rewardLimitDetailVOList;
 }
