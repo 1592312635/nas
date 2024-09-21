@@ -14,8 +14,7 @@ public class MActivityInfoQueryParam {
     private Integer activityId;
     private String actvityName;
     private Integer status;
-    @NotNull(message = "页码不能为空")
-    private Integer pageNum;
-    @NotNull(message = "页面带大小不能为空")
-    private Integer pageSize;
+    private Integer isProgress;
+    private Integer pageNum = 1;
+    private Integer pageSize = 15;
 }

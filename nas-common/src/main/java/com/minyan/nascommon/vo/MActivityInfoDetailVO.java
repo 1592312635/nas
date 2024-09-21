@@ -19,4 +19,5 @@ public class MActivityInfoDetailVO {
     private Integer status;
     private List<MActivityRewardDetailVO> mActivityRewardDetailVOS;
     private List<MModuleInfoDetailVO> mModuleInfoDetailVOList;
+    private List<MActivityChannelDetailVO> mActivityChannelDetailVOList;
 }

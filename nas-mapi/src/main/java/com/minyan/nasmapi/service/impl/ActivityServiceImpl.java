@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.minyan.nascommon.Enum.CodeEnum;
 import com.minyan.nascommon.Enum.DelTagEnum;
+import com.minyan.nascommon.Enum.IsProgressEnum;
 import com.minyan.nascommon.param.MActivityInfoDetailQueryParam;
 import com.minyan.nascommon.param.MActivityInfoQueryParam;
 import com.minyan.nascommon.po.*;
@@ -20,6 +21,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -50,12 +52,18 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public ApiResult<List<MActivityInfoVO>> getActivityInfoList(MActivityInfoQueryParam param) {
+        Date now = new Date();
         List<MActivityInfoVO> mActivityInfoVOS = Lists.newArrayList();
         QueryWrapper<ActivityInfoPO> queryWrapper = new QueryWrapper<>();
         Page<ActivityInfoPO> page = new Page<>(param.getPageNum(), param.getPageSize());
         queryWrapper.lambda().eq(!ObjectUtils.isEmpty(param.getActivityId()), ActivityInfoPO::getActivityId, param.getActivityId())
                 .like(!StringUtils.isEmpty(param.getActvityName()), ActivityInfoPO::getActivityName, param.getActvityName())
-                .eq(!ObjectUtils.isEmpty(param.getStatus()), ActivityInfoPO::getStatus, param.getStatus());
+                .eq(!ObjectUtils.isEmpty(param.getStatus()), ActivityInfoPO::getStatus, param.getStatus())
+                .ge(!ObjectUtils.isEmpty(param.getIsProgress()) && IsProgressEnum.IS_PROGRESS.getValue().equals(param.getIsProgress()),ActivityInfoPO::getBeginTime,now)
+                .lt(!ObjectUtils.isEmpty(param.getIsProgress()) && IsProgressEnum.IS_PROGRESS.getValue().equals(param.getIsProgress()),ActivityInfoPO::getEndTime,now)
+                .ge(!ObjectUtils.isEmpty(param.getIsProgress()) && IsProgressEnum.END.getValue().equals(param.getIsProgress()),ActivityInfoPO::getEndTime,now)
+                .lt(!ObjectUtils.isEmpty(param.getIsProgress()) && IsProgressEnum.NOT_PROGRESS.getValue().equals(param.getIsProgress()),ActivityInfoPO::getBeginTime,now)
+                .eq(ActivityInfoPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
         Page<ActivityInfoPO> activityInfoPOPage = activityInfoDAO.selectPage(page, queryWrapper);
         List<ActivityInfoPO> activityInfoPOS = activityInfoPOPage.getRecords();
         if (!CollectionUtils.isEmpty(activityInfoPOS)) {

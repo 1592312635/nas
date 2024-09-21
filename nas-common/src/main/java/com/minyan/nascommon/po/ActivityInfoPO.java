@@ -34,6 +34,11 @@ public class ActivityInfoPO implements Serializable {
     private Integer status;
 
     /**
+     * 审核状态
+     */
+    private Integer auditStatus;
+
+    /**
      * 开始时间
      */
     private Date beginTime;

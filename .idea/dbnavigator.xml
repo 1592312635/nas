@@ -17,7 +17,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="2dae9c05-e7d1-4c23-ad10-b872baedcc89">
-      <console name="nas" type="STANDARD" schema="" session="Main" />
+      <console name="nas" type="STANDARD" schema="" session="Main"><![CDATA[select * from nas_activity_info]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -531,5 +531,9 @@
         </visibility-settings>
       </environment>
     </general-settings>
+  </component>
+  <component name="DBNavigator.Project.StatementExecutionManager">
+    <execution-variables />
+    <execution-variable-types />
   </component>
 </project>
