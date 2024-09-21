@@ -13,7 +13,7 @@ import java.util.List;
 public class MActivityEventDetailVO {
     private Long eventId;
     private Long activityId;
-    private Long moduleId;
+    private Integer moduleId;
     private String eventName;
     private String eventType;
     private List<MReceiveLimitDetailVO> mReceiveLimitDetailVOS;

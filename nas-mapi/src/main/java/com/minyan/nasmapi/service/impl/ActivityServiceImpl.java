@@ -49,6 +49,8 @@ public class ActivityServiceImpl implements ActivityService {
     private NasRewardRuleDAO rewardRuleDAO;
     @Autowired
     private NasRewardLimitDAO rewardLimitDAO;
+    @Autowired
+    NasActivityChannelDAO activityChannelDAO;
 
     @Override
     public ApiResult<List<MActivityInfoVO>> getActivityInfoList(MActivityInfoQueryParam param) {
@@ -56,14 +58,7 @@ public class ActivityServiceImpl implements ActivityService {
         List<MActivityInfoVO> mActivityInfoVOS = Lists.newArrayList();
         QueryWrapper<ActivityInfoPO> queryWrapper = new QueryWrapper<>();
         Page<ActivityInfoPO> page = new Page<>(param.getPageNum(), param.getPageSize());
-        queryWrapper.lambda().eq(!ObjectUtils.isEmpty(param.getActivityId()), ActivityInfoPO::getActivityId, param.getActivityId())
-                .like(!StringUtils.isEmpty(param.getActvityName()), ActivityInfoPO::getActivityName, param.getActvityName())
-                .eq(!ObjectUtils.isEmpty(param.getStatus()), ActivityInfoPO::getStatus, param.getStatus())
-                .ge(!ObjectUtils.isEmpty(param.getIsProgress()) && IsProgressEnum.IS_PROGRESS.getValue().equals(param.getIsProgress()),ActivityInfoPO::getBeginTime,now)
-                .lt(!ObjectUtils.isEmpty(param.getIsProgress()) && IsProgressEnum.IS_PROGRESS.getValue().equals(param.getIsProgress()),ActivityInfoPO::getEndTime,now)
-                .ge(!ObjectUtils.isEmpty(param.getIsProgress()) && IsProgressEnum.END.getValue().equals(param.getIsProgress()),ActivityInfoPO::getEndTime,now)
-                .lt(!ObjectUtils.isEmpty(param.getIsProgress()) && IsProgressEnum.NOT_PROGRESS.getValue().equals(param.getIsProgress()),ActivityInfoPO::getBeginTime,now)
-                .eq(ActivityInfoPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+        queryWrapper.lambda().eq(!ObjectUtils.isEmpty(param.getActivityId()), ActivityInfoPO::getActivityId, param.getActivityId()).like(!StringUtils.isEmpty(param.getActvityName()), ActivityInfoPO::getActivityName, param.getActvityName()).eq(!ObjectUtils.isEmpty(param.getStatus()), ActivityInfoPO::getStatus, param.getStatus()).ge(!ObjectUtils.isEmpty(param.getIsProgress()) && IsProgressEnum.IS_PROGRESS.getValue().equals(param.getIsProgress()), ActivityInfoPO::getBeginTime, now).lt(!ObjectUtils.isEmpty(param.getIsProgress()) && IsProgressEnum.IS_PROGRESS.getValue().equals(param.getIsProgress()), ActivityInfoPO::getEndTime, now).ge(!ObjectUtils.isEmpty(param.getIsProgress()) && IsProgressEnum.END.getValue().equals(param.getIsProgress()), ActivityInfoPO::getEndTime, now).lt(!ObjectUtils.isEmpty(param.getIsProgress()) && IsProgressEnum.NOT_PROGRESS.getValue().equals(param.getIsProgress()), ActivityInfoPO::getBeginTime, now).eq(ActivityInfoPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
         Page<ActivityInfoPO> activityInfoPOPage = activityInfoDAO.selectPage(page, queryWrapper);
         List<ActivityInfoPO> activityInfoPOS = activityInfoPOPage.getRecords();
         if (!CollectionUtils.isEmpty(activityInfoPOS)) {
@@ -107,6 +102,14 @@ public class ActivityServiceImpl implements ActivityService {
             logger.info("[ActivityServiceImpl][getActivityInfoDetail]查询活动详情时活动奖品规则不存在，活动id：{}", param.getActivityId());
             return ApiResult.build(CodeEnum.REWARD_RULE_NOT_EXIST);
         }
+
+        List<MActivityChannelDetailVO> activityChannelDetailVOS = getActivityChannelDetailVOList(param.getActivityId());
+        if (CollectionUtils.isEmpty(activityChannelDetailVOS)) {
+            logger.info("[ActivityServiceImpl][getActivityInfoDetail]查询活动详情时活动渠道不存在，活动id：{}", param.getActivityId());
+            return ApiResult.build(CodeEnum.ACTIVITY_CHANNEL_NOT_EXIST);
+        }
+
+        activityInfoDetailVO = constructActivityInfoDetailVO(activityInfoDetailVO, moduleInfoDetailVOS, activityEventDetailVOS, receiveLimitDetailVOS, rewardRuleDetailVOS, activityChannelDetailVOS);
         return ApiResult.buildSuccess(mActivityInfoDetailVO);
     }
 
@@ -118,8 +121,7 @@ public class ActivityServiceImpl implements ActivityService {
     MActivityInfoDetailVO getActivityInfoByActivityId(Integer activityId) {
         MActivityInfoDetailVO mActivityInfoDetailVO = new MActivityInfoDetailVO();
         QueryWrapper<ActivityInfoPO> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(ActivityInfoPO::getActivityId, activityId)
-                .eq(ActivityInfoPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+        queryWrapper.lambda().eq(ActivityInfoPO::getActivityId, activityId).eq(ActivityInfoPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
         ActivityInfoPO activityInfoPO = activityInfoDAO.selectOne(queryWrapper);
         if (!ObjectUtils.isEmpty(activityInfoPO)) {
             mActivityInfoDetailVO.setActivityId(activityInfoPO.getActivityId());
@@ -139,8 +141,7 @@ public class ActivityServiceImpl implements ActivityService {
     List<MModuleInfoDetailVO> getModuleInfoByActivityId(Integer activityId) {
         List<MModuleInfoDetailVO> mModuleInfoDetailVOList = Lists.newArrayList();
         QueryWrapper<ModuleInfoPO> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(ModuleInfoPO::getActivityId, activityId)
-                .eq(ModuleInfoPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+        queryWrapper.lambda().eq(ModuleInfoPO::getActivityId, activityId).eq(ModuleInfoPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
         List<ModuleInfoPO> moduleInfoPOS = moduleInfoDAO.selectList(queryWrapper);
         if (!CollectionUtils.isEmpty(moduleInfoPOS)) {
             mModuleInfoDetailVOList = moduleInfoPOS.stream().map(ModuleInfoPO::poConvertToVo).collect(Collectors.toList());
@@ -158,9 +159,7 @@ public class ActivityServiceImpl implements ActivityService {
         List<MActivityEventDetailVO> activityEventDetailVOS = Lists.newArrayList();
         List<Integer> moduleIds = moduleInfoPOS.stream().map(MModuleInfoDetailVO::getModuleId).collect(Collectors.toList());
         QueryWrapper<ActivityEventPO> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(ActivityEventPO::getActivityId, activityId)
-                .in(ActivityEventPO::getModuleId, moduleIds)
-                .eq(ActivityEventPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+        queryWrapper.lambda().eq(ActivityEventPO::getActivityId, activityId).in(ActivityEventPO::getModuleId, moduleIds).eq(ActivityEventPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
         List<ActivityEventPO> activityEventPOS = activityEventDAO.selectList(queryWrapper);
         if (!CollectionUtils.isEmpty(activityEventPOS)) {
             activityEventDetailVOS = activityEventPOS.stream().map(ActivityEventPO::poConvertToVo).collect(Collectors.toList());
@@ -199,7 +198,7 @@ public class ActivityServiceImpl implements ActivityService {
             receiveLimitMap.put(receiveLimitPO.getReceiveRuleId(), receiveLimitPO);
         }
 
-// 外部循环构建结果
+        // 外部循环构建结果
         for (ReceiveRulePO receiveRulePO : receiveRulePOS) {
             ReceiveLimitPO receiveLimitPO = receiveLimitMap.get(receiveRulePO.getId());
             if (receiveLimitPO != null) {
@@ -237,13 +236,11 @@ public class ActivityServiceImpl implements ActivityService {
         List<MRewardRuleDetailVO> rewardRuleDetailVOS = Lists.newArrayList();
         for (MActivityEventDetailVO activityEventDetailVO : activityEventDetailVOS) {
             QueryWrapper<RewardRulePO> rewardRulePOQueryWrapper = new QueryWrapper<>();
-            rewardRulePOQueryWrapper.lambda().eq(RewardRulePO::getEventId, activityEventDetailVO.getEventId())
-                    .eq(RewardRulePO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+            rewardRulePOQueryWrapper.lambda().eq(RewardRulePO::getEventId, activityEventDetailVO.getEventId()).eq(RewardRulePO::getDelTag, DelTagEnum.NOT_DEL.getValue());
             List<RewardRulePO> rewardRulePOS = rewardRuleDAO.selectList(rewardRulePOQueryWrapper);
             for (RewardRulePO rewardRulePO : rewardRulePOS) {
                 QueryWrapper<NasRewardLimitPO> rewardLimitPOQueryWrapper = new QueryWrapper<>();
-                rewardLimitPOQueryWrapper.lambda().eq(NasRewardLimitPO::getRewardRuleId, rewardRulePO.getId())
-                        .eq(NasRewardLimitPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+                rewardLimitPOQueryWrapper.lambda().eq(NasRewardLimitPO::getRewardRuleId, rewardRulePO.getId()).eq(NasRewardLimitPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
                 List<NasRewardLimitPO> rewardLimitPOS = rewardLimitDAO.selectList(rewardLimitPOQueryWrapper);
                 List<MRewardLimitDetailVO> rewardLimitDetailVOS = Lists.newArrayList();
                 for (NasRewardLimitPO rewardLimitPO : rewardLimitPOS) {
@@ -285,5 +282,60 @@ public class ActivityServiceImpl implements ActivityService {
         mRewardRuleDetailVO.setRewardId(rewardRulePO.getRewardId());
         mRewardRuleDetailVO.setRewardLimitDetailVOList(rewardLimitDetailVOS);
         return mRewardRuleDetailVO;
+    }
+
+    /**
+     * 获取活动渠道信息
+     * @param activityId
+     * @return
+     */
+    List<MActivityChannelDetailVO> getActivityChannelDetailVOList(Integer activityId) {
+        List<MActivityChannelDetailVO> activityChannelDetailVOList = Lists.newArrayList();
+        QueryWrapper<ActivityChannelPO> activityChannelPOQueryWrapper = new QueryWrapper<>();
+        activityChannelPOQueryWrapper.lambda().eq(ActivityChannelPO::getActivityId, activityId).eq(ActivityChannelPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+        List<ActivityChannelPO> activityChannelPOS = activityChannelDAO.selectList(activityChannelPOQueryWrapper);
+        activityChannelDetailVOList = activityChannelPOS.stream().map(ActivityChannelPO::poConvertToVo).collect(Collectors.toList());
+        return activityChannelDetailVOList;
+    }
+
+    /**
+     * 构建活动详情VO
+     * @param activityInfoDetailVO
+     * @param moduleInfoDetailVOS
+     * @param activityEventDetailVOS
+     * @param receiveLimitDetailVOS
+     * @param rewardRuleDetailVOS
+     * @param activityChannelDetailVOS
+     * @return
+     */
+    MActivityInfoDetailVO constructActivityInfoDetailVO(MActivityInfoDetailVO activityInfoDetailVO, List<MModuleInfoDetailVO> moduleInfoDetailVOS, List<MActivityEventDetailVO> activityEventDetailVOS, List<MReceiveLimitDetailVO> receiveLimitDetailVOS, List<MRewardRuleDetailVO> rewardRuleDetailVOS, List<MActivityChannelDetailVO> activityChannelDetailVOS) {
+        // 设置模块信息
+        activityInfoDetailVO.setMModuleInfoDetailVOList(moduleInfoDetailVOS);
+
+        // 设置活动事件信息
+        for (MModuleInfoDetailVO moduleInfo : moduleInfoDetailVOS) {
+            List<MActivityEventDetailVO> eventsForModule = activityEventDetailVOS.stream()
+                    .filter(event -> event.getModuleId().equals(moduleInfo.getModuleId()))
+                    .collect(Collectors.toList());
+            moduleInfo.setMActivityEventDetailVOS(eventsForModule);
+
+            // 设置接收限制信息
+            for (MActivityEventDetailVO event : eventsForModule) {
+                List<MReceiveLimitDetailVO> receiveLimitsForEvent = receiveLimitDetailVOS.stream()
+                        .filter(limit -> limit.getEventId().equals(event.getEventId()))
+                        .collect(Collectors.toList());
+                event.setMReceiveLimitDetailVOS(receiveLimitsForEvent);
+
+                // 设置奖励规则信息
+                List<MRewardRuleDetailVO> rewardRulesForEvent = rewardRuleDetailVOS.stream()
+                        .filter(rule -> rule.getEventId().equals(event.getEventId()))
+                        .collect(Collectors.toList());
+                event.setMRewardRuleDetailVOS(rewardRulesForEvent);
+            }
+        }
+
+        // 设置活动渠道信息
+        activityInfoDetailVO.setMActivityChannelDetailVOList(activityChannelDetailVOS);
+        return activityInfoDetailVO;
     }
 }

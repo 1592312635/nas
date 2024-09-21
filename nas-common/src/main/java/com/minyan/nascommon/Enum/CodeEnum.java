@@ -19,7 +19,8 @@ public enum CodeEnum {
   MODULE_NOT_EXIST("100002", "模块不存在"),
   EVENT_NOT_EXIST("100003", "活动事件不存在"),
   RECEIVE_LIMIT_NOT_EXIST("100004", "领取限制不存在"),
-  REWARD_RULE_NOT_EXIST("100005", "奖励规则不存在")
+  REWARD_RULE_NOT_EXIST("100005", "奖励规则不存在"),
+  ACTIVITY_CHANNEL_NOT_EXIST("100006", "活动渠道不存在")
   ;
   private final String code;
   private final String message;

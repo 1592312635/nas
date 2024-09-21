@@ -21,7 +21,7 @@ public class ReceiveRulePO implements Serializable {
     /**
      * 模块id
      */
-    private Integer eventId;
+    private Long eventId;
 
     /**
      * 规则类型(1前台规则2异步发奖规则)

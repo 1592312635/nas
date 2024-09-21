@@ -27,7 +27,7 @@ public class ActivityEventPO implements Serializable {
     /**
      * 模块id
      */
-    private Long moduleId;
+    private Integer moduleId;
 
     /**
      * 事件名称
