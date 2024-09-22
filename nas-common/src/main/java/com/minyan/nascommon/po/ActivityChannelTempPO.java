@@ -1,37 +1,37 @@
 package com.minyan.nascommon.po;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
 /**
- * @author
- * 活动奖励规则门槛表
+ * @author 
+ * 活动渠道临时表
  */
-@TableName("nas_reward_limit")
 @Data
-public class NasRewardLimitPO implements Serializable {
+@TableName("nas_activity_channel_temp")
+public class ActivityChannelTempPO implements Serializable {
     /**
      * 主键
      */
     private Long id;
 
     /**
-     * 奖励规则id
+     * 活动id
      */
-    private Long rewardRuleId;
+    private Long activityId;
 
     /**
-     * 规则类型
+     * 渠道名称
      */
-    private String rewardRuleKey;
+    private String channelName;
 
     /**
-     * 规则详细限制内容
+     * 渠道编码
      */
-    private String limitJson;
+    private String channelCode;
 
     /**
      * 创建时间
@@ -44,7 +44,7 @@ public class NasRewardLimitPO implements Serializable {
     private Date updateTime;
 
     /**
-     * 删除标识(0未删除1删除)
+     * 删除标识(1删除0未删除)
      */
     private Integer delTag;
 

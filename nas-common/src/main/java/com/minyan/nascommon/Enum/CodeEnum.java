@@ -20,7 +20,11 @@ public enum CodeEnum {
   EVENT_NOT_EXIST("100003", "活动事件不存在"),
   RECEIVE_LIMIT_NOT_EXIST("100004", "领取限制不存在"),
   REWARD_RULE_NOT_EXIST("100005", "奖励规则不存在"),
-  ACTIVITY_CHANNEL_NOT_EXIST("100006", "活动渠道不存在")
+  ACTIVITY_CHANNEL_NOT_EXIST("100006", "活动渠道不存在"),
+  ACTIVITY_TEMP_SAVE_FAIL("100007", "活动临时基本信息保存失败"),
+  ACTIVITY_REWARD_TEMP_SAVE_FAIL("100008", "活动奖励临时信息保存失败"),
+  ACTIVITY_MODULE_TEMP_SAVE_FAIL("100009", "活动模块临时信息保存失败"),
+  ACTIVITY_CHANNEL_TEMP_SAVE_FAIL("100010", "活动渠道临时信息保存失败"),
   ;
   private final String code;
   private final String message;

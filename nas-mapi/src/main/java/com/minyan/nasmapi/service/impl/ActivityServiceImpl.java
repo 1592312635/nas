@@ -9,6 +9,7 @@ import com.minyan.nascommon.Enum.DelTagEnum;
 import com.minyan.nascommon.Enum.IsProgressEnum;
 import com.minyan.nascommon.param.MActivityInfoDetailQueryParam;
 import com.minyan.nascommon.param.MActivityInfoQueryParam;
+import com.minyan.nascommon.param.MActivityInfoSaveParam;
 import com.minyan.nascommon.po.*;
 import com.minyan.nascommon.vo.*;
 import com.minyan.nasdao.*;
@@ -38,19 +39,35 @@ public class ActivityServiceImpl implements ActivityService {
     @Autowired
     private NasActivityInfoDAO activityInfoDAO;
     @Autowired
+    private NasActivityInfoTempDAO activityInfoTempDAO;
+    @Autowired
     private NasModuleInfoDAO moduleInfoDAO;
+    @Autowired
+    private NasModuleInfoTempDAO moduleInfoTempDAO;
     @Autowired
     private NasActivityEventDAO activityEventDAO;
     @Autowired
+    private NasActivityEventTempDAO activityEventTempDAO;
+    @Autowired
     private NasReceiveRuleDAO receiveRuleDAO;
+    @Autowired
+    private NasReceiveRuleTempDAO receiveRuleTempDAO;
     @Autowired
     private NasReceiveLimitDAO receiveLimitDAO;
     @Autowired
+    private NasReceiveLimitTempDAO receiveLimitTempDAO;
+    @Autowired
     private NasRewardRuleDAO rewardRuleDAO;
+    @Autowired
+    private NasRewardRuleTempDAO rewardRuleTempDAO;
     @Autowired
     private NasRewardLimitDAO rewardLimitDAO;
     @Autowired
-    NasActivityChannelDAO activityChannelDAO;
+    private NasRewardLimitTempDAO rewardLimitTempDAO;
+    @Autowired
+    private NasActivityChannelDAO activityChannelDAO;
+    @Autowired
+    private NasActivityChannelTempDAO activityChannelTempDAO;
 
     @Override
     public ApiResult<List<MActivityInfoVO>> getActivityInfoList(MActivityInfoQueryParam param) {
@@ -69,7 +86,6 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public ApiResult<MActivityInfoDetailVO> getActivityInfoDetail(MActivityInfoDetailQueryParam param) {
-        MActivityInfoDetailVO mActivityInfoDetailVO = new MActivityInfoDetailVO();
         //获取活动信息
         MActivityInfoDetailVO activityInfoDetailVO = getActivityInfoByActivityId(param.getActivityId());
         if (ObjectUtils.isEmpty(activityInfoDetailVO)) {
@@ -110,7 +126,35 @@ public class ActivityServiceImpl implements ActivityService {
         }
 
         activityInfoDetailVO = constructActivityInfoDetailVO(activityInfoDetailVO, moduleInfoDetailVOS, activityEventDetailVOS, receiveLimitDetailVOS, rewardRuleDetailVOS, activityChannelDetailVOS);
-        return ApiResult.buildSuccess(mActivityInfoDetailVO);
+        return ApiResult.buildSuccess(activityInfoDetailVO);
+    }
+
+    @Override
+    public ApiResult<Boolean> saveActivityInfo(MActivityInfoSaveParam param) {
+        Boolean activityInfoSaveResult = saveActivityInfoTemp(param);
+        if (!activityInfoSaveResult){
+            logger.info("[ActivityServiceImpl][saveActivityInfo]活动信息保存失败，活动id：{}", param.getActivityId());
+            return ApiResult.build(CodeEnum.ACTIVITY_TEMP_SAVE_FAIL);
+        }
+
+        Boolean activityRewardSaveResult = saveActivityRewardTemp(param);
+        if(!activityRewardSaveResult){
+            logger.info("[ActivityServiceImpl][saveActivityInfo]活动奖品信息保存失败，活动id：{}", param.getActivityId());
+            return ApiResult.build(CodeEnum.ACTIVITY_REWARD_TEMP_SAVE_FAIL);
+        }
+
+        Boolean activityModuleSaveResult = saveActivityModuleTemp(param);
+        if(!activityModuleSaveResult){
+            logger.info("[ActivityServiceImpl][saveActivityInfo]活动模块信息保存失败，活动id：{}", param.getActivityId());
+            return ApiResult.build(CodeEnum.ACTIVITY_MODULE_TEMP_SAVE_FAIL);
+        }
+
+        Boolean activityChannelSaveResult = saveActivityChannelTemp(param);
+        if(!activityChannelSaveResult){
+            logger.info("[ActivityServiceImpl][saveActivityInfo]活动渠道信息保存失败，活动id：{}", param.getActivityId());
+            return ApiResult.build(CodeEnum.ACTIVITY_CHANNEL_TEMP_SAVE_FAIL);
+        }
+        return null;
     }
 
     /**
@@ -239,11 +283,11 @@ public class ActivityServiceImpl implements ActivityService {
             rewardRulePOQueryWrapper.lambda().eq(RewardRulePO::getEventId, activityEventDetailVO.getEventId()).eq(RewardRulePO::getDelTag, DelTagEnum.NOT_DEL.getValue());
             List<RewardRulePO> rewardRulePOS = rewardRuleDAO.selectList(rewardRulePOQueryWrapper);
             for (RewardRulePO rewardRulePO : rewardRulePOS) {
-                QueryWrapper<NasRewardLimitPO> rewardLimitPOQueryWrapper = new QueryWrapper<>();
-                rewardLimitPOQueryWrapper.lambda().eq(NasRewardLimitPO::getRewardRuleId, rewardRulePO.getId()).eq(NasRewardLimitPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
-                List<NasRewardLimitPO> rewardLimitPOS = rewardLimitDAO.selectList(rewardLimitPOQueryWrapper);
+                QueryWrapper<RewardLimitPO> rewardLimitPOQueryWrapper = new QueryWrapper<>();
+                rewardLimitPOQueryWrapper.lambda().eq(RewardLimitPO::getRewardRuleId, rewardRulePO.getId()).eq(RewardLimitPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+                List<RewardLimitPO> rewardLimitPOS = rewardLimitDAO.selectList(rewardLimitPOQueryWrapper);
                 List<MRewardLimitDetailVO> rewardLimitDetailVOS = Lists.newArrayList();
-                for (NasRewardLimitPO rewardLimitPO : rewardLimitPOS) {
+                for (RewardLimitPO rewardLimitPO : rewardLimitPOS) {
                     rewardLimitDetailVOS.add(buildRewardLimitDetail(rewardLimitPO));
                 }
                 rewardRuleDetailVOS.add(buildRewardRuleDetail(rewardRulePO, rewardLimitDetailVOS));
@@ -258,7 +302,7 @@ public class ActivityServiceImpl implements ActivityService {
      * @param rewardLimitPO
      * @return
      */
-    MRewardLimitDetailVO buildRewardLimitDetail(NasRewardLimitPO rewardLimitPO) {
+    MRewardLimitDetailVO buildRewardLimitDetail(RewardLimitPO rewardLimitPO) {
         MRewardLimitDetailVO mRewardLimitDetailVO = new MRewardLimitDetailVO();
         mRewardLimitDetailVO.setRewardRuleId(rewardLimitPO.getRewardRuleId());
         mRewardLimitDetailVO.setRewardRuleKey(rewardLimitPO.getRewardRuleKey());
@@ -337,5 +381,37 @@ public class ActivityServiceImpl implements ActivityService {
         // 设置活动渠道信息
         activityInfoDetailVO.setMActivityChannelDetailVOList(activityChannelDetailVOS);
         return activityInfoDetailVO;
+    }
+
+    /**
+     * 保存活动基本信息
+     * @param param
+     * @return
+     */
+    Boolean saveActivityInfoTemp(MActivityInfoSaveParam param){
+        QueryWrapper<ActivityInfoTempPO> activityInfoTempPOQueryWrapper = new QueryWrapper<>();
+        activityInfoTempPOQueryWrapper.lambda().eq(ActivityInfoTempPO::getActivityId, param.getActivityId())
+                .eq(ActivityInfoTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+        ActivityInfoTempPO activityInfoTempPO = activityInfoTempDAO.selectOne(activityInfoTempPOQueryWrapper);
+        if (!ObjectUtils.isEmpty(activityInfoTempPO)){
+            //非空删除原有活动临时数据
+            activityInfoTempDAO.delete(activityInfoTempPOQueryWrapper);
+        }
+
+        ActivityInfoTempPO insertActivityInfoTempPO = buildActivityInfoTempPO(param);
+        int insert = activityInfoTempDAO.insert(insertActivityInfoTempPO);
+        return insert > 0;
+    }
+
+    /**
+     * 构建活动临时数据
+     * @param param
+     * @return
+     */
+    ActivityInfoTempPO buildActivityInfoTempPO(MActivityInfoSaveParam param){
+        ActivityInfoTempPO activityInfoTempPO = new ActivityInfoTempPO();
+        activityInfoTempPO.setActivityId(param.getActivityId());
+        activityInfoTempPO.setActivityName(param.getActivityName());
+        return activityInfoTempPO;
     }
 }

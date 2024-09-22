@@ -2,6 +2,7 @@ package com.minyan.nasmapi.controller;
 
 import com.minyan.nascommon.param.MActivityInfoDetailQueryParam;
 import com.minyan.nascommon.param.MActivityInfoQueryParam;
+import com.minyan.nascommon.param.MActivityInfoSaveParam;
 import com.minyan.nascommon.vo.ApiResult;
 import com.minyan.nascommon.vo.MActivityInfoDetailVO;
 import com.minyan.nascommon.vo.MActivityInfoVO;
@@ -22,7 +23,7 @@ import java.util.List;
  * @date 2024/9/18 19:10
  */
 @RestController
-@RequestMapping("/m/v1/activity")
+@RequestMapping("/m/activity")
 public class ActivityController {
     Logger logger = LoggerFactory.getLogger(ActivityController.class);
 
@@ -39,4 +40,8 @@ public class ActivityController {
         return activityService.getActivityInfoDetail(param);
     }
 
+    @RequestMapping("/save")
+    ApiResult<Boolean> saveActivityInfo(@RequestBody @Validated MActivityInfoSaveParam param) {
+        return activityService.saveActivityInfo(param);
+    }
 }

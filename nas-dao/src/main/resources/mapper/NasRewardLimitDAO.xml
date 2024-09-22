@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minyan.nasdao.NasRewardLimitDAO">
-  <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.NasRewardLimitPO">
+  <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.RewardLimitPO">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="reward_rule_id" jdbcType="BIGINT" property="reward_rule_id" />
     <result column="reward_rule_key" jdbcType="VARCHAR" property="reward_rule_key" />
@@ -23,7 +23,7 @@
     delete from nas_reward_limit
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.NasRewardLimitPO" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.RewardLimitPO" useGeneratedKeys="true">
     insert into nas_reward_limit (reward_rule_id, reward_rule_key, limit_json, 
       create_time, update_time, del_tag
       )
@@ -31,7 +31,7 @@
       #{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{del_tag,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.NasRewardLimitPO" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.RewardLimitPO" useGeneratedKeys="true">
     insert into nas_reward_limit
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="reward_rule_id != null">
@@ -74,7 +74,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.minyan.nascommon.po.NasRewardLimitPO">
+  <update id="updateByPrimaryKeySelective" parameterType="com.minyan.nascommon.po.RewardLimitPO">
     update nas_reward_limit
     <set>
       <if test="reward_rule_id != null">
@@ -98,7 +98,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.NasRewardLimitPO">
+  <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.RewardLimitPO">
     update nas_reward_limit
     set reward_rule_id = #{reward_rule_id,jdbcType=BIGINT},
       reward_rule_key = #{reward_rule_key,jdbcType=VARCHAR},
