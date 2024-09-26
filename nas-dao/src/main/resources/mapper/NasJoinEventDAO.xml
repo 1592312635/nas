@@ -3,13 +3,13 @@
 <mapper namespace="com.minyan.nasdao.NasJoinEventDAO">
   <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.JoinEventPO">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="user_id" jdbcType="VARCHAR" property="user_id" />
-    <result column="event_id" jdbcType="BIGINT" property="event_id" />
-    <result column="reward_rule_id" jdbcType="BIGINT" property="reward_rule_id" />
-    <result column="schedule_time" jdbcType="TIMESTAMP" property="schedule_time" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
-    <result column="del_tag" jdbcType="INTEGER" property="del_tag" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="event_id" jdbcType="BIGINT" property="eventId" />
+    <result column="reward_rule_id" jdbcType="BIGINT" property="rewardRuleId" />
+    <result column="schedule_time" jdbcType="TIMESTAMP" property="scheduleTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="del_tag" jdbcType="INTEGER" property="delTag" />
   </resultMap>
   <sql id="Base_Column_List">
     id, user_id, event_id, reward_rule_id, schedule_time, create_time, update_time, del_tag

@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Data
 @TableName("nas_activity_reward")
-public class AcitvityRewardPO implements Serializable {
+public class ActivityRewardPO implements Serializable {
     /**
      * 主键
      */

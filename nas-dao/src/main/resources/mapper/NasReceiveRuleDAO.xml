@@ -3,11 +3,11 @@
 <mapper namespace="com.minyan.nasdao.NasReceiveRuleDAO">
   <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.ReceiveRulePO">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="event_id" jdbcType="INTEGER" property="event_id" />
-    <result column="rule_type" jdbcType="INTEGER" property="rule_type" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
-    <result column="del_tag" jdbcType="INTEGER" property="del_tag" />
+    <result column="event_id" jdbcType="INTEGER" property="eventId" />
+    <result column="rule_type" jdbcType="INTEGER" property="ruleType" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="del_tag" jdbcType="INTEGER" property="delTag" />
   </resultMap>
   <sql id="Base_Column_List">
     id, event_id, rule_type, create_time, update_time, del_tag

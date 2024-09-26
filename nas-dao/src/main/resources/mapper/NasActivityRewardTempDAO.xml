@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.minyan.nasdao.NasAcitvityRewardTempDAO">
-  <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.AcitvityRewardTempPO">
+<mapper namespace="com.minyan.nasdao.NasActivityRewardTempDAO">
+  <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.ActivityRewardTempPO">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="reward_type" jdbcType="INTEGER" property="rewardType" />
     <result column="reward_name" jdbcType="VARCHAR" property="rewardName" />
@@ -24,7 +24,7 @@
     delete from nas_acitvity_reward_temp
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.AcitvityRewardTempPO" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ActivityRewardTempPO" useGeneratedKeys="true">
     insert into nas_acitvity_reward_temp (reward_type, reward_name, batch_code, 
       image_url, create_time, update_time, 
       del_tag)
@@ -32,7 +32,7 @@
       #{imageUrl,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{delTag,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.AcitvityRewardTempPO" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ActivityRewardTempPO" useGeneratedKeys="true">
     insert into nas_acitvity_reward_temp
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="rewardType != null">
@@ -81,7 +81,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.minyan.nascommon.po.AcitvityRewardTempPO">
+  <update id="updateByPrimaryKeySelective" parameterType="com.minyan.nascommon.po.ActivityRewardTempPO">
     update nas_acitvity_reward_temp
     <set>
       <if test="rewardType != null">
@@ -108,7 +108,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.AcitvityRewardTempPO">
+  <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.ActivityRewardTempPO">
     update nas_acitvity_reward_temp
     set reward_type = #{rewardType,jdbcType=INTEGER},
       reward_name = #{rewardName,jdbcType=VARCHAR},

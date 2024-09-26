@@ -1,6 +1,7 @@
 package com.minyan.nasmapi.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -10,6 +11,7 @@ import com.minyan.nascommon.Enum.IsProgressEnum;
 import com.minyan.nascommon.param.MActivityInfoDetailQueryParam;
 import com.minyan.nascommon.param.MActivityInfoQueryParam;
 import com.minyan.nascommon.param.MActivityInfoSaveParam;
+import com.minyan.nascommon.param.MActivityRewardSaveParam;
 import com.minyan.nascommon.po.*;
 import com.minyan.nascommon.vo.*;
 import com.minyan.nasdao.*;
@@ -44,6 +46,10 @@ public class ActivityServiceImpl implements ActivityService {
     private NasModuleInfoDAO moduleInfoDAO;
     @Autowired
     private NasModuleInfoTempDAO moduleInfoTempDAO;
+    @Autowired
+    private NasActivityRewardDAO activityRewardDAO;
+    @Autowired
+    private NasActivityRewardTempDAO activityRewardTempDAO;
     @Autowired
     private NasActivityEventDAO activityEventDAO;
     @Autowired
@@ -132,25 +138,25 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public ApiResult<Boolean> saveActivityInfo(MActivityInfoSaveParam param) {
         Boolean activityInfoSaveResult = saveActivityInfoTemp(param);
-        if (!activityInfoSaveResult){
+        if (!activityInfoSaveResult) {
             logger.info("[ActivityServiceImpl][saveActivityInfo]活动信息保存失败，活动id：{}", param.getActivityId());
             return ApiResult.build(CodeEnum.ACTIVITY_TEMP_SAVE_FAIL);
         }
 
         Boolean activityRewardSaveResult = saveActivityRewardTemp(param);
-        if(!activityRewardSaveResult){
+        if (!activityRewardSaveResult) {
             logger.info("[ActivityServiceImpl][saveActivityInfo]活动奖品信息保存失败，活动id：{}", param.getActivityId());
             return ApiResult.build(CodeEnum.ACTIVITY_REWARD_TEMP_SAVE_FAIL);
         }
 
         Boolean activityModuleSaveResult = saveActivityModuleTemp(param);
-        if(!activityModuleSaveResult){
+        if (!activityModuleSaveResult) {
             logger.info("[ActivityServiceImpl][saveActivityInfo]活动模块信息保存失败，活动id：{}", param.getActivityId());
             return ApiResult.build(CodeEnum.ACTIVITY_MODULE_TEMP_SAVE_FAIL);
         }
 
         Boolean activityChannelSaveResult = saveActivityChannelTemp(param);
-        if(!activityChannelSaveResult){
+        if (!activityChannelSaveResult) {
             logger.info("[ActivityServiceImpl][saveActivityInfo]活动渠道信息保存失败，活动id：{}", param.getActivityId());
             return ApiResult.build(CodeEnum.ACTIVITY_CHANNEL_TEMP_SAVE_FAIL);
         }
@@ -388,14 +394,15 @@ public class ActivityServiceImpl implements ActivityService {
      * @param param
      * @return
      */
-    Boolean saveActivityInfoTemp(MActivityInfoSaveParam param){
+    Boolean saveActivityInfoTemp(MActivityInfoSaveParam param) {
         QueryWrapper<ActivityInfoTempPO> activityInfoTempPOQueryWrapper = new QueryWrapper<>();
         activityInfoTempPOQueryWrapper.lambda().eq(ActivityInfoTempPO::getActivityId, param.getActivityId())
                 .eq(ActivityInfoTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
         ActivityInfoTempPO activityInfoTempPO = activityInfoTempDAO.selectOne(activityInfoTempPOQueryWrapper);
-        if (!ObjectUtils.isEmpty(activityInfoTempPO)){
+        if (!ObjectUtils.isEmpty(activityInfoTempPO)) {
             //非空删除原有活动临时数据
-            activityInfoTempDAO.delete(activityInfoTempPOQueryWrapper);
+            activityInfoTempPO.setDelTag(DelTagEnum.DEL.getValue());
+            activityInfoTempDAO.updateById(activityInfoTempPO);
         }
 
         ActivityInfoTempPO insertActivityInfoTempPO = buildActivityInfoTempPO(param);
@@ -408,10 +415,24 @@ public class ActivityServiceImpl implements ActivityService {
      * @param param
      * @return
      */
-    ActivityInfoTempPO buildActivityInfoTempPO(MActivityInfoSaveParam param){
+    ActivityInfoTempPO buildActivityInfoTempPO(MActivityInfoSaveParam param) {
         ActivityInfoTempPO activityInfoTempPO = new ActivityInfoTempPO();
         activityInfoTempPO.setActivityId(param.getActivityId());
         activityInfoTempPO.setActivityName(param.getActivityName());
         return activityInfoTempPO;
+    }
+
+    Boolean saveActivityRewardTemp(MActivityInfoSaveParam param) {
+        QueryWrapper<ActivityRewardTempPO> acitvityRewardTempPOQueryWrapper = new QueryWrapper<>();
+        acitvityRewardTempPOQueryWrapper.lambda().eq(ActivityRewardTempPO::getActivityId, param.getActivityId()).eq(ActivityRewardTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+        List<ActivityRewardTempPO> activityRewardTempPOS = activityRewardTempDAO.selectList(acitvityRewardTempPOQueryWrapper);
+        //如果存在已有reward_id为不变更奖品规则，历史reward_id需要保留
+//        if (!CollectionUtils.isEmpty(activityRewardTempPOS)) {
+//            UpdateWrapper<ActivityRewardTempPO> activityRewardTempPOUpdateWrapper = new UpdateWrapper<>();
+//            activityRewardTempPOUpdateWrapper.lambda().eq(ActivityRewardTempPO::getActivityId, param.getActivityId()).eq(ActivityRewardTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue()).set(ActivityRewardTempPO::getDelTag, DelTagEnum.DEL.getValue());
+//            activityRewardTempDAO.update(null, activityRewardTempPOUpdateWrapper);
+//        }
+
+        List<MActivityRewardSaveParam> activityRewardList = param.getActivityRewardList();
     }
 }

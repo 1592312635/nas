@@ -3,13 +3,13 @@
 <mapper namespace="com.minyan.nasdao.NasReceiveLimitDAO">
   <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.ReceiveLimitPO">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="receive_rule_id" jdbcType="BIGINT" property="receive_rule_id" />
-    <result column="event_key" jdbcType="VARCHAR" property="event_key" />
-    <result column="limit_json" jdbcType="VARCHAR" property="limit_json" />
-    <result column="limit_type" jdbcType="INTEGER" property="limit_type" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
-    <result column="del_tag" jdbcType="INTEGER" property="del_tag" />
+    <result column="receive_rule_id" jdbcType="BIGINT" property="receiveRuleId" />
+    <result column="event_key" jdbcType="VARCHAR" property="eventKey" />
+    <result column="limit_json" jdbcType="VARCHAR" property="limitJson" />
+    <result column="limit_type" jdbcType="INTEGER" property="limitJson" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="del_tag" jdbcType="INTEGER" property="delTag" />
   </resultMap>
   <sql id="Base_Column_List">
     id, receive_rule_id, event_key, limit_json, limit_type, create_time, update_time, 

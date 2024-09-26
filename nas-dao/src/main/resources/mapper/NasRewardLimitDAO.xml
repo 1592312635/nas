@@ -3,12 +3,12 @@
 <mapper namespace="com.minyan.nasdao.NasRewardLimitDAO">
   <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.RewardLimitPO">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="reward_rule_id" jdbcType="BIGINT" property="reward_rule_id" />
-    <result column="reward_rule_key" jdbcType="VARCHAR" property="reward_rule_key" />
-    <result column="limit_json" jdbcType="VARCHAR" property="limit_json" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
-    <result column="del_tag" jdbcType="INTEGER" property="del_tag" />
+    <result column="reward_rule_id" jdbcType="BIGINT" property="rewardRuleId" />
+    <result column="reward_rule_key" jdbcType="VARCHAR" property="rewardRuleId" />
+    <result column="limit_json" jdbcType="VARCHAR" property="limitJson" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="del_tag" jdbcType="INTEGER" property="delTag" />
   </resultMap>
   <sql id="Base_Column_List">
     id, reward_rule_id, reward_rule_key, limit_json, create_time, update_time, del_tag

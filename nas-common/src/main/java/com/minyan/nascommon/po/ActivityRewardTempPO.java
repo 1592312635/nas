@@ -12,11 +12,21 @@ import java.util.Date;
  */
 @Data
 @TableName("nas_activity_reward_temp")
-public class AcitvityRewardTempPO implements Serializable {
+public class ActivityRewardTempPO implements Serializable {
     /**
      * 主键
      */
     private Long id;
+
+    /**
+     * 活动id
+     */
+    private Integer activityId;
+
+    /**
+     * 奖品id
+     */
+    private Long rewardId;
 
     /**
      * 奖品类型(RewardTypeEnum)

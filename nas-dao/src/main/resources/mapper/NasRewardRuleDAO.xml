@@ -3,14 +3,14 @@
 <mapper namespace="com.minyan.nasdao.NasRewardRuleDAO">
   <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.RewardRulePO">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="activity_id" jdbcType="BIGINT" property="activity_id" />
-    <result column="module_id" jdbcType="BIGINT" property="module_id" />
-    <result column="event_id" jdbcType="BIGINT" property="event_id" />
-    <result column="reward_type" jdbcType="INTEGER" property="reward_type" />
-    <result column="reward_id" jdbcType="BIGINT" property="reward_id" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
-    <result column="del_tag" jdbcType="INTEGER" property="del_tag" />
+    <result column="activity_id" jdbcType="BIGINT" property="activityId" />
+    <result column="module_id" jdbcType="BIGINT" property="moduleId" />
+    <result column="event_id" jdbcType="BIGINT" property="eventId" />
+    <result column="reward_type" jdbcType="INTEGER" property="rewardId" />
+    <result column="reward_id" jdbcType="BIGINT" property="rewardId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="del_tag" jdbcType="INTEGER" property="delTag" />
   </resultMap>
   <sql id="Base_Column_List">
     id, activity_id, module_id, event_id, reward_type, reward_id, create_time, update_time, 

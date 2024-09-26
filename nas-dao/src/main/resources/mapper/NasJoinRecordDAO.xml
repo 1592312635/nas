@@ -3,14 +3,14 @@
 <mapper namespace="com.minyan.nasdao.NasJoinRecordDAO">
   <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.JoinRecordPO">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="activity_id" jdbcType="BIGINT" property="activity_id" />
-    <result column="module_id" jdbcType="BIGINT" property="module_id" />
-    <result column="user_id" jdbcType="VARCHAR" property="user_id" />
-    <result column="join_type" jdbcType="INTEGER" property="join_type" />
-    <result column="join_info" jdbcType="VARCHAR" property="join_info" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
-    <result column="del_tag" jdbcType="INTEGER" property="del_tag" />
+    <result column="activity_id" jdbcType="BIGINT" property="activityId" />
+    <result column="module_id" jdbcType="BIGINT" property="moduleId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="join_type" jdbcType="INTEGER" property="joinType" />
+    <result column="join_info" jdbcType="VARCHAR" property="joinInfo" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="del_tag" jdbcType="INTEGER" property="delTag" />
   </resultMap>
   <sql id="Base_Column_List">
     id, activity_id, module_id, user_id, join_type, join_info, create_time, update_time, 

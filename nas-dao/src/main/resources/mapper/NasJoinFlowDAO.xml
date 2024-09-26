@@ -3,9 +3,9 @@
 <mapper namespace="com.minyan.nasdao.NasJoinFlowDAO">
   <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.JoinFlowPO">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="user_id" jdbcType="VARCHAR" property="user_id" />
-    <result column="flow_type" jdbcType="INTEGER" property="flow_type" />
-    <result column="flow_sub_type" jdbcType="INTEGER" property="flow_sub_type" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="flow_type" jdbcType="INTEGER" property="flowType" />
+    <result column="flow_sub_type" jdbcType="INTEGER" property="flowSubType" />
     <result column="column1" jdbcType="VARCHAR" property="column1" />
     <result column="column2" jdbcType="VARCHAR" property="column2" />
     <result column="column3" jdbcType="VARCHAR" property="column3" />
@@ -16,12 +16,12 @@
     <result column="column8" jdbcType="VARCHAR" property="column8" />
     <result column="column9" jdbcType="VARCHAR" property="column9" />
     <result column="column10" jdbcType="VARCHAR" property="column10" />
-    <result column="flow_status" jdbcType="INTEGER" property="flow_status" />
-    <result column="ack_status" jdbcType="INTEGER" property="ack_status" />
-    <result column="schedule_time" jdbcType="TIMESTAMP" property="schedule_time" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
-    <result column="del_tag" jdbcType="INTEGER" property="del_tag" />
+    <result column="flow_status" jdbcType="INTEGER" property="flowStatus" />
+    <result column="ack_status" jdbcType="INTEGER" property="ackStatus" />
+    <result column="schedule_time" jdbcType="TIMESTAMP" property="scheduleTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="del_tag" jdbcType="INTEGER" property="delTag" />
   </resultMap>
   <sql id="Base_Column_List">
     id, user_id, flow_type, flow_sub_type, column1, column2, column3, column4, column5, 

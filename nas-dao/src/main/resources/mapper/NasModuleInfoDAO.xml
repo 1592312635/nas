@@ -3,14 +3,14 @@
 <mapper namespace="com.minyan.nasdao.NasModuleInfoDAO">
   <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.ModuleInfoPO">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="activity_id" jdbcType="INTEGER" property="activity_id" />
-    <result column="module_id" jdbcType="INTEGER" property="module_id" />
-    <result column="module_name" jdbcType="VARCHAR" property="module_name" />
-    <result column="begin_time" jdbcType="TIMESTAMP" property="begin_time" />
-    <result column="end_time" jdbcType="TIMESTAMP" property="end_time" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
-    <result column="del_tag" jdbcType="INTEGER" property="del_tag" />
+    <result column="activity_id" jdbcType="INTEGER" property="activityId" />
+    <result column="module_id" jdbcType="INTEGER" property="moduleId" />
+    <result column="module_name" jdbcType="VARCHAR" property="moduleName" />
+    <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="del_tag" jdbcType="INTEGER" property="delTag" />
   </resultMap>
   <sql id="Base_Column_List">
     id, activity_id, module_id, module_name, begin_time, end_time, create_time, update_time, 

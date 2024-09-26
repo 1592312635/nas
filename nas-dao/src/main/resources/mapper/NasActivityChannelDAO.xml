@@ -3,12 +3,12 @@
 <mapper namespace="com.minyan.nasdao.NasActivityChannelDAO">
   <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.ActivityChannelPO">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="activity_id" jdbcType="BIGINT" property="activity_id" />
-    <result column="channel_name" jdbcType="VARCHAR" property="channel_name" />
-    <result column="channel_code" jdbcType="VARCHAR" property="channel_code" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
-    <result column="del_tag" jdbcType="INTEGER" property="del_tag" />
+    <result column="activity_id" jdbcType="BIGINT" property="activityId" />
+    <result column="channel_name" jdbcType="VARCHAR" property="channelName" />
+    <result column="channel_code" jdbcType="VARCHAR" property="channelCode" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="del_tag" jdbcType="INTEGER" property="delTag" />
   </resultMap>
   <sql id="Base_Column_List">
     id, activity_id, channel_name, channel_code, create_time, update_time, del_tag
