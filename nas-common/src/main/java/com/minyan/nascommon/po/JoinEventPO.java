@@ -7,48 +7,33 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
- * @author 
- * 
+ * @author
  */
 @Data
 @TableName("nas_join_event")
 public class JoinEventPO implements Serializable {
-    private Long id;
+  private Long id;
 
-    /**
-     * 用户注册id
-     */
-    private String userId;
+  /** 用户注册id */
+  private String userId;
 
-    /**
-     * 事件id
-     */
-    private Long eventId;
+  /** 事件id */
+  private Long eventId;
 
-    /**
-     * 奖品规则id
-     */
-    private Long rewardRuleId;
+  /** 奖品规则id */
+  private Long rewardRuleId;
 
-    /**
-     * 调度时间
-     */
-    private Date scheduleTime;
+  /** 调度时间 */
+  private Date scheduleTime;
 
-    /**
-     * 创建时间
-     */
-    private Date createTime;
+  /** 创建时间 */
+  private Date createTime;
 
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
+  /** 更新时间 */
+  private Date updateTime;
 
-    /**
-     * 删除标识(1删除0未删除)
-     */
-    private Integer delTag;
+  /** 删除标识(1删除0未删除) */
+  private Integer delTag;
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 }

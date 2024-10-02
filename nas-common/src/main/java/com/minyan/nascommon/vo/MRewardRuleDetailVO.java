@@ -11,11 +11,11 @@ import java.util.List;
  */
 @Data
 public class MRewardRuleDetailVO {
-    private Long rewardRuleId;
-    private Long activityId;
-    private Long moduleId;
-    private Long eventId;
-    private Integer rewardType;
-    private Long rewardId;
-    private List<MRewardLimitDetailVO> rewardLimitDetailVOList;
+  private Long rewardRuleId;
+  private Long activityId;
+  private Long moduleId;
+  private Long eventId;
+  private Integer rewardType;
+  private Long rewardId;
+  private List<MRewardLimitDetailVO> rewardLimitDetailVOList;
 }

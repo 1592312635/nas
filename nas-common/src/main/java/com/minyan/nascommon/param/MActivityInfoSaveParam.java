@@ -12,12 +12,13 @@ import java.util.List;
  */
 @Data
 public class MActivityInfoSaveParam {
-    @NotNull(message = "活动id不能为空")
-    private Integer activityId;
-    @NotNull(message = "活动名称不能为空")
-    private String activityName;
+  @NotNull(message = "活动id不能为空")
+  private Integer activityId;
 
-    private List<MActivityRewardSaveParam> activityRewardSaveInfos;
-    private List<MActivityModuleSaveParam> moduleSaveInfos;
-    private List<MActivityChannelSaveParam> channelSaveInfos;
+  @NotNull(message = "活动名称不能为空")
+  private String activityName;
+
+  private List<MActivityRewardSaveParam> activityRewardSaveInfos;
+  private List<MActivityModuleSaveParam> moduleSaveInfos;
+  private List<MActivityChannelSaveParam> channelSaveInfos;
 }

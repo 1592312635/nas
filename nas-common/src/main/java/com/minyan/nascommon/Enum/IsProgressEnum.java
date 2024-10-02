@@ -11,9 +11,10 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum IsProgressEnum {
-    IS_PROGRESS(1, "进行中"),
-    NOT_PROGRESS(2, "未开始"),
-    END(3, "已结束");
-    private final Integer value;
-    private final String desc;
+  IS_PROGRESS(1, "进行中"),
+  NOT_PROGRESS(2, "未开始"),
+  END(3, "已结束");
+
+  private final Integer value;
+  private final String desc;
 }

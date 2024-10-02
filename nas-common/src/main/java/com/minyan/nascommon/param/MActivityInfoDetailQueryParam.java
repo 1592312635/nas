@@ -11,6 +11,6 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 public class MActivityInfoDetailQueryParam {
-    @NotNull(message = "活动id不能为空")
-    private Integer activityId;
+  @NotNull(message = "活动id不能为空")
+  private Integer activityId;
 }

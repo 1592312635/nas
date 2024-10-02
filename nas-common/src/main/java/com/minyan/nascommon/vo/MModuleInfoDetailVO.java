@@ -12,10 +12,10 @@ import java.util.List;
  */
 @Data
 public class MModuleInfoDetailVO {
-    private Integer activityId;
-    private Integer moduleId;
-    private String moduleName;
-    private Date beginTime;
-    private Date endTime;
-    private List<MActivityEventDetailVO> mActivityEventDetailVOS;
+  private Integer activityId;
+  private Integer moduleId;
+  private String moduleName;
+  private Date beginTime;
+  private Date endTime;
+  private List<MActivityEventDetailVO> mActivityEventDetailVOS;
 }

@@ -1,111 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minyan.nasdao.NasActivityChannelDAO">
-  <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.ActivityChannelPO">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="activity_id" jdbcType="BIGINT" property="activityId" />
-    <result column="channel_name" jdbcType="VARCHAR" property="channelName" />
-    <result column="channel_code" jdbcType="VARCHAR" property="channelCode" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="del_tag" jdbcType="INTEGER" property="delTag" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, activity_id, channel_name, channel_code, create_time, update_time, del_tag
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from nas_activity_channel
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from nas_activity_channel
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ActivityChannelPO" useGeneratedKeys="true">
-    insert into nas_activity_channel (activity_id, channel_name, channel_code, 
-      create_time, update_time, del_tag
-      )
-    values (#{activity_id,jdbcType=BIGINT}, #{channel_name,jdbcType=VARCHAR}, #{channel_code,jdbcType=VARCHAR}, 
-      #{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{del_tag,jdbcType=INTEGER}
-      )
-  </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ActivityChannelPO" useGeneratedKeys="true">
-    insert into nas_activity_channel
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="activity_id != null">
-        activity_id,
-      </if>
-      <if test="channel_name != null">
-        channel_name,
-      </if>
-      <if test="channel_code != null">
-        channel_code,
-      </if>
-      <if test="create_time != null">
-        create_time,
-      </if>
-      <if test="update_time != null">
-        update_time,
-      </if>
-      <if test="del_tag != null">
-        del_tag,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="activity_id != null">
-        #{activity_id,jdbcType=BIGINT},
-      </if>
-      <if test="channel_name != null">
-        #{channel_name,jdbcType=VARCHAR},
-      </if>
-      <if test="channel_code != null">
-        #{channel_code,jdbcType=VARCHAR},
-      </if>
-      <if test="create_time != null">
-        #{create_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="update_time != null">
-        #{update_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="del_tag != null">
-        #{del_tag,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.minyan.nascommon.po.ActivityChannelPO">
-    update nas_activity_channel
-    <set>
-      <if test="activity_id != null">
-        activity_id = #{activity_id,jdbcType=BIGINT},
-      </if>
-      <if test="channel_name != null">
+    <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.ActivityChannelPO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="activity_id" jdbcType="BIGINT" property="activityId"/>
+        <result column="channel_name" jdbcType="VARCHAR" property="channelName"/>
+        <result column="channel_code" jdbcType="VARCHAR" property="channelCode"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="del_tag" jdbcType="INTEGER" property="delTag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, activity_id, channel_name, channel_code, create_time, update_time, del_tag
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from nas_activity_channel
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from nas_activity_channel
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ActivityChannelPO"
+            useGeneratedKeys="true">
+        insert into nas_activity_channel (activity_id, channel_name, channel_code,
+        create_time, update_time, del_tag
+        )
+        values (#{activity_id,jdbcType=BIGINT}, #{channel_name,jdbcType=VARCHAR}, #{channel_code,jdbcType=VARCHAR},
+        #{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{del_tag,jdbcType=INTEGER}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.minyan.nascommon.po.ActivityChannelPO" useGeneratedKeys="true">
+        insert into nas_activity_channel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="activity_id != null">
+                activity_id,
+            </if>
+            <if test="channel_name != null">
+                channel_name,
+            </if>
+            <if test="channel_code != null">
+                channel_code,
+            </if>
+            <if test="create_time != null">
+                create_time,
+            </if>
+            <if test="update_time != null">
+                update_time,
+            </if>
+            <if test="del_tag != null">
+                del_tag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="activity_id != null">
+                #{activity_id,jdbcType=BIGINT},
+            </if>
+            <if test="channel_name != null">
+                #{channel_name,jdbcType=VARCHAR},
+            </if>
+            <if test="channel_code != null">
+                #{channel_code,jdbcType=VARCHAR},
+            </if>
+            <if test="create_time != null">
+                #{create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="update_time != null">
+                #{update_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="del_tag != null">
+                #{del_tag,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.minyan.nascommon.po.ActivityChannelPO">
+        update nas_activity_channel
+        <set>
+            <if test="activity_id != null">
+                activity_id = #{activity_id,jdbcType=BIGINT},
+            </if>
+            <if test="channel_name != null">
+                channel_name = #{channel_name,jdbcType=VARCHAR},
+            </if>
+            <if test="channel_code != null">
+                channel_code = #{channel_code,jdbcType=VARCHAR},
+            </if>
+            <if test="create_time != null">
+                create_time = #{create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="update_time != null">
+                update_time = #{update_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="del_tag != null">
+                del_tag = #{del_tag,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.ActivityChannelPO">
+        update nas_activity_channel
+        set activity_id = #{activity_id,jdbcType=BIGINT},
         channel_name = #{channel_name,jdbcType=VARCHAR},
-      </if>
-      <if test="channel_code != null">
         channel_code = #{channel_code,jdbcType=VARCHAR},
-      </if>
-      <if test="create_time != null">
         create_time = #{create_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="update_time != null">
         update_time = #{update_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="del_tag != null">
-        del_tag = #{del_tag,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.ActivityChannelPO">
-    update nas_activity_channel
-    set activity_id = #{activity_id,jdbcType=BIGINT},
-      channel_name = #{channel_name,jdbcType=VARCHAR},
-      channel_code = #{channel_code,jdbcType=VARCHAR},
-      create_time = #{create_time,jdbcType=TIMESTAMP},
-      update_time = #{update_time,jdbcType=TIMESTAMP},
-      del_tag = #{del_tag,jdbcType=INTEGER}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+        del_tag = #{del_tag,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
 </mapper>

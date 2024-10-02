@@ -9,8 +9,8 @@ import lombok.Data;
  */
 @Data
 public class MActivityChannelDetailVO {
-    private Long activityId;
-    private String channelName;
-    private String channelCode;
-    private String channelUrl;
+  private Integer activityId;
+  private String channelName;
+  private String channelCode;
+  private String channelUrl;
 }

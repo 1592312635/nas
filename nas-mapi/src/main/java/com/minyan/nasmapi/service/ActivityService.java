@@ -6,7 +6,6 @@ import com.minyan.nascommon.param.MActivityInfoSaveParam;
 import com.minyan.nascommon.vo.ApiResult;
 import com.minyan.nascommon.vo.MActivityInfoDetailVO;
 import com.minyan.nascommon.vo.MActivityInfoVO;
-
 import java.util.List;
 
 /**
@@ -15,9 +14,9 @@ import java.util.List;
  * @date 2024/9/18 19:11
  */
 public interface ActivityService {
-    ApiResult<List<MActivityInfoVO>> getActivityInfoList(MActivityInfoQueryParam param);
+  ApiResult<List<MActivityInfoVO>> getActivityInfoList(MActivityInfoQueryParam param);
 
-    ApiResult<MActivityInfoDetailVO> getActivityInfoDetail(MActivityInfoDetailQueryParam param);
+  ApiResult<MActivityInfoDetailVO> getActivityInfoDetail(MActivityInfoDetailQueryParam param);
 
-    ApiResult<Boolean> saveActivityInfo(MActivityInfoSaveParam param);
+  ApiResult<Boolean> saveActivityInfo(MActivityInfoSaveParam param);
 }

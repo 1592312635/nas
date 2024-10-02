@@ -11,10 +11,10 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 public class MActivityInfoQueryParam {
-    private Integer activityId;
-    private String actvityName;
-    private Integer status;
-    private Integer isProgress;
-    private Integer pageNum = 1;
-    private Integer pageSize = 15;
+  private Integer activityId;
+  private String actvityName;
+  private Integer status;
+  private Integer isProgress;
+  private Integer pageNum = 1;
+  private Integer pageSize = 15;
 }

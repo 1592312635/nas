@@ -11,10 +11,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum DelTagEnum {
-    DEL(1, "删除"),
-    NOT_DEL(0, "未删除");
+  DEL(1, "删除"),
+  NOT_DEL(0, "未删除");
 
-    private final Integer value;
-    private final String desc;
-
+  private final Integer value;
+  private final String desc;
 }

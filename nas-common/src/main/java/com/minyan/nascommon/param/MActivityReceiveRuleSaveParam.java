@@ -9,9 +9,9 @@ import lombok.Data;
  */
 @Data
 public class MActivityReceiveRuleSaveParam {
-    private Long receiveRuleId;
-    private Integer runType;
-    private String limitKey;
-    private String limitJson;
-    private Integer limitType;
+  private Long receiveRuleId;
+  private Integer runType;
+  private String limitKey;
+  private String limitJson;
+  private Integer limitType;
 }

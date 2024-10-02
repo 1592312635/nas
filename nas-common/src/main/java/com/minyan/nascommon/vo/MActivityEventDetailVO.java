@@ -11,11 +11,11 @@ import java.util.List;
  */
 @Data
 public class MActivityEventDetailVO {
-    private Long eventId;
-    private Long activityId;
-    private Integer moduleId;
-    private String eventName;
-    private String eventType;
-    private List<MReceiveLimitDetailVO> mReceiveLimitDetailVOS;
-    private List<MRewardRuleDetailVO> mRewardRuleDetailVOS;
+  private Long eventId;
+  private Long activityId;
+  private Integer moduleId;
+  private String eventName;
+  private String eventType;
+  private List<MReceiveLimitDetailVO> mReceiveLimitDetailVOS;
+  private List<MRewardRuleDetailVO> mRewardRuleDetailVOS;
 }

@@ -9,9 +9,9 @@ import lombok.Data;
  */
 @Data
 public class MActivityRewardRuleSaveParam {
-    private Long rewardRuleId;
-    private Long rewardId;
-    private Integer rewardType;
-    private String limitKey;
-    private String limitJson;
+  private Long rewardRuleId;
+  private Long rewardId;
+  private Integer rewardType;
+  private String limitKey;
+  private String limitJson;
 }

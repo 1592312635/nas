@@ -11,9 +11,9 @@ import java.util.List;
  */
 @Data
 public class MActivityEventSaveParam {
-    private Long eventId;
-    private String eventName;
-    private String eventType;
-    private List<MActivityReceiveRuleSaveParam> receiveRuleSaveInfos;
-    private List<MActivityRewardRuleSaveParam> rewardRuleSaveInfos;
+  private Long eventId;
+  private String eventName;
+  private String eventType;
+  private List<MActivityReceiveRuleSaveParam> receiveRuleSaveInfos;
+  private List<MActivityRewardRuleSaveParam> rewardRuleSaveInfos;
 }

@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 public class MRewardLimitDetailVO {
-    private Long rewardRuleId;
-    private String limitKey;
-    private String limitJson;
+  private Long rewardRuleId;
+  private String limitKey;
+  private String limitJson;
 }

@@ -9,9 +9,9 @@ import lombok.Data;
  */
 @Data
 public class MActivityRewardDetailVO {
-    private Long rewardId;
-    private Integer rewardType;
-    private String rewardName;
-    private String batchCode;
-    private String imageUrl;
+  private Long rewardId;
+  private Integer rewardType;
+  private String rewardName;
+  private String batchCode;
+  private String imageUrl;
 }

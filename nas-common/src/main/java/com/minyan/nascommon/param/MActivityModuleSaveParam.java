@@ -12,9 +12,9 @@ import java.util.List;
  */
 @Data
 public class MActivityModuleSaveParam {
-    private Integer moduleId;
-    private String moduleName;
-    private Date beginTime;
-    private Date endTime;
-    private List<MActivityEventSaveParam> eventSaveInfos;
+  private Integer moduleId;
+  private String moduleName;
+  private Date beginTime;
+  private Date endTime;
+  private List<MActivityEventSaveParam> eventSaveInfos;
 }

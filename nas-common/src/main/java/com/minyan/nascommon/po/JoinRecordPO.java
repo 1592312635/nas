@@ -7,56 +7,37 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
- * @author 
- * 
+ * @author
  */
 @Data
 @TableName("nas_join_record")
 public class JoinRecordPO implements Serializable {
-    /**
-     * 主键
-     */
-    private Long id;
+  /** 主键 */
+  private Long id;
 
-    /**
-     * 活动id
-     */
-    private Long activityId;
+  /** 活动id */
+  private Long activityId;
 
-    /**
-     * 模块id
-     */
-    private Long moduleId;
+  /** 模块id */
+  private Long moduleId;
 
-    /**
-     * 用户注册id
-     */
-    private String userId;
+  /** 用户注册id */
+  private String userId;
 
-    /**
-     * 参与类型(JoinTypeEnum)
-     */
-    private Integer joinType;
+  /** 参与类型(JoinTypeEnum) */
+  private Integer joinType;
 
-    /**
-     * 额外参与信息
-     */
-    private String joinInfo;
+  /** 额外参与信息 */
+  private String joinInfo;
 
-    /**
-     * 创建时间
-     */
-    private Date createTime;
+  /** 创建时间 */
+  private Date createTime;
 
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
+  /** 更新时间 */
+  private Date updateTime;
 
-    /**
-     * 删除标识
-     */
-    private Integer delTag;
+  /** 删除标识 */
+  private Integer delTag;
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 }

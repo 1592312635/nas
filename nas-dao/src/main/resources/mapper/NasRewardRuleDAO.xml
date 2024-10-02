@@ -1,134 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minyan.nasdao.NasRewardRuleDAO">
-  <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.RewardRulePO">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="activity_id" jdbcType="BIGINT" property="activityId" />
-    <result column="module_id" jdbcType="BIGINT" property="moduleId" />
-    <result column="event_id" jdbcType="BIGINT" property="eventId" />
-    <result column="reward_type" jdbcType="INTEGER" property="rewardId" />
-    <result column="reward_id" jdbcType="BIGINT" property="rewardId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="del_tag" jdbcType="INTEGER" property="delTag" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, activity_id, module_id, event_id, reward_type, reward_id, create_time, update_time, 
-    del_tag
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from nas_reward_rule
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from nas_reward_rule
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.RewardRulePO" useGeneratedKeys="true">
-    insert into nas_reward_rule (activity_id, module_id, event_id, 
-      reward_type, reward_id, create_time, 
-      update_time, del_tag)
-    values (#{activity_id,jdbcType=BIGINT}, #{module_id,jdbcType=BIGINT}, #{event_id,jdbcType=BIGINT}, 
-      #{reward_type,jdbcType=INTEGER}, #{reward_id,jdbcType=BIGINT}, #{create_time,jdbcType=TIMESTAMP}, 
-      #{update_time,jdbcType=TIMESTAMP}, #{del_tag,jdbcType=INTEGER})
-  </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.RewardRulePO" useGeneratedKeys="true">
-    insert into nas_reward_rule
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="activity_id != null">
-        activity_id,
-      </if>
-      <if test="module_id != null">
-        module_id,
-      </if>
-      <if test="event_id != null">
-        event_id,
-      </if>
-      <if test="reward_type != null">
-        reward_type,
-      </if>
-      <if test="reward_id != null">
-        reward_id,
-      </if>
-      <if test="create_time != null">
-        create_time,
-      </if>
-      <if test="update_time != null">
-        update_time,
-      </if>
-      <if test="del_tag != null">
-        del_tag,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="activity_id != null">
-        #{activity_id,jdbcType=BIGINT},
-      </if>
-      <if test="module_id != null">
-        #{module_id,jdbcType=BIGINT},
-      </if>
-      <if test="event_id != null">
-        #{event_id,jdbcType=BIGINT},
-      </if>
-      <if test="reward_type != null">
-        #{reward_type,jdbcType=INTEGER},
-      </if>
-      <if test="reward_id != null">
-        #{reward_id,jdbcType=BIGINT},
-      </if>
-      <if test="create_time != null">
-        #{create_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="update_time != null">
-        #{update_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="del_tag != null">
-        #{del_tag,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.minyan.nascommon.po.RewardRulePO">
-    update nas_reward_rule
-    <set>
-      <if test="activity_id != null">
-        activity_id = #{activity_id,jdbcType=BIGINT},
-      </if>
-      <if test="module_id != null">
+    <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.RewardRulePO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="activity_id" jdbcType="BIGINT" property="activityId"/>
+        <result column="module_id" jdbcType="BIGINT" property="moduleId"/>
+        <result column="event_id" jdbcType="BIGINT" property="eventId"/>
+        <result column="reward_type" jdbcType="INTEGER" property="rewardId"/>
+        <result column="reward_id" jdbcType="BIGINT" property="rewardId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="del_tag" jdbcType="INTEGER" property="delTag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, activity_id, module_id, event_id, reward_type, reward_id, create_time, update_time,
+        del_tag
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from nas_reward_rule
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from nas_reward_rule
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.RewardRulePO"
+            useGeneratedKeys="true">
+        insert into nas_reward_rule (activity_id, module_id, event_id,
+        reward_type, reward_id, create_time,
+        update_time, del_tag)
+        values (#{activity_id,jdbcType=BIGINT}, #{module_id,jdbcType=BIGINT}, #{event_id,jdbcType=BIGINT},
+        #{reward_type,jdbcType=INTEGER}, #{reward_id,jdbcType=BIGINT}, #{create_time,jdbcType=TIMESTAMP},
+        #{update_time,jdbcType=TIMESTAMP}, #{del_tag,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.RewardRulePO"
+            useGeneratedKeys="true">
+        insert into nas_reward_rule
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="activity_id != null">
+                activity_id,
+            </if>
+            <if test="module_id != null">
+                module_id,
+            </if>
+            <if test="event_id != null">
+                event_id,
+            </if>
+            <if test="reward_type != null">
+                reward_type,
+            </if>
+            <if test="reward_id != null">
+                reward_id,
+            </if>
+            <if test="create_time != null">
+                create_time,
+            </if>
+            <if test="update_time != null">
+                update_time,
+            </if>
+            <if test="del_tag != null">
+                del_tag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="activity_id != null">
+                #{activity_id,jdbcType=BIGINT},
+            </if>
+            <if test="module_id != null">
+                #{module_id,jdbcType=BIGINT},
+            </if>
+            <if test="event_id != null">
+                #{event_id,jdbcType=BIGINT},
+            </if>
+            <if test="reward_type != null">
+                #{reward_type,jdbcType=INTEGER},
+            </if>
+            <if test="reward_id != null">
+                #{reward_id,jdbcType=BIGINT},
+            </if>
+            <if test="create_time != null">
+                #{create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="update_time != null">
+                #{update_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="del_tag != null">
+                #{del_tag,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.minyan.nascommon.po.RewardRulePO">
+        update nas_reward_rule
+        <set>
+            <if test="activity_id != null">
+                activity_id = #{activity_id,jdbcType=BIGINT},
+            </if>
+            <if test="module_id != null">
+                module_id = #{module_id,jdbcType=BIGINT},
+            </if>
+            <if test="event_id != null">
+                event_id = #{event_id,jdbcType=BIGINT},
+            </if>
+            <if test="reward_type != null">
+                reward_type = #{reward_type,jdbcType=INTEGER},
+            </if>
+            <if test="reward_id != null">
+                reward_id = #{reward_id,jdbcType=BIGINT},
+            </if>
+            <if test="create_time != null">
+                create_time = #{create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="update_time != null">
+                update_time = #{update_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="del_tag != null">
+                del_tag = #{del_tag,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.RewardRulePO">
+        update nas_reward_rule
+        set activity_id = #{activity_id,jdbcType=BIGINT},
         module_id = #{module_id,jdbcType=BIGINT},
-      </if>
-      <if test="event_id != null">
         event_id = #{event_id,jdbcType=BIGINT},
-      </if>
-      <if test="reward_type != null">
         reward_type = #{reward_type,jdbcType=INTEGER},
-      </if>
-      <if test="reward_id != null">
         reward_id = #{reward_id,jdbcType=BIGINT},
-      </if>
-      <if test="create_time != null">
         create_time = #{create_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="update_time != null">
         update_time = #{update_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="del_tag != null">
-        del_tag = #{del_tag,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.RewardRulePO">
-    update nas_reward_rule
-    set activity_id = #{activity_id,jdbcType=BIGINT},
-      module_id = #{module_id,jdbcType=BIGINT},
-      event_id = #{event_id,jdbcType=BIGINT},
-      reward_type = #{reward_type,jdbcType=INTEGER},
-      reward_id = #{reward_id,jdbcType=BIGINT},
-      create_time = #{create_time,jdbcType=TIMESTAMP},
-      update_time = #{update_time,jdbcType=TIMESTAMP},
-      del_tag = #{del_tag,jdbcType=INTEGER}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+        del_tag = #{del_tag,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
 </mapper>

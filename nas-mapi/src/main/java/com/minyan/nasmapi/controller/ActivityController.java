@@ -7,6 +7,7 @@ import com.minyan.nascommon.vo.ApiResult;
 import com.minyan.nascommon.vo.MActivityInfoDetailVO;
 import com.minyan.nascommon.vo.MActivityInfoVO;
 import com.minyan.nasmapi.service.ActivityService;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * @decription
@@ -25,23 +24,24 @@ import java.util.List;
 @RestController
 @RequestMapping("/m/activity")
 public class ActivityController {
-    Logger logger = LoggerFactory.getLogger(ActivityController.class);
+  Logger logger = LoggerFactory.getLogger(ActivityController.class);
 
-    @Autowired
-    private ActivityService activityService;
+  @Autowired private ActivityService activityService;
 
-    @RequestMapping("/info")
-    ApiResult<List<MActivityInfoVO>> getActivityInfo(@RequestBody @Validated MActivityInfoQueryParam param) {
-        return activityService.getActivityInfoList(param);
-    }
+  @RequestMapping("/info")
+  ApiResult<List<MActivityInfoVO>> getActivityInfo(
+      @RequestBody @Validated MActivityInfoQueryParam param) {
+    return activityService.getActivityInfoList(param);
+  }
 
-    @RequestMapping("/detail")
-    ApiResult<MActivityInfoDetailVO> getActivityInfoDetail(@RequestBody @Validated MActivityInfoDetailQueryParam param) {
-        return activityService.getActivityInfoDetail(param);
-    }
+  @RequestMapping("/detail")
+  ApiResult<MActivityInfoDetailVO> getActivityInfoDetail(
+      @RequestBody @Validated MActivityInfoDetailQueryParam param) {
+    return activityService.getActivityInfoDetail(param);
+  }
 
-    @RequestMapping("/save")
-    ApiResult<Boolean> saveActivityInfo(@RequestBody @Validated MActivityInfoSaveParam param) {
-        return activityService.saveActivityInfo(param);
-    }
+  @RequestMapping("/save")
+  ApiResult<Boolean> saveActivityInfo(@RequestBody @Validated MActivityInfoSaveParam param) {
+    return activityService.saveActivityInfo(param);
+  }
 }

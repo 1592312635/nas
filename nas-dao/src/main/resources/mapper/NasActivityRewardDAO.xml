@@ -1,122 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minyan.nasdao.NasActivityRewardDAO">
-  <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.ActivityRewardPO">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="reward_type" jdbcType="INTEGER" property="rewardType" />
-    <result column="reward_name" jdbcType="VARCHAR" property="rewardName" />
-    <result column="batch_code" jdbcType="VARCHAR" property="batchCode" />
-    <result column="image_url" jdbcType="VARCHAR" property="imageUrl" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="del_tag" jdbcType="INTEGER" property="delTag" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, reward_type, reward_name, batch_code, image_url, create_time, update_time, del_tag
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from nas_activity_reward
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from nas_activity_reward
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ActivityRewardPO" useGeneratedKeys="true">
-    insert into nas_activity_reward (reward_type, reward_name, batch_code,
-      image_url, create_time, update_time, 
-      del_tag)
-    values (#{reward_type,jdbcType=INTEGER}, #{reward_name,jdbcType=VARCHAR}, #{batch_code,jdbcType=VARCHAR}, 
-      #{image_url,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, 
-      #{del_tag,jdbcType=INTEGER})
-  </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ActivityRewardPO" useGeneratedKeys="true">
-    insert into nas_activity_reward
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="reward_type != null">
-        reward_type,
-      </if>
-      <if test="reward_name != null">
-        reward_name,
-      </if>
-      <if test="batch_code != null">
-        batch_code,
-      </if>
-      <if test="image_url != null">
-        image_url,
-      </if>
-      <if test="create_time != null">
-        create_time,
-      </if>
-      <if test="update_time != null">
-        update_time,
-      </if>
-      <if test="del_tag != null">
-        del_tag,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="reward_type != null">
-        #{reward_type,jdbcType=INTEGER},
-      </if>
-      <if test="reward_name != null">
-        #{reward_name,jdbcType=VARCHAR},
-      </if>
-      <if test="batch_code != null">
-        #{batch_code,jdbcType=VARCHAR},
-      </if>
-      <if test="image_url != null">
-        #{image_url,jdbcType=VARCHAR},
-      </if>
-      <if test="create_time != null">
-        #{create_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="update_time != null">
-        #{update_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="del_tag != null">
-        #{del_tag,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.minyan.nascommon.po.ActivityRewardPO">
-    update nas_activity_reward
-    <set>
-      <if test="reward_type != null">
-        reward_type = #{reward_type,jdbcType=INTEGER},
-      </if>
-      <if test="reward_name != null">
+    <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.ActivityRewardPO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="reward_type" jdbcType="INTEGER" property="rewardType"/>
+        <result column="reward_name" jdbcType="VARCHAR" property="rewardName"/>
+        <result column="batch_code" jdbcType="VARCHAR" property="batchCode"/>
+        <result column="image_url" jdbcType="VARCHAR" property="imageUrl"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="del_tag" jdbcType="INTEGER" property="delTag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, reward_type, reward_name, batch_code, image_url, create_time, update_time, del_tag
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from nas_activity_reward
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from nas_activity_reward
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ActivityRewardPO"
+            useGeneratedKeys="true">
+        insert into nas_activity_reward (reward_type, reward_name, batch_code,
+        image_url, create_time, update_time,
+        del_tag)
+        values (#{reward_type,jdbcType=INTEGER}, #{reward_name,jdbcType=VARCHAR}, #{batch_code,jdbcType=VARCHAR},
+        #{image_url,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP},
+        #{del_tag,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.minyan.nascommon.po.ActivityRewardPO" useGeneratedKeys="true">
+        insert into nas_activity_reward
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="reward_type != null">
+                reward_type,
+            </if>
+            <if test="reward_name != null">
+                reward_name,
+            </if>
+            <if test="batch_code != null">
+                batch_code,
+            </if>
+            <if test="image_url != null">
+                image_url,
+            </if>
+            <if test="create_time != null">
+                create_time,
+            </if>
+            <if test="update_time != null">
+                update_time,
+            </if>
+            <if test="del_tag != null">
+                del_tag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="reward_type != null">
+                #{reward_type,jdbcType=INTEGER},
+            </if>
+            <if test="reward_name != null">
+                #{reward_name,jdbcType=VARCHAR},
+            </if>
+            <if test="batch_code != null">
+                #{batch_code,jdbcType=VARCHAR},
+            </if>
+            <if test="image_url != null">
+                #{image_url,jdbcType=VARCHAR},
+            </if>
+            <if test="create_time != null">
+                #{create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="update_time != null">
+                #{update_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="del_tag != null">
+                #{del_tag,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.minyan.nascommon.po.ActivityRewardPO">
+        update nas_activity_reward
+        <set>
+            <if test="reward_type != null">
+                reward_type = #{reward_type,jdbcType=INTEGER},
+            </if>
+            <if test="reward_name != null">
+                reward_name = #{reward_name,jdbcType=VARCHAR},
+            </if>
+            <if test="batch_code != null">
+                batch_code = #{batch_code,jdbcType=VARCHAR},
+            </if>
+            <if test="image_url != null">
+                image_url = #{image_url,jdbcType=VARCHAR},
+            </if>
+            <if test="create_time != null">
+                create_time = #{create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="update_time != null">
+                update_time = #{update_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="del_tag != null">
+                del_tag = #{del_tag,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.ActivityRewardPO">
+        update nas_activity_reward
+        set reward_type = #{reward_type,jdbcType=INTEGER},
         reward_name = #{reward_name,jdbcType=VARCHAR},
-      </if>
-      <if test="batch_code != null">
         batch_code = #{batch_code,jdbcType=VARCHAR},
-      </if>
-      <if test="image_url != null">
         image_url = #{image_url,jdbcType=VARCHAR},
-      </if>
-      <if test="create_time != null">
         create_time = #{create_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="update_time != null">
         update_time = #{update_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="del_tag != null">
-        del_tag = #{del_tag,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.ActivityRewardPO">
-    update nas_activity_reward
-    set reward_type = #{reward_type,jdbcType=INTEGER},
-      reward_name = #{reward_name,jdbcType=VARCHAR},
-      batch_code = #{batch_code,jdbcType=VARCHAR},
-      image_url = #{image_url,jdbcType=VARCHAR},
-      create_time = #{create_time,jdbcType=TIMESTAMP},
-      update_time = #{update_time,jdbcType=TIMESTAMP},
-      del_tag = #{del_tag,jdbcType=INTEGER}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+        del_tag = #{del_tag,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
 </mapper>

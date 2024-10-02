@@ -10,28 +10,27 @@ import lombok.Data;
  */
 @Data
 public class ApiResult<T> {
-    private String code;
-    private String message;
-    private T data;
+  private String code;
+  private String message;
+  private T data;
 
-    public ApiResult() {
-    }
+  public ApiResult() {}
 
-    public ApiResult(String code, String message, T data) {
-        this.code = code;
-        this.message = message;
-        this.data = data;
-    }
+  public ApiResult(String code, String message, T data) {
+    this.code = code;
+    this.message = message;
+    this.data = data;
+  }
 
-    public static ApiResult build(String code, String message) {
-        return new ApiResult<>(code, message, null);
-    }
+  public static ApiResult build(String code, String message) {
+    return new ApiResult<>(code, message, null);
+  }
 
-    public static ApiResult buildSuccess(Object data) {
-        return new ApiResult<>(CodeEnum.SUCCESS.getCode(), CodeEnum.SUCCESS.getMessage(), data);
-    }
+  public static ApiResult buildSuccess(Object data) {
+    return new ApiResult<>(CodeEnum.SUCCESS.getCode(), CodeEnum.SUCCESS.getMessage(), data);
+  }
 
-    public static ApiResult build(CodeEnum codeEnum) {
-        return new ApiResult<>(codeEnum.getCode(), codeEnum.getMessage(), null);
-    }
+  public static ApiResult build(CodeEnum codeEnum) {
+    return new ApiResult<>(codeEnum.getCode(), codeEnum.getMessage(), null);
+  }
 }

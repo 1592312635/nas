@@ -1,111 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minyan.nasdao.NasRewardLimitDAO">
-  <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.RewardLimitPO">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="reward_rule_id" jdbcType="BIGINT" property="rewardRuleId" />
-    <result column="limit_key" jdbcType="VARCHAR" property="rewardRuleId" />
-    <result column="limit_json" jdbcType="VARCHAR" property="limitJson" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="del_tag" jdbcType="INTEGER" property="delTag" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, reward_rule_id, limit_key, limit_json, create_time, update_time, del_tag
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from nas_reward_limit
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from nas_reward_limit
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.RewardLimitPO" useGeneratedKeys="true">
-    insert into nas_reward_limit (reward_rule_id, limit_key, limit_json,
-      create_time, update_time, del_tag
-      )
-    values (#{reward_rule_id,jdbcType=BIGINT}, #{limit_key,jdbcType=VARCHAR}, #{limit_json,jdbcType=VARCHAR},
-      #{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{del_tag,jdbcType=INTEGER}
-      )
-  </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.RewardLimitPO" useGeneratedKeys="true">
-    insert into nas_reward_limit
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="reward_rule_id != null">
-        reward_rule_id,
-      </if>
-      <if test="limit_key != null">
-        limit_key,
-      </if>
-      <if test="limit_json != null">
-        limit_json,
-      </if>
-      <if test="create_time != null">
-        create_time,
-      </if>
-      <if test="update_time != null">
-        update_time,
-      </if>
-      <if test="del_tag != null">
-        del_tag,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="reward_rule_id != null">
-        #{reward_rule_id,jdbcType=BIGINT},
-      </if>
-      <if test="limit_key != null">
-        #{limit_key,jdbcType=VARCHAR},
-      </if>
-      <if test="limit_json != null">
-        #{limit_json,jdbcType=VARCHAR},
-      </if>
-      <if test="create_time != null">
-        #{create_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="update_time != null">
-        #{update_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="del_tag != null">
-        #{del_tag,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.minyan.nascommon.po.RewardLimitPO">
-    update nas_reward_limit
-    <set>
-      <if test="reward_rule_id != null">
-        reward_rule_id = #{reward_rule_id,jdbcType=BIGINT},
-      </if>
-      <if test="limit_key != null">
+    <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.RewardLimitPO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="reward_rule_id" jdbcType="BIGINT" property="rewardRuleId"/>
+        <result column="limit_key" jdbcType="VARCHAR" property="rewardRuleId"/>
+        <result column="limit_json" jdbcType="VARCHAR" property="limitJson"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="del_tag" jdbcType="INTEGER" property="delTag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, reward_rule_id, limit_key, limit_json, create_time, update_time, del_tag
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from nas_reward_limit
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from nas_reward_limit
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.RewardLimitPO"
+            useGeneratedKeys="true">
+        insert into nas_reward_limit (reward_rule_id, limit_key, limit_json,
+        create_time, update_time, del_tag
+        )
+        values (#{reward_rule_id,jdbcType=BIGINT}, #{limit_key,jdbcType=VARCHAR}, #{limit_json,jdbcType=VARCHAR},
+        #{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{del_tag,jdbcType=INTEGER}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.RewardLimitPO"
+            useGeneratedKeys="true">
+        insert into nas_reward_limit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="reward_rule_id != null">
+                reward_rule_id,
+            </if>
+            <if test="limit_key != null">
+                limit_key,
+            </if>
+            <if test="limit_json != null">
+                limit_json,
+            </if>
+            <if test="create_time != null">
+                create_time,
+            </if>
+            <if test="update_time != null">
+                update_time,
+            </if>
+            <if test="del_tag != null">
+                del_tag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="reward_rule_id != null">
+                #{reward_rule_id,jdbcType=BIGINT},
+            </if>
+            <if test="limit_key != null">
+                #{limit_key,jdbcType=VARCHAR},
+            </if>
+            <if test="limit_json != null">
+                #{limit_json,jdbcType=VARCHAR},
+            </if>
+            <if test="create_time != null">
+                #{create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="update_time != null">
+                #{update_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="del_tag != null">
+                #{del_tag,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.minyan.nascommon.po.RewardLimitPO">
+        update nas_reward_limit
+        <set>
+            <if test="reward_rule_id != null">
+                reward_rule_id = #{reward_rule_id,jdbcType=BIGINT},
+            </if>
+            <if test="limit_key != null">
+                limit_key = #{limit_key,jdbcType=VARCHAR},
+            </if>
+            <if test="limit_json != null">
+                limit_json = #{limit_json,jdbcType=VARCHAR},
+            </if>
+            <if test="create_time != null">
+                create_time = #{create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="update_time != null">
+                update_time = #{update_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="del_tag != null">
+                del_tag = #{del_tag,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.RewardLimitPO">
+        update nas_reward_limit
+        set reward_rule_id = #{reward_rule_id,jdbcType=BIGINT},
         limit_key = #{limit_key,jdbcType=VARCHAR},
-      </if>
-      <if test="limit_json != null">
         limit_json = #{limit_json,jdbcType=VARCHAR},
-      </if>
-      <if test="create_time != null">
         create_time = #{create_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="update_time != null">
         update_time = #{update_time,jdbcType=TIMESTAMP},
-      </if>
-      <if test="del_tag != null">
-        del_tag = #{del_tag,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.RewardLimitPO">
-    update nas_reward_limit
-    set reward_rule_id = #{reward_rule_id,jdbcType=BIGINT},
-      limit_key = #{limit_key,jdbcType=VARCHAR},
-      limit_json = #{limit_json,jdbcType=VARCHAR},
-      create_time = #{create_time,jdbcType=TIMESTAMP},
-      update_time = #{update_time,jdbcType=TIMESTAMP},
-      del_tag = #{del_tag,jdbcType=INTEGER}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+        del_tag = #{del_tag,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
 </mapper>

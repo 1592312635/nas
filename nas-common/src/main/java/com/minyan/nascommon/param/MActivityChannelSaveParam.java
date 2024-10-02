@@ -9,6 +9,6 @@ import lombok.Data;
  */
 @Data
 public class MActivityChannelSaveParam {
-    private String channelName;
-    private String channelCode;
+  private String channelName;
+  private String channelCode;
 }
