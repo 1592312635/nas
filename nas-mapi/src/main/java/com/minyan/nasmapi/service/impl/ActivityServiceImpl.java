@@ -8,10 +8,7 @@ import com.google.common.collect.Maps;
 import com.minyan.nascommon.Enum.CodeEnum;
 import com.minyan.nascommon.Enum.DelTagEnum;
 import com.minyan.nascommon.Enum.IsProgressEnum;
-import com.minyan.nascommon.param.MActivityInfoDetailQueryParam;
-import com.minyan.nascommon.param.MActivityInfoQueryParam;
-import com.minyan.nascommon.param.MActivityInfoSaveParam;
-import com.minyan.nascommon.param.MActivityRewardSaveParam;
+import com.minyan.nascommon.param.*;
 import com.minyan.nascommon.po.*;
 import com.minyan.nascommon.vo.*;
 import com.minyan.nasdao.*;
@@ -433,7 +430,7 @@ public class ActivityServiceImpl implements ActivityService {
                 .eq(ActivityRewardTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
         List<ActivityRewardTempPO> activityRewardTempPOS = activityRewardTempDAO.selectList(acitvityRewardTempPOQueryWrapper);
         // 如果存在已有reward_id为不变更奖品规则，历史reward_id需要保留
-        List<MActivityRewardSaveParam> activityRewardList = param.getActivityRewardList();
+        List<MActivityRewardSaveParam> activityRewardList = param.getActivityRewardSaveInfos();
         List<MActivityRewardSaveParam> toUpdate = Lists.newArrayList();
         List<MActivityRewardSaveParam> toAdd = Lists.newArrayList();
         List<ActivityRewardTempPO> toDelete = Lists.newArrayList();
@@ -462,7 +459,8 @@ public class ActivityServiceImpl implements ActivityService {
                     .set(ActivityRewardTempPO::getRewardType, mActivityRewardSaveParam.getRewardType())
                     .set(ActivityRewardTempPO::getBatchCode, mActivityRewardSaveParam.getBatchCode())
                     .set(ActivityRewardTempPO::getImageUrl, mActivityRewardSaveParam.getImageUrl())
-                    .eq(ActivityRewardTempPO::getRewardId, mActivityRewardSaveParam.getRewardId());
+                    .eq(ActivityRewardTempPO::getRewardId, mActivityRewardSaveParam.getRewardId())
+                    .eq(ActivityRewardTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
             activityRewardTempDAO.update(null, updateWrapper);
         }
 
@@ -489,5 +487,71 @@ public class ActivityServiceImpl implements ActivityService {
         activityRewardTempPO.setBatchCode(param.getBatchCode());
         activityRewardTempPO.setImageUrl(param.getImageUrl());
         return activityRewardTempPO;
+    }
+
+    /**
+     * 保存活动渠道信息
+     * @param param
+     * @return
+     */
+    Boolean saveActivityChannelTemp(MActivityInfoSaveParam param) {
+        QueryWrapper<ActivityChannelTempPO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(ActivityChannelTempPO::getActivityId, param.getActivityId())
+                .eq(ActivityChannelTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+        List<ActivityChannelTempPO> activityChannelTempPOS = activityChannelTempDAO.selectList(queryWrapper);
+
+        List<MActivityChannelSaveParam> activityChannelList = param.getChannelSaveInfos();
+        List<MActivityChannelSaveParam> toUpdate = Lists.newArrayList();
+        List<MActivityChannelSaveParam> toAdd = Lists.newArrayList();
+        List<ActivityChannelTempPO> toDelete = Lists.newArrayList();
+        Map<String, ActivityChannelTempPO> tempMap = Maps.newHashMap();
+        for (ActivityChannelTempPO temp : activityChannelTempPOS) {
+            tempMap.put(temp.getChannelCode(), temp);
+        }
+        for (MActivityChannelSaveParam channel : activityChannelList) {
+            String channelCode = channel.getChannelCode();
+            if (channelCode == null || !tempMap.containsKey(channelCode)) {
+                toAdd.add(channel);
+            } else {
+                toUpdate.add(channel);
+                tempMap.remove(channelCode);
+            }
+            toDelete.addAll(tempMap.values());
+        }
+        for (MActivityChannelSaveParam mActivityChannelSaveParam : toAdd) {
+            activityChannelTempDAO.insert(buildActivityChannelTempPO(param.getActivityId(), mActivityChannelSaveParam));
+        }
+        for (MActivityChannelSaveParam mActivityChannelSaveParam : toUpdate) {
+            UpdateWrapper<ActivityChannelTempPO> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.lambda().set(ActivityChannelTempPO::getChannelName, mActivityChannelSaveParam.getChannelName())
+                    .eq(ActivityChannelTempPO::getActivityId, param.getActivityId())
+                    .eq(ActivityChannelTempPO::getChannelCode, mActivityChannelSaveParam.getChannelCode())
+                    .eq(ActivityChannelTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+            activityChannelTempDAO.update(null, updateWrapper);
+        }
+        if (!CollectionUtils.isEmpty(toDelete)) {
+            List<String> delChannelCodes = toDelete.stream().map(ActivityChannelTempPO::getChannelCode).collect(Collectors.toList());
+            UpdateWrapper<ActivityChannelTempPO> deleteWrapper = new UpdateWrapper<>();
+            deleteWrapper.lambda().set(ActivityChannelTempPO::getDelTag, DelTagEnum.DEL.getValue())
+                    .in(ActivityChannelTempPO::getChannelCode, delChannelCodes)
+                    .eq(ActivityChannelTempPO::getActivityId, param.getActivityId())
+                    .eq(ActivityChannelTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+            activityChannelTempDAO.update(null, deleteWrapper);
+        }
+        return true;
+    }
+
+    /**
+     * 构建活动渠道保存参数
+     * @param activityId
+     * @param param
+     * @return
+     */
+    ActivityChannelTempPO buildActivityChannelTempPO(Integer activityId, MActivityChannelSaveParam param) {
+        ActivityChannelTempPO activityChannelTempPO = new ActivityChannelTempPO();
+        activityChannelTempPO.setActivityId(activityId);
+        activityChannelTempPO.setChannelCode(param.getChannelCode());
+        activityChannelTempPO.setChannelName(param.getChannelName());
+        return activityChannelTempPO;
     }
 }

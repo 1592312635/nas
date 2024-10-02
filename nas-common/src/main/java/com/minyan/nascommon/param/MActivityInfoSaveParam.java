@@ -17,6 +17,7 @@ public class MActivityInfoSaveParam {
     @NotNull(message = "活动名称不能为空")
     private String activityName;
 
-    private List<MActivityRewardSaveParam> activityRewardList;
+    private List<MActivityRewardSaveParam> activityRewardSaveInfos;
+    private List<MActivityChannelSaveParam> channelSaveInfos;
 
 }

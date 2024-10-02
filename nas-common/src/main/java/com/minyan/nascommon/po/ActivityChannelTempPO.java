@@ -22,7 +22,7 @@ public class ActivityChannelTempPO implements Serializable {
     /**
      * 活动id
      */
-    private Long activityId;
+    private Integer activityId;
 
     /**
      * 渠道名称
