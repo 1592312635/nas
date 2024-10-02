@@ -57,19 +57,4 @@ public class ModuleInfoPO implements Serializable {
     private Integer delTag;
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 转化查询模块详情出参
-     * @param po
-     * @return
-     */
-    public static MModuleInfoDetailVO poConvertToVo(ModuleInfoPO po) {
-        MModuleInfoDetailVO mModuleInfoDetailVO = new MModuleInfoDetailVO();
-        mModuleInfoDetailVO.setActivityId(po.getActivityId());
-        mModuleInfoDetailVO.setModuleId(po.getModuleId());
-        mModuleInfoDetailVO.setModuleName(po.getModuleName());
-        mModuleInfoDetailVO.setBeginTime(po.getBeginTime());
-        mModuleInfoDetailVO.setEndTime(po.getEndTime());
-        return mModuleInfoDetailVO;
-    }
 }

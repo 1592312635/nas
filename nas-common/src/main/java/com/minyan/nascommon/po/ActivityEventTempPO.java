@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.minyan.nascommon.vo.MActivityEventDetailVO;
 import lombok.Data;
 
 /**
@@ -21,7 +22,7 @@ public class ActivityEventTempPO implements Serializable {
     /**
      * 活动id
      */
-    private Integer activityId;
+    private Long activityId;
 
     /**
      * 模块id
@@ -54,4 +55,19 @@ public class ActivityEventTempPO implements Serializable {
     private Integer delTag;
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 转化po为事件详情出参
+     * @param po
+     * @return
+     */
+    public static MActivityEventDetailVO poConvertToVo(ActivityEventTempPO po) {
+        MActivityEventDetailVO mActivityEventDetailVO = new MActivityEventDetailVO();
+        mActivityEventDetailVO.setEventId(po.getId());
+        mActivityEventDetailVO.setActivityId(po.getActivityId());
+        mActivityEventDetailVO.setModuleId(po.getModuleId());
+        mActivityEventDetailVO.setEventName(po.getEventName());
+        mActivityEventDetailVO.setEventType(po.getEventType());
+        return mActivityEventDetailVO;
+    }
 }

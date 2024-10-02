@@ -55,19 +55,4 @@ public class ActivityEventPO implements Serializable {
     private Integer delTag;
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 转化po为事件详情出参
-     * @param po
-     * @return
-     */
-    public static MActivityEventDetailVO poConvertToVo(ActivityEventPO po) {
-        MActivityEventDetailVO mActivityEventDetailVO = new MActivityEventDetailVO();
-        mActivityEventDetailVO.setEventId(po.getId());
-        mActivityEventDetailVO.setActivityId(po.getActivityId());
-        mActivityEventDetailVO.setModuleId(po.getModuleId());
-        mActivityEventDetailVO.setEventName(po.getEventName());
-        mActivityEventDetailVO.setEventType(po.getEventType());
-        return mActivityEventDetailVO;
-    }
 }

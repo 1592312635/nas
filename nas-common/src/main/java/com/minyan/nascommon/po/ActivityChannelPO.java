@@ -50,18 +50,4 @@ public class ActivityChannelPO implements Serializable {
     private Integer delTag;
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 转化出参为查询活动详情时的渠道详情信息VO
-     * @param po
-     * @return
-     */
-    public static MActivityChannelDetailVO poConvertToVo(ActivityChannelPO po) {
-        MActivityChannelDetailVO mActivityChannelDetailVO = new MActivityChannelDetailVO();
-        mActivityChannelDetailVO.setActivityId(po.getActivityId());
-        mActivityChannelDetailVO.setChannelCode(po.getChannelCode());
-        mActivityChannelDetailVO.setChannelName(po.getChannelName());
-        mActivityChannelDetailVO.setChannelUrl(po.getChannelCode());
-        return mActivityChannelDetailVO;
-    }
 }
