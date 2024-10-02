@@ -18,6 +18,6 @@ public class MActivityInfoSaveParam {
     private String activityName;
 
     private List<MActivityRewardSaveParam> activityRewardSaveInfos;
+    private List<MActivityModuleSaveParam> moduleSaveInfos;
     private List<MActivityChannelSaveParam> channelSaveInfos;
-
 }

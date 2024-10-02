@@ -26,7 +26,7 @@ public class ReceiveLimitTempPO implements Serializable {
     /**
      * 门槛标识
      */
-    private String eventKey;
+    private String limitKey;
 
     /**
      * 门槛数据json

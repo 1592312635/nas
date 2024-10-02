@@ -26,7 +26,7 @@ public class RewardLimitTempPO implements Serializable {
     /**
      * 规则类型
      */
-    private String rewardRuleKey;
+    private String limitKey;
 
     /**
      * 规则详细限制内容

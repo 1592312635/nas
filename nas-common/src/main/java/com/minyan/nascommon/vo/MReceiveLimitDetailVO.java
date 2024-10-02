@@ -13,7 +13,7 @@ public class MReceiveLimitDetailVO {
     private Long eventId;
     private Integer ruleType;
     private Long receiveLimitId;
-    private String eventKey;
+    private String limitKey;
     private String limitJson;
     private Integer limitType;
 }

@@ -4,14 +4,14 @@
   <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.RewardLimitTempPO">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="reward_rule_id" jdbcType="BIGINT" property="rewardRuleId" />
-    <result column="reward_rule_key" jdbcType="VARCHAR" property="rewardRuleKey" />
+    <result column="limit_key" jdbcType="VARCHAR" property="limitKey" />
     <result column="limit_json" jdbcType="VARCHAR" property="limitJson" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="del_tag" jdbcType="INTEGER" property="delTag" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, reward_rule_id, reward_rule_key, limit_json, create_time, update_time, del_tag
+    id, reward_rule_id, limit_key, limit_json, create_time, update_time, del_tag
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -24,10 +24,10 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.RewardLimitTempPO" useGeneratedKeys="true">
-    insert into nas_reward_limit_temp (reward_rule_id, reward_rule_key, limit_json, 
+    insert into nas_reward_limit_temp (reward_rule_id, limit_key, limit_json,
       create_time, update_time, del_tag
       )
-    values (#{rewardRuleId,jdbcType=BIGINT}, #{rewardRuleKey,jdbcType=VARCHAR}, #{limitJson,jdbcType=VARCHAR}, 
+    values (#{rewardRuleId,jdbcType=BIGINT}, #{limitKey,jdbcType=VARCHAR}, #{limitJson,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{delTag,jdbcType=INTEGER}
       )
   </insert>
@@ -37,8 +37,8 @@
       <if test="rewardRuleId != null">
         reward_rule_id,
       </if>
-      <if test="rewardRuleKey != null">
-        reward_rule_key,
+      <if test="limitKey != null">
+        limit_key,
       </if>
       <if test="limitJson != null">
         limit_json,
@@ -57,8 +57,8 @@
       <if test="rewardRuleId != null">
         #{rewardRuleId,jdbcType=BIGINT},
       </if>
-      <if test="rewardRuleKey != null">
-        #{rewardRuleKey,jdbcType=VARCHAR},
+      <if test="limitKey != null">
+        #{limitKey,jdbcType=VARCHAR},
       </if>
       <if test="limitJson != null">
         #{limitJson,jdbcType=VARCHAR},
@@ -80,8 +80,8 @@
       <if test="rewardRuleId != null">
         reward_rule_id = #{rewardRuleId,jdbcType=BIGINT},
       </if>
-      <if test="rewardRuleKey != null">
-        reward_rule_key = #{rewardRuleKey,jdbcType=VARCHAR},
+      <if test="limitKey != null">
+        limit_key = #{limitKey,jdbcType=VARCHAR},
       </if>
       <if test="limitJson != null">
         limit_json = #{limitJson,jdbcType=VARCHAR},
@@ -101,7 +101,7 @@
   <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.RewardLimitTempPO">
     update nas_reward_limit_temp
     set reward_rule_id = #{rewardRuleId,jdbcType=BIGINT},
-      reward_rule_key = #{rewardRuleKey,jdbcType=VARCHAR},
+      limit_key = #{limitKey,jdbcType=VARCHAR},
       limit_json = #{limitJson,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},

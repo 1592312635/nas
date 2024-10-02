@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.ReceiveLimitTempPO">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="receive_rule_id" jdbcType="BIGINT" property="receiveRuleId" />
-    <result column="event_key" jdbcType="VARCHAR" property="eventKey" />
+    <result column="limit_key" jdbcType="VARCHAR" property="limitKey" />
     <result column="limit_json" jdbcType="VARCHAR" property="limitJson" />
     <result column="limit_type" jdbcType="INTEGER" property="limitType" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -12,7 +12,7 @@
     <result column="del_tag" jdbcType="INTEGER" property="delTag" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, receive_rule_id, event_key, limit_json, limit_type, create_time, update_time, 
+    id, receive_rule_id, limit_key, limit_json, limit_type, create_time, update_time,
     del_tag
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -26,10 +26,10 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ReceiveLimitTempPO" useGeneratedKeys="true">
-    insert into nas_receive_limit_temp (receive_rule_id, event_key, limit_json, 
+    insert into nas_receive_limit_temp (receive_rule_id, limit_key, limit_json,
       limit_type, create_time, update_time, 
       del_tag)
-    values (#{receiveRuleId,jdbcType=BIGINT}, #{eventKey,jdbcType=VARCHAR}, #{limitJson,jdbcType=VARCHAR}, 
+    values (#{receiveRuleId,jdbcType=BIGINT}, #{limitKey,jdbcType=VARCHAR}, #{limitJson,jdbcType=VARCHAR},
       #{limitType,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{delTag,jdbcType=INTEGER})
   </insert>
@@ -39,8 +39,8 @@
       <if test="receiveRuleId != null">
         receive_rule_id,
       </if>
-      <if test="eventKey != null">
-        event_key,
+      <if test="limitKey != null">
+        limit_key,
       </if>
       <if test="limitJson != null">
         limit_json,
@@ -62,8 +62,8 @@
       <if test="receiveRuleId != null">
         #{receiveRuleId,jdbcType=BIGINT},
       </if>
-      <if test="eventKey != null">
-        #{eventKey,jdbcType=VARCHAR},
+      <if test="limitKey != null">
+        #{limitKey,jdbcType=VARCHAR},
       </if>
       <if test="limitJson != null">
         #{limitJson,jdbcType=VARCHAR},
@@ -88,8 +88,8 @@
       <if test="receiveRuleId != null">
         receive_rule_id = #{receiveRuleId,jdbcType=BIGINT},
       </if>
-      <if test="eventKey != null">
-        event_key = #{eventKey,jdbcType=VARCHAR},
+      <if test="limitKey != null">
+        limit_key = #{limitKey,jdbcType=VARCHAR},
       </if>
       <if test="limitJson != null">
         limit_json = #{limitJson,jdbcType=VARCHAR},
@@ -112,7 +112,7 @@
   <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.ReceiveLimitTempPO">
     update nas_receive_limit_temp
     set receive_rule_id = #{receiveRuleId,jdbcType=BIGINT},
-      event_key = #{eventKey,jdbcType=VARCHAR},
+      limit_key = #{limitKey,jdbcType=VARCHAR},
       limit_json = #{limitJson,jdbcType=VARCHAR},
       limit_type = #{limitType,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},

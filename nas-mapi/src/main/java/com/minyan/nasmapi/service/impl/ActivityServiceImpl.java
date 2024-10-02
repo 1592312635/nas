@@ -232,14 +232,6 @@ public class ActivityServiceImpl implements ActivityService {
         receiveLimitPOQueryWrapper.lambda().in(ReceiveLimitTempPO::getReceiveRuleId, receiveRuleIds).eq(ReceiveLimitTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
         List<ReceiveLimitTempPO> receiveLimitPOS = receiveLimitTempDAO.selectList(receiveLimitPOQueryWrapper);
 
-//        for (ReceiveRulePO receiveRulePO : receiveRulePOS) {
-//            for (ReceiveLimitPO receiveLimitPO : receiveLimitPOS) {
-//                if (receiveRulePO.getId().equals(receiveLimitPO.getReceiveRuleId())) {
-//                    MReceiveLimitDetailVO newMReceiveLimitDetailVO = buildReceiveLimitDetailVO(receiveRulePO, receiveLimitPO);
-//                    receiveLimitDetailVOS.add(newMReceiveLimitDetailVO);
-//                }
-//            }
-//        }
         Map<Long, ReceiveLimitTempPO> receiveLimitMap = Maps.newHashMap();
         for (ReceiveLimitTempPO receiveLimitPO : receiveLimitPOS) {
             receiveLimitMap.put(receiveLimitPO.getReceiveRuleId(), receiveLimitPO);
@@ -268,7 +260,7 @@ public class ActivityServiceImpl implements ActivityService {
         mReceiveLimitDetailVO.setEventId(receiveRulePO.getEventId());
         mReceiveLimitDetailVO.setRuleType(receiveRulePO.getRuleType());
         mReceiveLimitDetailVO.setReceiveLimitId(receiveLimitPO.getId());
-        mReceiveLimitDetailVO.setEventKey(receiveLimitPO.getEventKey());
+        mReceiveLimitDetailVO.setLimitKey(receiveLimitPO.getLimitKey());
         mReceiveLimitDetailVO.setLimitJson(receiveLimitPO.getLimitJson());
         mReceiveLimitDetailVO.setLimitType(receiveLimitPO.getLimitType());
         return mReceiveLimitDetailVO;
@@ -308,7 +300,7 @@ public class ActivityServiceImpl implements ActivityService {
     MRewardLimitDetailVO buildRewardLimitDetail(RewardLimitPO rewardLimitPO) {
         MRewardLimitDetailVO mRewardLimitDetailVO = new MRewardLimitDetailVO();
         mRewardLimitDetailVO.setRewardRuleId(rewardLimitPO.getRewardRuleId());
-        mRewardLimitDetailVO.setRewardRuleKey(rewardLimitPO.getRewardRuleKey());
+        mRewardLimitDetailVO.setLimitKey(rewardLimitPO.getLimitKey());
         mRewardLimitDetailVO.setLimitJson(rewardLimitPO.getLimitJson());
         return mRewardLimitDetailVO;
     }
@@ -487,6 +479,10 @@ public class ActivityServiceImpl implements ActivityService {
         activityRewardTempPO.setBatchCode(param.getBatchCode());
         activityRewardTempPO.setImageUrl(param.getImageUrl());
         return activityRewardTempPO;
+    }
+
+    Boolean saveActivityModuleTemp(MActivityInfoSaveParam param){
+
     }
 
     /**
