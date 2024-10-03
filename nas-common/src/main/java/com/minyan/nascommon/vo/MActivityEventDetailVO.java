@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 public class MActivityEventDetailVO {
   private Long eventId;
-  private Long activityId;
+  private Integer activityId;
   private Integer moduleId;
   private String eventName;
   private String eventType;

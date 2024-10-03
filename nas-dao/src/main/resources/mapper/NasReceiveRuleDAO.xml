@@ -3,6 +3,8 @@
 <mapper namespace="com.minyan.nasdao.NasReceiveRuleDAO">
     <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.ReceiveRulePO">
         <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
+        <result column="module_id" jdbcType="INTEGER" property="moduleId"/>
         <result column="event_id" jdbcType="INTEGER" property="eventId"/>
         <result column="rule_type" jdbcType="INTEGER" property="ruleType"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
@@ -10,7 +12,7 @@
         <result column="del_tag" jdbcType="INTEGER" property="delTag"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, event_id, rule_type, create_time, update_time, del_tag
+        id, activity_id, module_id, event_id, rule_type, create_time, update_time, del_tag
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -24,10 +26,11 @@
     </delete>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ReceiveRulePO"
             useGeneratedKeys="true">
-        insert into nas_receive_rule (event_id, rule_type, create_time,
+        insert into nas_receive_rule (activity_id, module_id, event_id, rule_type, create_time,
         update_time, del_tag)
-        values (#{event_id,jdbcType=INTEGER}, #{rule_type,jdbcType=INTEGER}, #{create_time,jdbcType=TIMESTAMP},
-        #{update_time,jdbcType=TIMESTAMP}, #{del_tag,jdbcType=INTEGER})
+        values (#{activity_id,jdbcType=INTEGER},#{moduleId,jdbcType=INTEGER},#{eventId,jdbcType=INTEGER},
+        #{ruleType,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+        #{delTag,jdbcType=INTEGER})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ReceiveRulePO"
             useGeneratedKeys="true">
@@ -51,19 +54,19 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="event_id != null">
-                #{event_id,jdbcType=INTEGER},
+                #{eventId,jdbcType=INTEGER},
             </if>
             <if test="rule_type != null">
-                #{rule_type,jdbcType=INTEGER},
+                #{ruleType,jdbcType=INTEGER},
             </if>
             <if test="create_time != null">
-                #{create_time,jdbcType=TIMESTAMP},
+                #{createTime,jdbcType=TIMESTAMP},
             </if>
             <if test="update_time != null">
-                #{update_time,jdbcType=TIMESTAMP},
+                #{updateTime,jdbcType=TIMESTAMP},
             </if>
             <if test="del_tag != null">
-                #{del_tag,jdbcType=INTEGER},
+                #{delTag,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -71,30 +74,30 @@
         update nas_receive_rule
         <set>
             <if test="event_id != null">
-                event_id = #{event_id,jdbcType=INTEGER},
+                event_id = #{eventId,jdbcType=INTEGER},
             </if>
             <if test="rule_type != null">
-                rule_type = #{rule_type,jdbcType=INTEGER},
+                rule_type = #{ruleType,jdbcType=INTEGER},
             </if>
             <if test="create_time != null">
-                create_time = #{create_time,jdbcType=TIMESTAMP},
+                create_time = #{createTime,jdbcType=TIMESTAMP},
             </if>
             <if test="update_time != null">
-                update_time = #{update_time,jdbcType=TIMESTAMP},
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
             </if>
             <if test="del_tag != null">
-                del_tag = #{del_tag,jdbcType=INTEGER},
+                del_tag = #{delTag,jdbcType=INTEGER},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.ReceiveRulePO">
         update nas_receive_rule
-        set event_id = #{event_id,jdbcType=INTEGER},
-        rule_type = #{rule_type,jdbcType=INTEGER},
-        create_time = #{create_time,jdbcType=TIMESTAMP},
-        update_time = #{update_time,jdbcType=TIMESTAMP},
-        del_tag = #{del_tag,jdbcType=INTEGER}
+        set event_id = #{eventId,jdbcType=INTEGER},
+        rule_type = #{ruleType,jdbcType=INTEGER},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        del_tag = #{delTag,jdbcType=INTEGER}
         where id = #{id,jdbcType=BIGINT}
     </update>
 </mapper>

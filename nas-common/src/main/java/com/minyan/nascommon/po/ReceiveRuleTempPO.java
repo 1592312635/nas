@@ -15,7 +15,13 @@ public class ReceiveRuleTempPO implements Serializable {
   /** 主键 */
   private Long id;
 
+  /** 活动id */
+  private Integer activityId;
+
   /** 模块id */
+  private Integer moduleId;
+
+  /** 事件id */
   private Long eventId;
 
   /** 规则类型(1前台规则2异步发奖规则) */
