@@ -12,8 +12,8 @@ import java.util.List;
 @Data
 public class MRewardRuleDetailVO {
   private Long rewardRuleId;
-  private Long activityId;
-  private Long moduleId;
+  private Integer activityId;
+  private Integer moduleId;
   private Long eventId;
   private Integer rewardType;
   private Long rewardId;

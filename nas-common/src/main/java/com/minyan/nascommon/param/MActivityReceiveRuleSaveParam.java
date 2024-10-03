@@ -2,6 +2,8 @@ package com.minyan.nascommon.param;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @decription 领取规则保存参数
  * @author minyan.he
@@ -10,8 +12,6 @@ import lombok.Data;
 @Data
 public class MActivityReceiveRuleSaveParam {
   private Long receiveRuleId;
-  private Integer runType;
-  private String limitKey;
-  private String limitJson;
-  private Integer limitType;
+  private Integer ruleType;
+  private List<MActivityReceiveLimitSaveParam> receiveLimitSaveInfos;
 }

@@ -700,7 +700,7 @@ public class ActivityServiceImpl implements ActivityService {
     List<MActivityEventSaveParam> eventSaveInfos = moduleSaveParam.getEventSaveInfos();
     for (MActivityEventSaveParam eventSaveInfo : eventSaveInfos) {
       // 先生成模块下事件下的领取规则和奖品规则
-      saveReceiveRuleTempInfos(activityId, moduleSaveParam.getModuleId(), eventSaveInfo);
+      saveRuleTempInfos(activityId, moduleSaveParam.getModuleId(), eventSaveInfo);
 
       // 最后生成事件信息
       ActivityEventTempPO activityEventTempPO =
@@ -710,13 +710,139 @@ public class ActivityServiceImpl implements ActivityService {
   }
 
   /**
-   * 保存领取规则
+   * 保存领取规则和奖品规则
+   *
    * @param activityId
    * @param moduleId
    * @param eventSaveInfo
    */
-  void saveReceiveRuleTempInfos(Integer activityId, Integer moduleId, MActivityEventSaveParam eventSaveInfo){
+  void saveRuleTempInfos(
+      Integer activityId, Integer moduleId, MActivityEventSaveParam eventSaveInfo) {
+    saveReceiveRuleTempInfos(
+        activityId, moduleId, eventSaveInfo.getEventId(), eventSaveInfo.getReceiveRuleSaveInfos());
+    saveRewardRuleTempInfos(
+        activityId, moduleId, eventSaveInfo.getEventId(), eventSaveInfo.getRewardRuleSaveInfos());
+  }
 
+  /**
+   * 保存领取规则临时表数据
+   *
+   * @param activityId
+   * @param moduleId
+   * @param eventId
+   * @param receiveRuleSaveInfos
+   */
+  void saveReceiveRuleTempInfos(
+      Integer activityId,
+      Integer moduleId,
+      Long eventId,
+      List<MActivityReceiveRuleSaveParam> receiveRuleSaveInfos) {
+    for (MActivityReceiveRuleSaveParam receiveRuleSaveInfo : receiveRuleSaveInfos) {
+      ReceiveRuleTempPO receiveRuleTempPO =
+          buildReceiveRuleTempPO(activityId, moduleId, eventId, receiveRuleSaveInfo);
+      receiveRuleTempDAO.insert(receiveRuleTempPO);
+      Long receiveRuleId = receiveRuleTempPO.getId();
+      for (MActivityReceiveLimitSaveParam receiveLimitSaveInfo :
+          receiveRuleSaveInfo.getReceiveLimitSaveInfos()) {
+        receiveLimitTempDAO.insert(buildReceiveLimitTempPO(receiveRuleId, receiveLimitSaveInfo));
+      }
+    }
+  }
+
+  /**
+   * 构建领取规则实体
+   *
+   * @param activityId
+   * @param moduleId
+   * @param eventId
+   * @param param
+   * @return
+   */
+  ReceiveRuleTempPO buildReceiveRuleTempPO(
+      Integer activityId, Integer moduleId, Long eventId, MActivityReceiveRuleSaveParam param) {
+    ReceiveRuleTempPO receiveRuleTempPO = new ReceiveRuleTempPO();
+    receiveRuleTempPO.setActivityId(activityId);
+    receiveRuleTempPO.setModuleId(moduleId);
+    receiveRuleTempPO.setEventId(eventId);
+    receiveRuleTempPO.setRuleType(param.getRuleType());
+    return receiveRuleTempPO;
+  }
+
+  /**
+   * 构建领取门槛实体
+   *
+   * @param receiveRuleId
+   * @param param
+   * @return
+   */
+  ReceiveLimitTempPO buildReceiveLimitTempPO(
+      Long receiveRuleId, MActivityReceiveLimitSaveParam param) {
+    ReceiveLimitTempPO receiveLimitTempPO = new ReceiveLimitTempPO();
+    receiveLimitTempPO.setReceiveRuleId(receiveRuleId);
+    receiveLimitTempPO.setLimitKey(param.getLimitKey());
+    receiveLimitTempPO.setLimitJson(param.getLimitJson());
+    receiveLimitTempPO.setLimitType(param.getLimitType());
+    return receiveLimitTempPO;
+  }
+
+  /**
+   * 保存奖品规则
+   *
+   * @param activityId
+   * @param moduleId
+   * @param eventId
+   * @param rewardRuleSaveInfos
+   */
+  void saveRewardRuleTempInfos(
+      Integer activityId,
+      Integer moduleId,
+      Long eventId,
+      List<MActivityRewardRuleSaveParam> rewardRuleSaveInfos) {
+    for (MActivityRewardRuleSaveParam rewardRuleSaveInfo : rewardRuleSaveInfos) {
+      RewardRuleTempPO rewardRuleTempPO =
+          buildRewardRuleTempPO(activityId, moduleId, eventId, rewardRuleSaveInfo);
+      rewardRuleTempDAO.insert(rewardRuleTempPO);
+      for (MActivityRewardLimitSaveParam rewardLimitSaveInfo :
+          rewardRuleSaveInfo.getRewardLimitSaveInfos()) {
+        rewardLimitTempDAO.insert(
+            buildRewardLimitTempPO(rewardRuleTempPO.getId(), rewardLimitSaveInfo));
+      }
+    }
+  }
+
+  /**
+   * 构建奖品规则
+   *
+   * @param activityId
+   * @param moduleId
+   * @param eventId
+   * @param param
+   * @return
+   */
+  RewardRuleTempPO buildRewardRuleTempPO(
+      Integer activityId, Integer moduleId, Long eventId, MActivityRewardRuleSaveParam param) {
+    RewardRuleTempPO rewardRuleTempPO = new RewardRuleTempPO();
+    rewardRuleTempPO.setActivityId(activityId);
+    rewardRuleTempPO.setModuleId(moduleId);
+    rewardRuleTempPO.setEventId(eventId);
+    rewardRuleTempPO.setRewardType(param.getRewardType());
+    rewardRuleTempPO.setRewardId(param.getRewardId());
+    return rewardRuleTempPO;
+  }
+
+  /**
+   * 构建奖品规则门槛
+   *
+   * @param rewardRuleId
+   * @param param
+   * @return
+   */
+  RewardLimitTempPO buildRewardLimitTempPO(Long rewardRuleId, MActivityRewardLimitSaveParam param) {
+    RewardLimitTempPO rewardLimitTempPO = new RewardLimitTempPO();
+    rewardLimitTempPO.setRewardRuleId(rewardRuleId);
+    rewardLimitTempPO.setLimitKey(param.getLimitKey());
+    rewardLimitTempPO.setLimitJson(param.getLimitJson());
+    return rewardLimitTempPO;
   }
 
   /**
