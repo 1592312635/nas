@@ -640,7 +640,7 @@ public class ActivityServiceImpl implements ActivityService {
     // 数据库操作
     for (MActivityModuleSaveParam mActivityModuleSaveParam : toAdd) {
       // 新增事件信息
-      saveEventTemp(activityId, mActivityModuleSaveParam);
+      saveEventInfos(activityId, mActivityModuleSaveParam);
 
       moduleInfoTempDAO.insert(buildModuleInfoTempPO(activityId, mActivityModuleSaveParam));
     }
@@ -696,17 +696,28 @@ public class ActivityServiceImpl implements ActivityService {
    * @param activityId
    * @param moduleSaveParam
    */
-  void saveEventTemp(Integer activityId, MActivityModuleSaveParam moduleSaveParam) {
+  void saveEventInfos(Integer activityId, MActivityModuleSaveParam moduleSaveParam) {
     List<MActivityEventSaveParam> eventSaveInfos = moduleSaveParam.getEventSaveInfos();
     for (MActivityEventSaveParam eventSaveInfo : eventSaveInfos) {
-      // 先生成模块下事件下的领取规则和奖品规则
-      saveRuleTempInfos(activityId, moduleSaveParam.getModuleId(), eventSaveInfo);
-
-      // 最后生成事件信息
-      ActivityEventTempPO activityEventTempPO =
-          buildActivityEventTempPO(activityId, moduleSaveParam.getModuleId(), eventSaveInfo);
-      activityEventTempDAO.insert(activityEventTempPO);
+      saveEventInfo(activityId, moduleSaveParam.getModuleId(), eventSaveInfo);
     }
+  }
+
+  /**
+   * 生成单个事件信息(含领取规则、奖品规则)
+   *
+   * @param activityId
+   * @param moduleId
+   * @param eventSaveInfo
+   */
+  void saveEventInfo(Integer activityId, Integer moduleId, MActivityEventSaveParam eventSaveInfo) {
+    // 先生成模块下事件下的领取规则和奖品规则
+    saveRuleTempInfos(activityId, moduleId, eventSaveInfo);
+
+    // 最后生成事件信息
+    ActivityEventTempPO activityEventTempPO =
+        buildActivityEventTempPO(activityId, moduleId, eventSaveInfo);
+    activityEventTempDAO.insert(activityEventTempPO);
   }
 
   /**
@@ -869,7 +880,86 @@ public class ActivityServiceImpl implements ActivityService {
    * @param activityId
    * @param moduleSaveParam
    */
-  void updateEventInfos(Integer activityId, MActivityModuleSaveParam moduleSaveParam) {}
+  void updateEventInfos(Integer activityId, MActivityModuleSaveParam moduleSaveParam) {
+    // 查询模块下现有的事件信息用于比对生成新增、变更、删除的事件信息
+    QueryWrapper<ActivityEventTempPO> eventTempPOQueryWrapper = new QueryWrapper<>();
+    eventTempPOQueryWrapper
+        .lambda()
+        .eq(ActivityEventTempPO::getActivityId, activityId)
+        .eq(ActivityEventTempPO::getModuleId, moduleSaveParam.getModuleId())
+        .eq(ActivityEventTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+    List<ActivityEventTempPO> activityEventTempPOS =
+        activityEventTempDAO.selectList(eventTempPOQueryWrapper);
+
+    // 新增变更删除分离
+    List<MActivityEventSaveParam> eventSaveInfos = moduleSaveParam.getEventSaveInfos();
+    List<MActivityEventSaveParam> toAdd = Lists.newArrayList();
+    List<MActivityEventSaveParam> toUpdate = Lists.newArrayList();
+    List<ActivityEventTempPO> toDelete = Lists.newArrayList();
+    Map<Long, ActivityEventTempPO> tempMap = Maps.newHashMap();
+    for (ActivityEventTempPO activityEventTempPO : activityEventTempPOS) {
+      Long eventId = activityEventTempPO.getId();
+      tempMap.put(eventId, activityEventTempPO);
+    }
+    for (MActivityEventSaveParam eventSaveInfo : eventSaveInfos) {
+      Long eventId = eventSaveInfo.getEventId();
+      if (tempMap.containsKey(eventId)) {
+        toUpdate.add(eventSaveInfo);
+      } else {
+        toAdd.add(eventSaveInfo);
+      }
+    }
+    for (ActivityEventTempPO activityEventTempPO : activityEventTempPOS) {
+      Long eventId = activityEventTempPO.getId();
+      if (!eventSaveInfos.stream()
+          .map(MActivityEventSaveParam::getEventId)
+          .collect(Collectors.toList())
+          .contains(eventId)) {
+        toDelete.add(activityEventTempPO);
+      }
+    }
+    updateEventInfos(activityId, moduleSaveParam.getModuleId(), toAdd, toUpdate, toDelete);
+  }
+
+  /**
+   * 更新事件信息
+   *
+   * @param activityId
+   * @param moduleId
+   * @param toAdd
+   * @param toUpdate
+   * @param toDelete
+   */
+  void updateEventInfos(
+      Integer activityId,
+      Integer moduleId,
+      List<MActivityEventSaveParam> toAdd,
+      List<MActivityEventSaveParam> toUpdate,
+      List<ActivityEventTempPO> toDelete) {
+    // 新增事件信息
+    for (MActivityEventSaveParam mActivityEventSaveParam : toAdd) {
+      saveEventInfo(activityId, moduleId, mActivityEventSaveParam);
+    }
+
+    // 变更事件信息
+    for (MActivityEventSaveParam mActivityEventSaveParam : toUpdate) {
+
+    }
+
+    // 删除事件信息
+    for (ActivityEventTempPO activityEventTempPO : toDelete) {
+      // 删除当前事件下的领取规则和奖品规则
+      deleteReceiveRuleTempAndRewardRuleTemp(activityEventTempPO);
+
+      // 删除当前事件
+      UpdateWrapper<ActivityEventTempPO> eventTempPODeleteWrapper = new UpdateWrapper<>();
+      eventTempPODeleteWrapper
+          .lambda()
+          .set(ActivityEventTempPO::getDelTag, DelTagEnum.DEL.getValue())
+          .eq(ActivityEventTempPO::getId, activityEventTempPO.getId())
+          .eq(ActivityEventTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+    }
+  }
 
   /**
    * 删除模块下的事件信息、领取规则、奖品规则
@@ -888,62 +978,10 @@ public class ActivityServiceImpl implements ActivityService {
       List<ActivityEventTempPO> activityEventTempPOS =
           activityEventTempDAO.selectList(queryWrapper);
       for (ActivityEventTempPO activityEventTempPO : activityEventTempPOS) {
-        Long eventId = activityEventTempPO.getId();
-
-        // 删除领取规则
-        QueryWrapper<ReceiveRuleTempPO> receiveRuleTempPOQueryWrapper = new QueryWrapper<>();
-        receiveRuleTempPOQueryWrapper
-            .lambda()
-            .eq(ReceiveRuleTempPO::getEventId, eventId)
-            .eq(ReceiveRuleTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
-        List<ReceiveRuleTempPO> receiveRuleTempPOS =
-            receiveRuleTempDAO.selectList(receiveRuleTempPOQueryWrapper);
-        if (!CollectionUtils.isEmpty(receiveRuleTempPOS)) {
-          // 删除领取规则下的领取规则门槛
-          List<Long> delReceiveRuleIds =
-              receiveRuleTempPOS.stream()
-                  .map(ReceiveRuleTempPO::getId)
-                  .collect(Collectors.toList());
-          UpdateWrapper<ReceiveLimitTempPO> receiveLimitTempPODeleteWrapper = new UpdateWrapper<>();
-          receiveLimitTempPODeleteWrapper
-              .lambda()
-              .set(ReceiveLimitTempPO::getDelTag, DelTagEnum.DEL.getValue())
-              .in(ReceiveLimitTempPO::getReceiveRuleId, delReceiveRuleIds);
-        }
-        UpdateWrapper<ReceiveRuleTempPO> receiveRuleTempPODeleteWrapper = new UpdateWrapper<>();
-        receiveRuleTempPODeleteWrapper
-            .lambda()
-            .set(ReceiveRuleTempPO::getDelTag, DelTagEnum.DEL.getValue())
-            .eq(ReceiveRuleTempPO::getEventId, eventId)
-            .eq(ReceiveRuleTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
-
-        // 删除奖品规则
-        QueryWrapper<RewardRuleTempPO> rewardRuleTempPOQueryWrapper = new QueryWrapper<>();
-        rewardRuleTempPOQueryWrapper
-            .lambda()
-            .eq(RewardRuleTempPO::getEventId, eventId)
-            .eq(RewardRuleTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
-        List<RewardRuleTempPO> rewardRuleTempPOS =
-            rewardRuleTempDAO.selectList(rewardRuleTempPOQueryWrapper);
-        if (!CollectionUtils.isEmpty(rewardRuleTempPOS)) {
-          // 删除奖品规则下的奖品规则门槛
-          List<Long> delRewardRuleIds =
-              rewardRuleTempPOS.stream().map(RewardRuleTempPO::getId).collect(Collectors.toList());
-          UpdateWrapper<RewardLimitTempPO> rewardLimitTempPODeleteWrapper = new UpdateWrapper<>();
-          rewardLimitTempPODeleteWrapper
-              .lambda()
-              .set(RewardLimitTempPO::getDelTag, DelTagEnum.DEL.getValue())
-              .in(RewardLimitTempPO::getRewardRuleId, delRewardRuleIds);
-        }
-        UpdateWrapper<RewardRuleTempPO> rewardRuleTempPODeleteWrapper = new UpdateWrapper<>();
-        rewardRuleTempPODeleteWrapper
-            .lambda()
-            .set(RewardRuleTempPO::getDelTag, DelTagEnum.DEL.getValue())
-            .eq(RewardRuleTempPO::getEventId, eventId)
-            .eq(RewardRuleTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+        deleteReceiveRuleTempAndRewardRuleTemp(activityEventTempPO);
       }
 
-      // 最后删除事件信息
+      // 最后删除模块下的所有事件信息
       UpdateWrapper<ActivityEventTempPO> activityEventTempPODeleteWrapper = new UpdateWrapper<>();
       activityEventTempPODeleteWrapper
           .lambda()
@@ -953,6 +991,65 @@ public class ActivityServiceImpl implements ActivityService {
           .eq(ActivityEventTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
       activityEventTempDAO.update(null, activityEventTempPODeleteWrapper);
     }
+  }
+
+  /**
+   * 删除单条规则下的领取规则和奖品规则
+   *
+   * @param activityEventTempPO
+   */
+  void deleteReceiveRuleTempAndRewardRuleTemp(ActivityEventTempPO activityEventTempPO) {
+    Long eventId = activityEventTempPO.getId();
+
+    // 删除领取规则
+    QueryWrapper<ReceiveRuleTempPO> receiveRuleTempPOQueryWrapper = new QueryWrapper<>();
+    receiveRuleTempPOQueryWrapper
+        .lambda()
+        .eq(ReceiveRuleTempPO::getEventId, eventId)
+        .eq(ReceiveRuleTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+    List<ReceiveRuleTempPO> receiveRuleTempPOS =
+        receiveRuleTempDAO.selectList(receiveRuleTempPOQueryWrapper);
+    if (!CollectionUtils.isEmpty(receiveRuleTempPOS)) {
+      // 删除领取规则下的领取规则门槛
+      List<Long> delReceiveRuleIds =
+          receiveRuleTempPOS.stream().map(ReceiveRuleTempPO::getId).collect(Collectors.toList());
+      UpdateWrapper<ReceiveLimitTempPO> receiveLimitTempPODeleteWrapper = new UpdateWrapper<>();
+      receiveLimitTempPODeleteWrapper
+          .lambda()
+          .set(ReceiveLimitTempPO::getDelTag, DelTagEnum.DEL.getValue())
+          .in(ReceiveLimitTempPO::getReceiveRuleId, delReceiveRuleIds);
+    }
+    UpdateWrapper<ReceiveRuleTempPO> receiveRuleTempPODeleteWrapper = new UpdateWrapper<>();
+    receiveRuleTempPODeleteWrapper
+        .lambda()
+        .set(ReceiveRuleTempPO::getDelTag, DelTagEnum.DEL.getValue())
+        .eq(ReceiveRuleTempPO::getEventId, eventId)
+        .eq(ReceiveRuleTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+
+    // 删除奖品规则
+    QueryWrapper<RewardRuleTempPO> rewardRuleTempPOQueryWrapper = new QueryWrapper<>();
+    rewardRuleTempPOQueryWrapper
+        .lambda()
+        .eq(RewardRuleTempPO::getEventId, eventId)
+        .eq(RewardRuleTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+    List<RewardRuleTempPO> rewardRuleTempPOS =
+        rewardRuleTempDAO.selectList(rewardRuleTempPOQueryWrapper);
+    if (!CollectionUtils.isEmpty(rewardRuleTempPOS)) {
+      // 删除奖品规则下的奖品规则门槛
+      List<Long> delRewardRuleIds =
+          rewardRuleTempPOS.stream().map(RewardRuleTempPO::getId).collect(Collectors.toList());
+      UpdateWrapper<RewardLimitTempPO> rewardLimitTempPODeleteWrapper = new UpdateWrapper<>();
+      rewardLimitTempPODeleteWrapper
+          .lambda()
+          .set(RewardLimitTempPO::getDelTag, DelTagEnum.DEL.getValue())
+          .in(RewardLimitTempPO::getRewardRuleId, delRewardRuleIds);
+    }
+    UpdateWrapper<RewardRuleTempPO> rewardRuleTempPODeleteWrapper = new UpdateWrapper<>();
+    rewardRuleTempPODeleteWrapper
+        .lambda()
+        .set(RewardRuleTempPO::getDelTag, DelTagEnum.DEL.getValue())
+        .eq(RewardRuleTempPO::getEventId, eventId)
+        .eq(RewardRuleTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
   }
 
   /**
