@@ -16,7 +16,7 @@ public interface ActivityInfoManager {
       MActivityInfoDetailVO activityInfoDetailVO,
       List<MModuleInfoDetailVO> moduleInfoDetailVOS,
       List<MActivityEventDetailVO> activityEventDetailVOS,
-      List<MReceiveLimitDetailVO> receiveLimitDetailVOS,
+      List<MReceiveRuleDetailVO> receiveRuleDetailVOS,
       List<MRewardRuleDetailVO> rewardRuleDetailVOS,
       List<MActivityChannelDetailVO> activityChannelDetailVOS);
 

@@ -11,6 +11,7 @@ import com.minyan.nascommon.param.MActivityReceiveRuleSaveParam;
 import com.minyan.nascommon.po.*;
 import com.minyan.nascommon.vo.MActivityEventDetailVO;
 import com.minyan.nascommon.vo.MReceiveLimitDetailVO;
+import com.minyan.nascommon.vo.MReceiveRuleDetailVO;
 import com.minyan.nasdao.NasReceiveLimitTempDAO;
 import com.minyan.nasdao.NasReceiveRuleTempDAO;
 import com.minyan.nasdao.NasRewardRuleTempDAO;
@@ -42,9 +43,9 @@ public class ReceiveRuleManagerImpl implements ReceiveRuleManager {
    * @return
    */
   @Override
-  public List<MReceiveLimitDetailVO> getReceiveLimitDetailByEvents(
+  public List<MReceiveRuleDetailVO> getReceiveRuleDetailByEvents(
       List<MActivityEventDetailVO> activityEventDetailVOS) {
-    List<MReceiveLimitDetailVO> receiveLimitDetailVOS = Lists.newArrayList();
+    List<MReceiveRuleDetailVO> receiveRuleDetailVOS = Lists.newArrayList();
     QueryWrapper<ReceiveRuleTempPO> receiveRulePOQueryWrapper = new QueryWrapper<>();
     QueryWrapper<ReceiveLimitTempPO> receiveLimitPOQueryWrapper = new QueryWrapper<>();
     List<Long> eventIds =
@@ -69,41 +70,34 @@ public class ReceiveRuleManagerImpl implements ReceiveRuleManager {
     List<ReceiveLimitTempPO> receiveLimitPOS =
         receiveLimitTempDAO.selectList(receiveLimitPOQueryWrapper);
 
-    Map<Long, ReceiveLimitTempPO> receiveLimitMap = Maps.newHashMap();
-    for (ReceiveLimitTempPO receiveLimitPO : receiveLimitPOS) {
-      receiveLimitMap.put(receiveLimitPO.getReceiveRuleId(), receiveLimitPO);
-    }
-
-    // 外部循环构建结果
     for (ReceiveRuleTempPO receiveRulePO : receiveRulePOS) {
-      ReceiveLimitTempPO receiveLimitPO = receiveLimitMap.get(receiveRulePO.getId());
-      if (receiveLimitPO != null) {
-        MReceiveLimitDetailVO newMReceiveLimitDetailVO =
-            buildReceiveLimitDetailVO(receiveRulePO, receiveLimitPO);
-        receiveLimitDetailVOS.add(newMReceiveLimitDetailVO);
-      }
+      List<ReceiveLimitTempPO> receiveLimitPOSForRule =
+          receiveLimitPOS.stream()
+              .filter(limit -> limit.getReceiveRuleId().equals(receiveRulePO.getId()))
+              .collect(Collectors.toList());
+      receiveRuleDetailVOS.add(buildReceiveRuleDetailVO(receiveRulePO, receiveLimitPOSForRule));
     }
-    return receiveLimitDetailVOS;
+    return receiveRuleDetailVOS;
   }
 
   /**
    * 构建事件门槛详情VO
    *
    * @param receiveRulePO
-   * @param receiveLimitPO
+   * @param receiveLimitPOS
    * @return
    */
-  MReceiveLimitDetailVO buildReceiveLimitDetailVO(
-      ReceiveRuleTempPO receiveRulePO, ReceiveLimitTempPO receiveLimitPO) {
-    MReceiveLimitDetailVO mReceiveLimitDetailVO = new MReceiveLimitDetailVO();
-    mReceiveLimitDetailVO.setReceiveRuleId(receiveRulePO.getId());
-    mReceiveLimitDetailVO.setEventId(receiveRulePO.getEventId());
-    mReceiveLimitDetailVO.setRuleType(receiveRulePO.getRuleType());
-    mReceiveLimitDetailVO.setReceiveLimitId(receiveLimitPO.getId());
-    mReceiveLimitDetailVO.setLimitKey(receiveLimitPO.getLimitKey());
-    mReceiveLimitDetailVO.setLimitJson(receiveLimitPO.getLimitJson());
-    mReceiveLimitDetailVO.setLimitType(receiveLimitPO.getLimitType());
-    return mReceiveLimitDetailVO;
+  MReceiveRuleDetailVO buildReceiveRuleDetailVO(
+      ReceiveRuleTempPO receiveRulePO, List<ReceiveLimitTempPO> receiveLimitPOS) {
+    MReceiveRuleDetailVO mReceiveRuleDetailVO = new MReceiveRuleDetailVO();
+    mReceiveRuleDetailVO.setReceiveRuleId(receiveRulePO.getId());
+    mReceiveRuleDetailVO.setEventId(receiveRulePO.getEventId());
+    mReceiveRuleDetailVO.setRuleType(receiveRulePO.getRuleType());
+    mReceiveRuleDetailVO.setReceiveLimitInfos(
+        receiveLimitPOS.stream()
+            .map(MReceiveLimitDetailVO::convertToVO)
+            .collect(Collectors.toList()));
+    return mReceiveRuleDetailVO;
   }
 
   /**

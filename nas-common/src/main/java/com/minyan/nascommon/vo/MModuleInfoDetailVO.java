@@ -17,5 +17,5 @@ public class MModuleInfoDetailVO {
   private String moduleName;
   private Date beginTime;
   private Date endTime;
-  private List<MActivityEventDetailVO> mActivityEventDetailVOS;
+  private List<MActivityEventDetailVO> eventInfos;
 }

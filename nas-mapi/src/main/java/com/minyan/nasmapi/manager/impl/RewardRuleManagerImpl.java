@@ -93,7 +93,7 @@ public class RewardRuleManagerImpl implements RewardRuleManager {
     mRewardRuleDetailVO.setEventId(rewardRulePO.getEventId());
     mRewardRuleDetailVO.setRewardType(rewardRulePO.getRewardType());
     mRewardRuleDetailVO.setRewardId(rewardRulePO.getRewardId());
-    mRewardRuleDetailVO.setRewardLimitDetailVOList(rewardLimitDetailVOS);
+    mRewardRuleDetailVO.setRewardLimitInfos(rewardLimitDetailVOS);
     return mRewardRuleDetailVO;
   }
 

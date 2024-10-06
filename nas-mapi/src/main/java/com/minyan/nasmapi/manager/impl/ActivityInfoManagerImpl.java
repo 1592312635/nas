@@ -53,7 +53,7 @@ public class ActivityInfoManagerImpl implements ActivityInfoManager {
    * @param activityInfoDetailVO
    * @param moduleInfoDetailVOS
    * @param activityEventDetailVOS
-   * @param receiveLimitDetailVOS
+   * @param receiveRuleDetailVOS
    * @param rewardRuleDetailVOS
    * @param activityChannelDetailVOS
    * @return
@@ -63,11 +63,11 @@ public class ActivityInfoManagerImpl implements ActivityInfoManager {
       MActivityInfoDetailVO activityInfoDetailVO,
       List<MModuleInfoDetailVO> moduleInfoDetailVOS,
       List<MActivityEventDetailVO> activityEventDetailVOS,
-      List<MReceiveLimitDetailVO> receiveLimitDetailVOS,
+      List<MReceiveRuleDetailVO> receiveRuleDetailVOS,
       List<MRewardRuleDetailVO> rewardRuleDetailVOS,
       List<MActivityChannelDetailVO> activityChannelDetailVOS) {
     // 设置模块信息
-    activityInfoDetailVO.setMModuleInfoDetailVOList(moduleInfoDetailVOS);
+    activityInfoDetailVO.setModuleInfos(moduleInfoDetailVOS);
 
     // 设置活动事件信息
     for (MModuleInfoDetailVO moduleInfo : moduleInfoDetailVOS) {
@@ -75,27 +75,27 @@ public class ActivityInfoManagerImpl implements ActivityInfoManager {
           activityEventDetailVOS.stream()
               .filter(event -> event.getModuleId().equals(moduleInfo.getModuleId()))
               .collect(Collectors.toList());
-      moduleInfo.setMActivityEventDetailVOS(eventsForModule);
+      moduleInfo.setEventInfos(eventsForModule);
 
       // 设置接收限制信息
       for (MActivityEventDetailVO event : eventsForModule) {
-        List<MReceiveLimitDetailVO> receiveLimitsForEvent =
-            receiveLimitDetailVOS.stream()
-                .filter(limit -> limit.getEventId().equals(event.getEventId()))
+        List<MReceiveRuleDetailVO> receiveRulesForEvent =
+            receiveRuleDetailVOS.stream()
+                .filter(rule -> rule.getEventId().equals(event.getEventId()))
                 .collect(Collectors.toList());
-        event.setMReceiveLimitDetailVOS(receiveLimitsForEvent);
+        event.setReceiveRuleInfos(receiveRulesForEvent);
 
         // 设置奖励规则信息
         List<MRewardRuleDetailVO> rewardRulesForEvent =
             rewardRuleDetailVOS.stream()
                 .filter(rule -> rule.getEventId().equals(event.getEventId()))
                 .collect(Collectors.toList());
-        event.setMRewardRuleDetailVOS(rewardRulesForEvent);
+        event.setRewawrdRuleInfos(rewardRulesForEvent);
       }
     }
 
     // 设置活动渠道信息
-    activityInfoDetailVO.setMActivityChannelDetailVOList(activityChannelDetailVOS);
+    activityInfoDetailVO.setActivityChannelInfos(activityChannelDetailVOS);
     return activityInfoDetailVO;
   }
 

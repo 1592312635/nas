@@ -140,9 +140,9 @@ public class ActivityServiceImpl implements ActivityService {
       return ApiResult.build(CodeEnum.EVENT_NOT_EXIST);
     }
 
-    List<MReceiveLimitDetailVO> receiveLimitDetailVOS =
-        receiveRuleManager.getReceiveLimitDetailByEvents(activityEventDetailVOS);
-    if (CollectionUtils.isEmpty(receiveLimitDetailVOS)) {
+    List<MReceiveRuleDetailVO> receiveRuleDetailVOS =
+        receiveRuleManager.getReceiveRuleDetailByEvents(activityEventDetailVOS);
+    if (CollectionUtils.isEmpty(receiveRuleDetailVOS)) {
       logger.info(
           "[ActivityServiceImpl][getActivityInfoDetail]查询活动详情时活动领取规则不存在，活动id：{}",
           param.getActivityId());
@@ -172,7 +172,7 @@ public class ActivityServiceImpl implements ActivityService {
             activityInfoDetailVO,
             moduleInfoDetailVOS,
             activityEventDetailVOS,
-            receiveLimitDetailVOS,
+            receiveRuleDetailVOS,
             rewardRuleDetailVOS,
             activityChannelDetailVOS);
     return ApiResult.buildSuccess(activityInfoDetailVO);

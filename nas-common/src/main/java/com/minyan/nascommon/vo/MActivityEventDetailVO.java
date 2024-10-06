@@ -16,6 +16,6 @@ public class MActivityEventDetailVO {
   private Integer moduleId;
   private String eventName;
   private String eventType;
-  private List<MReceiveLimitDetailVO> mReceiveLimitDetailVOS;
-  private List<MRewardRuleDetailVO> mRewardRuleDetailVOS;
+  private List<MReceiveRuleDetailVO> receiveRuleInfos;
+  private List<MRewardRuleDetailVO> rewawrdRuleInfos;
 }

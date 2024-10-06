@@ -4,7 +4,7 @@ import com.minyan.nascommon.param.MActivityEventSaveParam;
 import com.minyan.nascommon.param.MActivityReceiveRuleSaveParam;
 import com.minyan.nascommon.po.ActivityEventTempPO;
 import com.minyan.nascommon.vo.MActivityEventDetailVO;
-import com.minyan.nascommon.vo.MReceiveLimitDetailVO;
+import com.minyan.nascommon.vo.MReceiveRuleDetailVO;
 import java.util.List;
 
 /**
@@ -13,7 +13,7 @@ import java.util.List;
  * @date 2024/10/6 13:19
  */
 public interface ReceiveRuleManager {
-  List<MReceiveLimitDetailVO> getReceiveLimitDetailByEvents(
+  List<MReceiveRuleDetailVO> getReceiveRuleDetailByEvents(
       List<MActivityEventDetailVO> activityEventDetailVOS);
 
   void saveRuleTempInfos(

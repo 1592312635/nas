@@ -17,7 +17,7 @@ public class MActivityInfoDetailVO {
   private Date beginTime;
   private Date endTime;
   private Integer status;
-  private List<MActivityRewardDetailVO> mActivityRewardDetailVOS;
-  private List<MModuleInfoDetailVO> mModuleInfoDetailVOList;
-  private List<MActivityChannelDetailVO> mActivityChannelDetailVOList;
+  private List<MActivityRewardDetailVO> activityRewardInfos;
+  private List<MModuleInfoDetailVO> moduleInfos;
+  private List<MActivityChannelDetailVO> activityChannelInfos;
 }
