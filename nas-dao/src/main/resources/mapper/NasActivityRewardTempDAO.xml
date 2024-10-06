@@ -17,16 +17,16 @@
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from nas_acitvity_reward_temp
+        from nas_activity_reward_temp
         where id = #{id,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        delete from nas_acitvity_reward_temp
+        delete from nas_activity_reward_temp
         where id = #{id,jdbcType=BIGINT}
     </delete>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ActivityRewardTempPO"
             useGeneratedKeys="true">
-        insert into nas_acitvity_reward_temp (reward_type, reward_name, batch_code,
+        insert into nas_activity_reward_temp (reward_type, reward_name, batch_code,
         image_url, create_time, update_time,
         del_tag)
         values (#{rewardType,jdbcType=INTEGER}, #{rewardName,jdbcType=VARCHAR}, #{batchCode,jdbcType=VARCHAR},
@@ -35,7 +35,7 @@
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id"
             parameterType="com.minyan.nascommon.po.ActivityRewardTempPO" useGeneratedKeys="true">
-        insert into nas_acitvity_reward_temp
+        insert into nas_activity_reward_temp
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="rewardType != null">
                 reward_type,
@@ -84,7 +84,7 @@
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.minyan.nascommon.po.ActivityRewardTempPO">
-        update nas_acitvity_reward_temp
+        update nas_activity_reward_temp
         <set>
             <if test="rewardType != null">
                 reward_type = #{rewardType,jdbcType=INTEGER},
@@ -111,7 +111,7 @@
         where id = #{id,jdbcType=BIGINT}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.ActivityRewardTempPO">
-        update nas_acitvity_reward_temp
+        update nas_activity_reward_temp
         set reward_type = #{rewardType,jdbcType=INTEGER},
         reward_name = #{rewardName,jdbcType=VARCHAR},
         batch_code = #{batchCode,jdbcType=VARCHAR},

@@ -37,7 +37,16 @@
             <artifactId>hibernate-validator</artifactId>
             <version>6.2.0.Final</version> <!-- 请根据实际情况选择适合的版本 -->
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.7.20</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 </project>

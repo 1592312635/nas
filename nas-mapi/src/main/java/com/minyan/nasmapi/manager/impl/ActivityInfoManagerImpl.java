@@ -1,14 +1,20 @@
 package com.minyan.nasmapi.manager.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.minyan.nascommon.Enum.ActivityStatusEnum;
+import com.minyan.nascommon.Enum.AuditStatusEnum;
 import com.minyan.nascommon.Enum.DelTagEnum;
+import com.minyan.nascommon.Enum.RedisKeyEnum;
 import com.minyan.nascommon.param.MActivityInfoSaveParam;
 import com.minyan.nascommon.po.ActivityInfoTempPO;
+import com.minyan.nascommon.service.RedisService;
 import com.minyan.nascommon.vo.*;
 import com.minyan.nasdao.NasActivityInfoTempDAO;
 import com.minyan.nasmapi.manager.ActivityInfoManager;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -20,6 +26,8 @@ import org.springframework.util.ObjectUtils;
  */
 @Service
 public class ActivityInfoManagerImpl implements ActivityInfoManager {
+  Logger logger = LoggerFactory.getLogger(ActivityInfoManagerImpl.class);
+  @Autowired private RedisService redisService;
   @Autowired private NasActivityInfoTempDAO activityInfoTempDAO;
 
   /**
@@ -120,9 +128,43 @@ public class ActivityInfoManagerImpl implements ActivityInfoManager {
       activityInfoTempDAO.updateById(activityInfoTempPO);
     }
 
-    ActivityInfoTempPO insertActivityInfoTempPO = buildActivityInfoTempPO(param);
-    int insert = activityInfoTempDAO.insert(insertActivityInfoTempPO);
+    // 如果是新生成活动，需要生成新的活动ID
+    int insert = 0;
+    try {
+      if (ObjectUtils.isEmpty(param.getActivityId())) {
+        param.setActivityId(produceActivityId());
+      }
+      ActivityInfoTempPO insertActivityInfoTempPO = buildActivityInfoTempPO(param);
+      insert = activityInfoTempDAO.insert(insertActivityInfoTempPO);
+    } catch (Exception e) {
+      logger.info(
+          "[ActivityInfoManagerImpl][saveActivityInfoTemp]保存/更新活动基本信息时失败，活动id：{}",
+          param.getActivityId(),
+          e);
+      return false;
+    } finally {
+      redisService.releaseLock(
+          String.format(
+              "%s:%s", RedisKeyEnum.ACTIVITY_SAVE_ACTIVITY_ID.getKey(), param.getActivityId()));
+    }
     return insert > 0;
+  }
+
+  /**
+   * 生成新的activityId
+   *
+   * @return
+   */
+  Integer produceActivityId() {
+    QueryWrapper<ActivityInfoTempPO> activityInfoTempPOQueryWrapper = new QueryWrapper<>();
+    activityInfoTempPOQueryWrapper.select("max(activity_id)");
+    ActivityInfoTempPO activityInfoTempPO =
+        activityInfoTempDAO.selectOne(activityInfoTempPOQueryWrapper);
+    Integer targetActivityId =
+        ObjectUtils.isEmpty(activityInfoTempPO) ? 60000 : activityInfoTempPO.getActivityId() + 1;
+    redisService.lock(
+        String.format("%s:%s", RedisKeyEnum.ACTIVITY_SAVE_ACTIVITY_ID.getKey(), targetActivityId));
+    return targetActivityId;
   }
 
   /**
@@ -135,6 +177,10 @@ public class ActivityInfoManagerImpl implements ActivityInfoManager {
     ActivityInfoTempPO activityInfoTempPO = new ActivityInfoTempPO();
     activityInfoTempPO.setActivityId(param.getActivityId());
     activityInfoTempPO.setActivityName(param.getActivityName());
+    activityInfoTempPO.setStatus(ActivityStatusEnum.STOP.getValue());
+    activityInfoTempPO.setAuditStatus(AuditStatusEnum.DEFAULT.getValue());
+    activityInfoTempPO.setBeginTime(param.getBeginTime());
+    activityInfoTempPO.setEndTime(param.getEndTime());
     return activityInfoTempPO;
   }
 }

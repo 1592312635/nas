@@ -3,6 +3,7 @@ package com.minyan.nascommon.param;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,11 +13,14 @@ import java.util.List;
  */
 @Data
 public class MActivityInfoSaveParam {
-  @NotNull(message = "活动id不能为空")
   private Integer activityId;
 
   @NotNull(message = "活动名称不能为空")
   private String activityName;
+
+  private Date beginTime;
+
+  private Date endTime;
 
   private List<MActivityRewardSaveParam> activityRewardSaveInfos;
   private List<MActivityModuleSaveParam> moduleSaveInfos;

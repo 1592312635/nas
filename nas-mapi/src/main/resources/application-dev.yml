@@ -41,3 +41,4 @@ mybatis-plus:
       id-type: AUTO
       logic-delete-value: 1
       logic-not-delete-value: 0
+      insert-strategy: not_null
