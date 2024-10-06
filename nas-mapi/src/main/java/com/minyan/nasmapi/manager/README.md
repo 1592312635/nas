@@ -1,0 +1,3 @@
+该层级用于处理service和dao层中间的复杂业务逻辑
+作用：避免service层过于臃肿，将service复杂的业务逻辑下沉到该层
+定义原则：通过业务进行划分，比如activityInfoManager需要包含nas_activity_info和nas_activity_info_temp的业务规则
