@@ -943,7 +943,7 @@ public class ActivityServiceImpl implements ActivityService {
 
     // 变更事件信息
     for (MActivityEventSaveParam mActivityEventSaveParam : toUpdate) {
-
+      updateEventInfo(activityId, moduleId, mActivityEventSaveParam);
     }
 
     // 删除事件信息
@@ -958,6 +958,201 @@ public class ActivityServiceImpl implements ActivityService {
           .set(ActivityEventTempPO::getDelTag, DelTagEnum.DEL.getValue())
           .eq(ActivityEventTempPO::getId, activityEventTempPO.getId())
           .eq(ActivityEventTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+    }
+  }
+
+  /**
+   * 变更事件信息和事件下的领取规则、奖品规则
+   *
+   * @param activityId
+   * @param moduleId
+   * @param param
+   */
+  void updateEventInfo(Integer activityId, Integer moduleId, MActivityEventSaveParam param) {
+    // 变更事件
+    UpdateWrapper<ActivityEventTempPO> eventTempPOUpdateWrapper = new UpdateWrapper<>();
+    eventTempPOUpdateWrapper
+        .lambda()
+        .set(ActivityEventTempPO::getEventName, param.getEventName())
+        .set(ActivityEventTempPO::getEventType, param.getEventType())
+        .eq(ActivityEventTempPO::getId, param.getEventId())
+        .eq(ActivityEventTempPO::getActivityId, activityId)
+        .eq(ActivityEventTempPO::getModuleId, moduleId)
+        .eq(ActivityEventTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+    activityEventTempDAO.update(null, eventTempPOUpdateWrapper);
+
+    // 变更领取规则和奖品规则
+    updateReceiveRuleInfos(
+        activityId, moduleId, param.getEventId(), param.getReceiveRuleSaveInfos());
+    updateRewardRuleInfos(activityId, moduleId, param.getEventId(), param.getRewardRuleSaveInfos());
+  }
+
+  /**
+   * 更新领取规则和规则门槛
+   *
+   * @param activityId
+   * @param moduleId
+   * @param eventId
+   * @param receiveRuleSaveInfos
+   */
+  void updateReceiveRuleInfos(
+      Integer activityId,
+      Integer moduleId,
+      Long eventId,
+      List<MActivityReceiveRuleSaveParam> receiveRuleSaveInfos) {
+    QueryWrapper<ReceiveRuleTempPO> queryWrapper = new QueryWrapper<>();
+    queryWrapper
+        .lambda()
+        .eq(ReceiveRuleTempPO::getActivityId, activityId)
+        .eq(ReceiveRuleTempPO::getModuleId, moduleId)
+        .eq(ReceiveRuleTempPO::getEventId, eventId)
+        .eq(ReceiveRuleTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+    List<ReceiveRuleTempPO> receiveRuleTempPOS = receiveRuleTempDAO.selectList(queryWrapper);
+
+    List<MActivityReceiveRuleSaveParam> toUpdate = Lists.newArrayList();
+    List<ReceiveRuleTempPO> toDelete = Lists.newArrayList();
+    Map<Long, ReceiveRuleTempPO> tempMap = Maps.newHashMap();
+    for (ReceiveRuleTempPO receiveRuleTempPO : receiveRuleTempPOS) {
+      Long receiveRuleId = receiveRuleTempPO.getId();
+      tempMap.put(receiveRuleId, receiveRuleTempPO);
+    }
+    for (MActivityReceiveRuleSaveParam receiveRuleSaveInfo : receiveRuleSaveInfos) {
+      Long receiveRuleId = receiveRuleSaveInfo.getReceiveRuleId();
+      if (tempMap.containsKey(receiveRuleId)) {
+        toUpdate.add(receiveRuleSaveInfo);
+        tempMap.remove(receiveRuleId);
+      }
+    }
+    toDelete.addAll(tempMap.values());
+
+    // 数据库操作
+    if (!CollectionUtils.isEmpty(toDelete)) {
+      List<Long> deleteReceiveRuleIds =
+          toDelete.stream().map(ReceiveRuleTempPO::getId).collect(Collectors.toList());
+      UpdateWrapper<ReceiveRuleTempPO> receiveRuleTempPODeleteWrapper = new UpdateWrapper<>();
+      receiveRuleTempPODeleteWrapper
+          .lambda()
+          .set(ReceiveRuleTempPO::getDelTag, DelTagEnum.DEL.getValue())
+          .in(ReceiveRuleTempPO::getId, deleteReceiveRuleIds);
+      receiveRuleTempDAO.update(null, receiveRuleTempPODeleteWrapper);
+
+      UpdateWrapper<ReceiveLimitTempPO> receiveLimitTempPODeleteWrapper = new UpdateWrapper<>();
+      receiveLimitTempPODeleteWrapper
+          .lambda()
+          .set(ReceiveLimitTempPO::getDelTag, DelTagEnum.DEL.getValue())
+          .in(ReceiveLimitTempPO::getReceiveRuleId, deleteReceiveRuleIds)
+          .eq(ReceiveLimitTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+      receiveLimitTempDAO.update(null, receiveLimitTempPODeleteWrapper);
+    }
+
+    for (MActivityReceiveRuleSaveParam mActivityReceiveRuleSaveParam : toUpdate) {
+      // receiveRule只起到连接作用，本身不存在变更，直接操作receiveLimit
+      UpdateWrapper<ReceiveLimitTempPO> receiveLimitTempPODeleteWrapper = new UpdateWrapper<>();
+      receiveLimitTempPODeleteWrapper
+          .lambda()
+          .set(ReceiveLimitTempPO::getDelTag, DelTagEnum.DEL.getValue())
+          .eq(
+              ReceiveLimitTempPO::getReceiveRuleId,
+              mActivityReceiveRuleSaveParam.getReceiveRuleId())
+          .eq(ReceiveLimitTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+      receiveLimitTempDAO.update(null, receiveLimitTempPODeleteWrapper);
+
+      List<MActivityReceiveLimitSaveParam> receiveLimitSaveInfos =
+          mActivityReceiveRuleSaveParam.getReceiveLimitSaveInfos();
+      if (!CollectionUtils.isEmpty(receiveLimitSaveInfos)) {
+        for (MActivityReceiveLimitSaveParam receiveLimitSaveInfo : receiveLimitSaveInfos) {
+          receiveLimitTempDAO.insert(
+              buildReceiveLimitTempPO(
+                  mActivityReceiveRuleSaveParam.getReceiveRuleId(), receiveLimitSaveInfo));
+        }
+      }
+    }
+  }
+
+  /**
+   * 更新奖品规则和奖品门槛
+   *
+   * @param activityId
+   * @param moduleId
+   * @param eventId
+   * @param rewardRuleSaveInfos
+   */
+  void updateRewardRuleInfos(
+      Integer activityId,
+      Integer moduleId,
+      Long eventId,
+      List<MActivityRewardRuleSaveParam> rewardRuleSaveInfos) {
+    QueryWrapper<RewardRuleTempPO> queryWrapper = new QueryWrapper<>();
+    queryWrapper
+        .lambda()
+        .eq(RewardRuleTempPO::getActivityId, activityId)
+        .eq(RewardRuleTempPO::getModuleId, moduleId)
+        .eq(RewardRuleTempPO::getEventId, eventId)
+        .eq(RewardRuleTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+    List<RewardRuleTempPO> rewardRuleTempPOS = rewardRuleTempDAO.selectList(queryWrapper);
+
+    List<MActivityRewardRuleSaveParam> toUpdate = Lists.newArrayList();
+    List<RewardRuleTempPO> toDelete = Lists.newArrayList();
+    Map<Long, RewardRuleTempPO> tempMap = Maps.newHashMap();
+    for (RewardRuleTempPO rewardRuleTempPO : rewardRuleTempPOS) {
+      Long rewardRuleId = rewardRuleTempPO.getId();
+      tempMap.put(rewardRuleId, rewardRuleTempPO);
+    }
+    for (MActivityRewardRuleSaveParam rewardRuleSaveInfo : rewardRuleSaveInfos) {
+      Long rewardRuleId = rewardRuleSaveInfo.getRewardRuleId();
+      if (tempMap.containsKey(rewardRuleId)) {
+        toUpdate.add(rewardRuleSaveInfo);
+        tempMap.remove(rewardRuleId);
+      }
+    }
+    toDelete.addAll(tempMap.values());
+    if (!CollectionUtils.isEmpty(toDelete)) {
+      List<Long> deleteRewardRuleIds =
+          toDelete.stream().map(RewardRuleTempPO::getId).collect(Collectors.toList());
+      UpdateWrapper<RewardRuleTempPO> rewardRuleTempPODeleteWrapper = new UpdateWrapper<>();
+      rewardRuleTempPODeleteWrapper
+          .lambda()
+          .set(RewardRuleTempPO::getDelTag, DelTagEnum.DEL.getValue())
+          .in(RewardRuleTempPO::getId, deleteRewardRuleIds);
+      rewardRuleTempDAO.update(null, rewardRuleTempPODeleteWrapper);
+
+      UpdateWrapper<RewardLimitTempPO> rewardLimitTempPODeleteWrapper = new UpdateWrapper<>();
+      rewardLimitTempPODeleteWrapper
+          .lambda()
+          .set(RewardLimitTempPO::getDelTag, DelTagEnum.DEL.getValue())
+          .in(RewardLimitTempPO::getRewardRuleId, deleteRewardRuleIds)
+          .eq(RewardLimitTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+      rewardLimitTempDAO.update(null, rewardLimitTempPODeleteWrapper);
+    }
+
+    for (MActivityRewardRuleSaveParam mActivityRewardRuleSaveParam : toUpdate) {
+      // rewardRule是有可能变更的，变更奖品规则对应的奖品信息会涉及到奖品规则变化，所以不适用于receiveRule的变更逻辑
+      UpdateWrapper<RewardRuleTempPO> rewardRuleTempPOUpdateWrapper = new UpdateWrapper<>();
+      rewardRuleTempPOUpdateWrapper
+          .lambda()
+          .set(RewardRuleTempPO::getRewardId, mActivityRewardRuleSaveParam.getRewardId())
+          .set(RewardRuleTempPO::getRewardType, mActivityRewardRuleSaveParam.getRewardType())
+          .eq(RewardRuleTempPO::getId, mActivityRewardRuleSaveParam.getRewardRuleId());
+      rewardRuleTempDAO.update(null, rewardRuleTempPOUpdateWrapper);
+
+      // 此时变更rewardRule下的rewardLimit奖品规则
+      UpdateWrapper<RewardLimitTempPO> rewardLimitTempPODeleteWrapper = new UpdateWrapper<>();
+      rewardLimitTempPODeleteWrapper
+          .lambda()
+          .set(RewardLimitTempPO::getDelTag, DelTagEnum.DEL.getValue())
+          .eq(RewardLimitTempPO::getRewardRuleId, mActivityRewardRuleSaveParam.getRewardRuleId())
+          .eq(RewardLimitTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+      rewardLimitTempDAO.update(null, rewardLimitTempPODeleteWrapper);
+
+      List<MActivityRewardLimitSaveParam> rewardLimitSaveInfos =
+          mActivityRewardRuleSaveParam.getRewardLimitSaveInfos();
+      if (!CollectionUtils.isEmpty(rewardLimitSaveInfos)) {
+        for (MActivityRewardLimitSaveParam rewardLimitSaveInfo : rewardLimitSaveInfos) {
+          rewardLimitTempDAO.insert(
+              buildRewardLimitTempPO(
+                  mActivityRewardRuleSaveParam.getRewardRuleId(), rewardLimitSaveInfo));
+        }
+      }
     }
   }
 
@@ -994,7 +1189,7 @@ public class ActivityServiceImpl implements ActivityService {
   }
 
   /**
-   * 删除单条规则下的领取规则和奖品规则
+   * 删除单个事件下的领取规则和奖品规则
    *
    * @param activityEventTempPO
    */
