@@ -207,6 +207,6 @@ public class ActivityServiceImpl implements ActivityService {
           "[ActivityServiceImpl][saveActivityInfo]活动渠道信息保存失败，活动id：{}", param.getActivityId());
       return ApiResult.build(CodeEnum.ACTIVITY_CHANNEL_TEMP_SAVE_FAIL);
     }
-    return null;
+    return ApiResult.build(CodeEnum.SUCCESS);
   }
 }

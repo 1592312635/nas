@@ -3,6 +3,8 @@
 <mapper namespace="com.minyan.nasdao.NasReceiveRuleTempDAO">
     <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.ReceiveRuleTempPO">
         <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
+        <result column="module_id" jdbcType="INTEGER" property="moduleId"/>
         <result column="event_id" jdbcType="BIGINT" property="eventId"/>
         <result column="rule_type" jdbcType="INTEGER" property="ruleType"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
@@ -10,7 +12,7 @@
         <result column="del_tag" jdbcType="INTEGER" property="delTag"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, event_id, rule_type, create_time, update_time, del_tag
+        id, activity_id, module_id, event_id, rule_type, create_time, update_time, del_tag
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -24,15 +26,22 @@
     </delete>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ReceiveRuleTempPO"
             useGeneratedKeys="true">
-        insert into nas_receive_rule_temp (event_id, rule_type, create_time,
+        insert into nas_receive_rule_temp (activity_id, module_id, event_id, rule_type, create_time,
         update_time, del_tag)
-        values (#{eventId,jdbcType=BIGINT}, #{ruleType,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
-        #{updateTime,jdbcType=TIMESTAMP}, #{delTag,jdbcType=INTEGER})
+        values (#{activityId,jdbcType=INTEGER},#{moduleId,jdbcType=INTEGER},#{eventId,jdbcType=BIGINT},
+        #{ruleType,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+        #{delTag,jdbcType=INTEGER})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id"
             parameterType="com.minyan.nascommon.po.ReceiveRuleTempPO" useGeneratedKeys="true">
         insert into nas_receive_rule_temp
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="activityId != null">
+                activity_id,
+            </if>
+            <if test="moduleId != null">
+                module_id,
+            </if>
             <if test="eventId != null">
                 event_id,
             </if>
@@ -50,6 +59,12 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="activityId != null">
+                #{activityId,jdbcType=INTEGER},
+            </if>
+            <if test="moduleId != null">
+                #{moduleId,jdbcType=INTEGER},
+            </if>
             <if test="eventId != null">
                 #{eventId,jdbcType=BIGINT},
             </if>
@@ -70,6 +85,12 @@
     <update id="updateByPrimaryKeySelective" parameterType="com.minyan.nascommon.po.ReceiveRuleTempPO">
         update nas_receive_rule_temp
         <set>
+            <if test="activityId != null">
+                activity_id = #{activityId,jdbcType=INTEGER},
+            </if>
+            <if test="moduleId != null">
+                module_id = #{moduleId,jdbcType=INTEGER},
+            </if>
             <if test="eventId != null">
                 event_id = #{eventId,jdbcType=BIGINT},
             </if>

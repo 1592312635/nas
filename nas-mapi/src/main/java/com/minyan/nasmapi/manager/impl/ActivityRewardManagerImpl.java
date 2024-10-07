@@ -106,6 +106,7 @@ public class ActivityRewardManagerImpl implements ActivityRewardManager {
     activityRewardTempPO.setActivityId(activityId);
     activityRewardTempPO.setRewardId(param.getRewardId());
     activityRewardTempPO.setRewardName(param.getRewardName());
+    activityRewardTempPO.setRewardType(param.getRewardType());
     activityRewardTempPO.setBatchCode(param.getBatchCode());
     activityRewardTempPO.setImageUrl(param.getImageUrl());
     return activityRewardTempPO;

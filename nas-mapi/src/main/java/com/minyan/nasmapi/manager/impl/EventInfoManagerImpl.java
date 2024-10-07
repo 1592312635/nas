@@ -86,13 +86,15 @@ public class EventInfoManagerImpl implements EventInfoManager {
   @Override
   public void saveEventInfo(
       Integer activityId, Integer moduleId, MActivityEventSaveParam eventSaveInfo) {
-    // 先生成模块下事件下的领取规则和奖品规则
-    receiveRuleManager.saveRuleTempInfos(activityId, moduleId, eventSaveInfo);
-
-    // 最后生成事件信息
+    // 先生成事件信息
     ActivityEventTempPO activityEventTempPO =
-        buildActivityEventTempPO(activityId, moduleId, eventSaveInfo);
+            buildActivityEventTempPO(activityId, moduleId, eventSaveInfo);
     activityEventTempDAO.insert(activityEventTempPO);
+
+    // 后生成模块下事件下的领取规则和奖品规则
+    Long eventId = activityEventTempPO.getId();
+    eventSaveInfo.setEventId(eventId);
+    receiveRuleManager.saveRuleTempInfos(activityId, moduleId, eventSaveInfo);
   }
 
   /**

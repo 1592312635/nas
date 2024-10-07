@@ -7,12 +7,12 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 
 /**
- * @decription
+ * @decription 数据库插入默认填充
  * @author minyan.he
  * @date 2024/10/6 18:28
  */
 @Component
-public class MyMetaObjectHandler implements MetaObjectHandler {
+public class MybatisPlusAspect implements MetaObjectHandler {
 
   @Override
   public void insertFill(MetaObject metaObject) {

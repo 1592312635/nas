@@ -26,12 +26,12 @@
     </delete>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ActivityRewardTempPO"
             useGeneratedKeys="true">
-        insert into nas_activity_reward_temp (reward_type, reward_name, batch_code,
+        insert into nas_activity_reward_temp (activity_id, reward_type, reward_name, batch_code,
         image_url, create_time, update_time,
         del_tag)
-        values (#{rewardType,jdbcType=INTEGER}, #{rewardName,jdbcType=VARCHAR}, #{batchCode,jdbcType=VARCHAR},
-        #{imageUrl,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
-        #{delTag,jdbcType=INTEGER})
+        values (#{activityId,jdbcType=INTEGER}, #{rewardType,jdbcType=INTEGER}, #{rewardName,jdbcType=VARCHAR},
+        #{batchCode,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP}, #{delTag,jdbcType=INTEGER})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id"
             parameterType="com.minyan.nascommon.po.ActivityRewardTempPO" useGeneratedKeys="true">

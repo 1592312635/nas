@@ -15,6 +15,7 @@ public enum RedisKeyEnum {
 
   // redis锁
   ACTIVITY_SAVE_ACTIVITY_ID("activity_save:activity_id", "活动保存时活动id生成锁"),
+  MODULE_SAVE_MODULE_ID("module_save:module_id", "模块保存时模块id生成锁"),
   ;
 
   private final String key;

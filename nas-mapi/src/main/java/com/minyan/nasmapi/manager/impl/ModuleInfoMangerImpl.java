@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.minyan.nascommon.Enum.DelTagEnum;
+import com.minyan.nascommon.Enum.RedisKeyEnum;
 import com.minyan.nascommon.param.MActivityInfoSaveParam;
 import com.minyan.nascommon.param.MActivityModuleSaveParam;
 import com.minyan.nascommon.po.ModuleInfoTempPO;
+import com.minyan.nascommon.service.RedisService;
 import com.minyan.nascommon.vo.MModuleInfoDetailVO;
 import com.minyan.nasdao.NasModuleInfoTempDAO;
 import com.minyan.nasmapi.manager.EventInfoManager;
@@ -15,9 +17,12 @@ import com.minyan.nasmapi.manager.ModuleInfoManager;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 /**
  * @decription 模块维度处理service
@@ -26,6 +31,8 @@ import org.springframework.util.CollectionUtils;
  */
 @Service
 public class ModuleInfoMangerImpl implements ModuleInfoManager {
+  Logger logger = LoggerFactory.getLogger(ModuleInfoMangerImpl.class);
+  @Autowired private RedisService redisService;
   @Autowired private EventInfoManager eventInfoManager;
   @Autowired private NasModuleInfoTempDAO moduleInfoTempDAO;
 
@@ -89,10 +96,25 @@ public class ModuleInfoMangerImpl implements ModuleInfoManager {
 
     // 数据库操作
     for (MActivityModuleSaveParam mActivityModuleSaveParam : toAdd) {
+      try {
+        if (mActivityModuleSaveParam.getModuleId() == null) {
+          mActivityModuleSaveParam.setModuleId(produceModuleId(activityId));
+        }
+        moduleInfoTempDAO.insert(buildModuleInfoTempPO(activityId, mActivityModuleSaveParam));
+      } catch (Exception e) {
+        logger.info(
+            "[ActivityInfoManagerImpl][saveActivityModuleTemp]新增模块信息时失败，模块id：{}",
+            mActivityModuleSaveParam.getModuleId(),
+            e);
+        return false;
+      } finally {
+        redisService.releaseLock(
+            String.format(
+                RedisKeyEnum.MODULE_SAVE_MODULE_ID.getKey(),
+                mActivityModuleSaveParam.getModuleId()));
+      }
       // 新增事件信息
       eventInfoManager.saveEventInfos(activityId, mActivityModuleSaveParam);
-
-      moduleInfoTempDAO.insert(buildModuleInfoTempPO(activityId, mActivityModuleSaveParam));
     }
     for (MActivityModuleSaveParam mActivityModuleSaveParam : toUpdate) {
       // 变更事件信息
@@ -138,5 +160,27 @@ public class ModuleInfoMangerImpl implements ModuleInfoManager {
     moduleInfoTempPO.setBeginTime(param.getBeginTime());
     moduleInfoTempPO.setEndTime(param.getEndTime());
     return moduleInfoTempPO;
+  }
+
+  /**
+   * 通过活动id顺位生成模块id
+   *
+   * @param activityId
+   * @return
+   */
+  Integer produceModuleId(Integer activityId) {
+    QueryWrapper<ModuleInfoTempPO> moduleInfoTempPOQueryWrapper = new QueryWrapper<>();
+    moduleInfoTempPOQueryWrapper
+        .select("max(module_id)")
+        .lambda()
+        .eq(ModuleInfoTempPO::getActivityId, activityId);
+    ModuleInfoTempPO moduleInfoTempPO = moduleInfoTempDAO.selectOne(moduleInfoTempPOQueryWrapper);
+    Integer targetModuleId =
+        ObjectUtils.isEmpty(moduleInfoTempPO)
+            ? activityId * 1000 + 1
+            : moduleInfoTempPO.getModuleId() + 1;
+    redisService.lock(
+        String.format("%s:%s", RedisKeyEnum.MODULE_SAVE_MODULE_ID.getKey(), targetModuleId));
+    return targetModuleId;
   }
 }
