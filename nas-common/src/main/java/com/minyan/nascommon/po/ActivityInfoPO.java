@@ -3,10 +3,9 @@ package com.minyan.nascommon.po;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
  * @author
@@ -46,5 +45,6 @@ public class ActivityInfoPO implements Serializable {
   /** 删除标识(1删除0未删除) */
   @TableField(fill = FieldFill.INSERT)
   private Integer delTag;
+
   private static final long serialVersionUID = 1L;
 }

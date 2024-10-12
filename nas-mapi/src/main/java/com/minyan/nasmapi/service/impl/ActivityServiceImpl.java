@@ -1,15 +1,21 @@
 package com.minyan.nasmapi.service.impl;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
+import com.minyan.nascommon.Enum.AuditStatusEnum;
 import com.minyan.nascommon.Enum.CodeEnum;
 import com.minyan.nascommon.Enum.DelTagEnum;
 import com.minyan.nascommon.Enum.IsProgressEnum;
 import com.minyan.nascommon.param.*;
 import com.minyan.nascommon.po.*;
 import com.minyan.nascommon.vo.*;
+import com.minyan.nascommon.vo.context.ActivityAuditPassContext;
+import com.minyan.nascommon.vo.context.ActivityAuditRefuseContext;
 import com.minyan.nasdao.*;
+import com.minyan.nasmapi.handler.activityAuditPass.ActivityAuditPassAbstractHandler;
+import com.minyan.nasmapi.handler.activityAuditRefuse.ActivityAuditRefuseAbstractHandler;
 import com.minyan.nasmapi.manager.*;
 import com.minyan.nasmapi.service.ActivityService;
 import java.util.Date;
@@ -33,6 +39,8 @@ import org.springframework.util.StringUtils;
 public class ActivityServiceImpl implements ActivityService {
   Logger logger = LoggerFactory.getLogger(ActivityServiceImpl.class);
 
+  @Autowired List<ActivityAuditPassAbstractHandler> activityAuditPassActivityInfoHandlers;
+  @Autowired List<ActivityAuditRefuseAbstractHandler> activityAuditRefuseAbstractHandlers;
   @Autowired private ActivityInfoManager activityInfoManager;
   @Autowired private ModuleInfoManager moduleInfoManager;
   @Autowired private EventInfoManager eventInfoManager;
@@ -206,6 +214,73 @@ public class ActivityServiceImpl implements ActivityService {
       logger.info(
           "[ActivityServiceImpl][saveActivityInfo]活动渠道信息保存失败，活动id：{}", param.getActivityId());
       return ApiResult.build(CodeEnum.ACTIVITY_CHANNEL_TEMP_SAVE_FAIL);
+    }
+    return ApiResult.build(CodeEnum.SUCCESS);
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  @Override
+  public ApiResult<Boolean> auditActivityInfo(MActivityInfoAuditParam param) {
+    ActivityAuditPassContext activityAuditPassContext = new ActivityAuditPassContext();
+    ActivityAuditRefuseContext activityAuditRefuseContext = new ActivityAuditRefuseContext();
+    activityAuditPassContext.setParam(param);
+    activityAuditRefuseContext.setParam(param);
+    if (AuditStatusEnum.PASS.getValue().equals(param.getAuditStatus())) {
+      List<ActivityAuditPassAbstractHandler> activityAuditPassFallBackHandlers =
+          Lists.newArrayList();
+      try {
+        for (ActivityAuditPassAbstractHandler activityAuditPassHandler :
+            activityAuditPassActivityInfoHandlers) {
+          activityAuditPassFallBackHandlers.add(activityAuditPassHandler);
+          ApiResult handleResult = null;
+          handleResult = activityAuditPassHandler.handle(activityAuditPassContext);
+          if (!ObjectUtils.isEmpty(handleResult)) {
+            logger.info(
+                "[ActivityServiceImpl][auditActivityInfo]活动审核通过处理结束，活动id：{}，结束处理handler：{}",
+                param.getActivityId(),
+                activityAuditPassHandler.getClass().getName());
+            return handleResult;
+          }
+        }
+      } catch (Exception e) {
+        logger.info(
+            "[ActivityServiceImpl][auditActivityInfo]活动审核通过处理异常，开始回滚，请求参数：{}",
+            JSONObject.toJSONString(param),
+            e);
+        for (ActivityAuditPassAbstractHandler activityAuditPassFallBackHandler :
+            activityAuditPassFallBackHandlers) {
+          activityAuditPassFallBackHandler.fallBack(activityAuditPassContext);
+        }
+        return ApiResult.build(CodeEnum.ACTIVITY_AUDIT_PASS_FAIL);
+      }
+    } else if (AuditStatusEnum.REFUSE.getValue().equals(param.getAuditStatus())) {
+      List<ActivityAuditRefuseAbstractHandler> activityAuditRefuseFallBackHandlers =
+          Lists.newArrayList();
+      try {
+        for (ActivityAuditRefuseAbstractHandler activityAuditRefuseHandler :
+            activityAuditRefuseAbstractHandlers) {
+          activityAuditRefuseFallBackHandlers.add(activityAuditRefuseHandler);
+          ApiResult handleResult = null;
+          handleResult = activityAuditRefuseHandler.handle(activityAuditRefuseContext);
+          if (!ObjectUtils.isEmpty(handleResult)) {
+            logger.info(
+                "[ActivityServiceImpl][auditActivityInfo]活动审核不通过处理结束，活动id：{}，结束处理handler：{}",
+                param.getActivityId(),
+                activityAuditRefuseHandler.getClass().getName());
+            return handleResult;
+          }
+        }
+      } catch (Exception e) {
+        logger.info(
+            "[ActivityServiceImpl][auditActivityInfo]活动审核不通过处理异常，开始回滚，请求参数：{}",
+            JSONObject.toJSONString(param),
+            e);
+        for (ActivityAuditRefuseAbstractHandler activityAuditRefuseFallBackHandler :
+            activityAuditRefuseFallBackHandlers) {
+          activityAuditRefuseFallBackHandler.fallBack(activityAuditRefuseContext);
+        }
+        return  ApiResult.build(CodeEnum.ACTIVITY_AUDIT_REFUSE_FAIL);
+      }
     }
     return ApiResult.build(CodeEnum.SUCCESS);
   }

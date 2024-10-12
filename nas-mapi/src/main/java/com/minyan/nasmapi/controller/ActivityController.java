@@ -1,5 +1,6 @@
 package com.minyan.nasmapi.controller;
 
+import com.minyan.nascommon.param.MActivityInfoAuditParam;
 import com.minyan.nascommon.param.MActivityInfoDetailQueryParam;
 import com.minyan.nascommon.param.MActivityInfoQueryParam;
 import com.minyan.nascommon.param.MActivityInfoSaveParam;
@@ -43,5 +44,10 @@ public class ActivityController {
   @RequestMapping("/save")
   ApiResult<Boolean> saveActivityInfo(@RequestBody @Validated MActivityInfoSaveParam param) {
     return activityService.saveActivityInfo(param);
+  }
+
+  @RequestMapping("/audit")
+  ApiResult<Boolean> auditActivityInfo(@RequestBody @Validated MActivityInfoAuditParam param) {
+    return activityService.auditActivityInfo(param);
   }
 }

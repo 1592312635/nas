@@ -25,6 +25,9 @@ public enum CodeEnum {
   ACTIVITY_REWARD_TEMP_SAVE_FAIL("100008", "活动奖励临时信息保存失败"),
   ACTIVITY_MODULE_TEMP_SAVE_FAIL("100009", "活动模块临时信息保存失败"),
   ACTIVITY_CHANNEL_TEMP_SAVE_FAIL("100010", "活动渠道临时信息保存失败"),
+  AUDIT_ACTIVITY_NOT_EXIST("100011", "审核时待审核活动不存在"),
+  ACTIVITY_AUDIT_PASS_FAIL("100012", "审核通过失败"),
+  ACTIVITY_AUDIT_REFUSE_FAIL("100013", "审核拒绝失败"),
   ;
   private final String code;
   private final String message;

@@ -1,5 +1,6 @@
 package com.minyan.nasmapi.service;
 
+import com.minyan.nascommon.param.MActivityInfoAuditParam;
 import com.minyan.nascommon.param.MActivityInfoDetailQueryParam;
 import com.minyan.nascommon.param.MActivityInfoQueryParam;
 import com.minyan.nascommon.param.MActivityInfoSaveParam;
@@ -19,4 +20,6 @@ public interface ActivityService {
   ApiResult<MActivityInfoDetailVO> getActivityInfoDetail(MActivityInfoDetailQueryParam param);
 
   ApiResult<Boolean> saveActivityInfo(MActivityInfoSaveParam param);
+
+  ApiResult<Boolean> auditActivityInfo(MActivityInfoAuditParam param);
 }
