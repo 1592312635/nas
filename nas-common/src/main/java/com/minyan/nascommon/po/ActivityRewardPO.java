@@ -1,11 +1,10 @@
 package com.minyan.nascommon.po;
 
-import java.io.Serializable;
-import java.util.Date;
-
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import java.io.Serializable;
+import java.util.Date;
 import lombok.Data;
 
 /**
@@ -16,6 +15,9 @@ import lombok.Data;
 public class ActivityRewardPO implements Serializable {
   /** 主键 */
   private Long id;
+
+  /** 活动id */
+  private Integer activityId;
 
   /** 奖品类型(RewardTypeEnum) */
   private Integer rewardType;

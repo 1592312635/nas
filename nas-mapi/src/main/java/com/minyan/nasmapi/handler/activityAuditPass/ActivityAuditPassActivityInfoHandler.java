@@ -28,7 +28,7 @@ import org.springframework.util.ObjectUtils;
 @Order(10)
 @Service
 public class ActivityAuditPassActivityInfoHandler extends ActivityAuditPassAbstractHandler {
-  Logger logger = LoggerFactory.getLogger(ActivityAuditPassActivityInfoHandler.class);
+  private final static Logger logger = LoggerFactory.getLogger(ActivityAuditPassActivityInfoHandler.class);
   @Autowired private NasActivityInfoTempDAO activityInfoTempDAO;
   @Autowired private NasActivityInfoDAO activityInfoDAO;
 
@@ -63,7 +63,7 @@ public class ActivityAuditPassActivityInfoHandler extends ActivityAuditPassAbstr
       activityInfoPOUpdateWrapper
           .lambda()
           .set(ActivityInfoPO::getDelTag, DelTagEnum.DEL.getValue())
-          .eq(ActivityInfoPO::getActivityId, param.getActivityId());
+          .eq(ActivityInfoPO::getId, oldActivityInfoPO.getId());
       activityInfoDAO.update(null, activityInfoPOUpdateWrapper);
     }
 
@@ -73,7 +73,7 @@ public class ActivityAuditPassActivityInfoHandler extends ActivityAuditPassAbstr
   }
 
   /**
-   * 将临时表数据转换为主表数据
+   * 审核通过将临时表数据转换为主表数据
    *
    * @param activityInfoTempPO
    * @return
@@ -83,7 +83,7 @@ public class ActivityAuditPassActivityInfoHandler extends ActivityAuditPassAbstr
     activityInfoPO.setActivityId(activityInfoTempPO.getActivityId());
     activityInfoPO.setActivityName(activityInfoTempPO.getActivityName());
     activityInfoPO.setStatus(activityInfoTempPO.getStatus());
-    activityInfoPO.setAuditStatus(activityInfoTempPO.getAuditStatus());
+    activityInfoPO.setAuditStatus(AuditStatusEnum.PASS.getValue());
     activityInfoPO.setBeginTime(activityInfoTempPO.getBeginTime());
     activityInfoPO.setEndTime(activityInfoTempPO.getEndTime());
     return activityInfoPO;

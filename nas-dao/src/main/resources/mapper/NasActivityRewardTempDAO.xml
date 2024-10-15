@@ -3,6 +3,7 @@
 <mapper namespace="com.minyan.nasdao.NasActivityRewardTempDAO">
     <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.ActivityRewardTempPO">
         <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
         <result column="reward_type" jdbcType="INTEGER" property="rewardType"/>
         <result column="reward_name" jdbcType="VARCHAR" property="rewardName"/>
         <result column="batch_code" jdbcType="VARCHAR" property="batchCode"/>
@@ -12,7 +13,7 @@
         <result column="del_tag" jdbcType="INTEGER" property="delTag"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, reward_type, reward_name, batch_code, image_url, create_time, update_time, del_tag
+        id, activity_id, reward_type, reward_name, batch_code, image_url, create_time, update_time, del_tag
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -37,6 +38,9 @@
             parameterType="com.minyan.nascommon.po.ActivityRewardTempPO" useGeneratedKeys="true">
         insert into nas_activity_reward_temp
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="activityId != null">
+                activity_id,
+            </if>
             <if test="rewardType != null">
                 reward_type,
             </if>
@@ -60,6 +64,9 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="activityId != null">
+                #{activityId,jdbcType=INTEGER},
+            </if>
             <if test="rewardType != null">
                 #{rewardType,jdbcType=INTEGER},
             </if>
@@ -86,6 +93,9 @@
     <update id="updateByPrimaryKeySelective" parameterType="com.minyan.nascommon.po.ActivityRewardTempPO">
         update nas_activity_reward_temp
         <set>
+            <if test="activityId != null">
+                activity_id = #{activityId,jdbcType=INTEGER},
+            </if>
             <if test="rewardType != null">
                 reward_type = #{rewardType,jdbcType=INTEGER},
             </if>
@@ -112,7 +122,8 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.ActivityRewardTempPO">
         update nas_activity_reward_temp
-        set reward_type = #{rewardType,jdbcType=INTEGER},
+        set activity_id = #{activityId,jdbcType=INTEGER},
+        reward_type = #{rewardType,jdbcType=INTEGER},
         reward_name = #{rewardName,jdbcType=VARCHAR},
         batch_code = #{batchCode,jdbcType=VARCHAR},
         image_url = #{imageUrl,jdbcType=VARCHAR},

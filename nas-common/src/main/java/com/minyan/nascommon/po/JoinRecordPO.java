@@ -18,10 +18,10 @@ public class JoinRecordPO implements Serializable {
   private Long id;
 
   /** 活动id */
-  private Long activityId;
+  private Integer activityId;
 
   /** 模块id */
-  private Long moduleId;
+  private Integer moduleId;
 
   /** 用户注册id */
   private String userId;

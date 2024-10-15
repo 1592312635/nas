@@ -19,7 +19,7 @@ public class ActivityChannelPO implements Serializable {
   private Long id;
 
   /** 活动id */
-  private Long activityId;
+  private Integer activityId;
 
   /** 渠道名称 */
   private String channelName;
