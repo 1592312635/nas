@@ -29,7 +29,8 @@ public enum CodeEnum {
   ACTIVITY_AUDIT_PASS_FAIL("100012", "审核通过失败"),
   ACTIVITY_AUDIT_REFUSE_FAIL("100013", "审核拒绝失败"),
   AUDIT_CHANNEL_NOT_EXIST("100014", "审核时渠道不存在"),
-  AUDIT_REWARD_NOT_EXIST("100015", "审核时活动奖励不存在")
+  AUDIT_REWARD_NOT_EXIST("100015", "审核时活动奖励不存在"),
+  AUDIT_MODULE_NOT_EXIST("100016", "审核时活动模块不存在"),
   ;
   private final String code;
   private final String message;
