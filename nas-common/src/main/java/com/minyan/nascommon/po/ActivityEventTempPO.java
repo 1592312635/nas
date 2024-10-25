@@ -1,12 +1,11 @@
 package com.minyan.nascommon.po;
 
-import java.io.Serializable;
-import java.util.Date;
-
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.minyan.nascommon.vo.MActivityEventDetailVO;
+import java.io.Serializable;
+import java.util.Date;
 import lombok.Data;
 
 /**
@@ -23,6 +22,9 @@ public class ActivityEventTempPO implements Serializable {
 
   /** 模块id */
   private Integer moduleId;
+
+  /** 事件id */
+  private Long eventId;
 
   /** 事件名称 */
   private String eventName;
@@ -52,7 +54,7 @@ public class ActivityEventTempPO implements Serializable {
    */
   public static MActivityEventDetailVO poConvertToVo(ActivityEventTempPO po) {
     MActivityEventDetailVO mActivityEventDetailVO = new MActivityEventDetailVO();
-    mActivityEventDetailVO.setEventId(po.getId());
+    mActivityEventDetailVO.setEventId(po.getEventId());
     mActivityEventDetailVO.setActivityId(po.getActivityId());
     mActivityEventDetailVO.setModuleId(po.getModuleId());
     mActivityEventDetailVO.setEventName(po.getEventName());

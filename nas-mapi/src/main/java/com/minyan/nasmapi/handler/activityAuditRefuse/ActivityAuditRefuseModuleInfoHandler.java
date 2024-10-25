@@ -26,7 +26,8 @@ import org.springframework.util.CollectionUtils;
 @Order(30)
 @Service
 public class ActivityAuditRefuseModuleInfoHandler extends ActivityAuditRefuseAbstractHandler {
-  Logger logger = LoggerFactory.getLogger(ActivityAuditRefuseModuleInfoHandler.class);
+  public static final Logger logger =
+      LoggerFactory.getLogger(ActivityAuditRefuseModuleInfoHandler.class);
   @Autowired private NasModuleInfoTempDAO moduleInfoTempDAO;
   @Autowired private NasModuleInfoDAO moduleInfoDAO;
 

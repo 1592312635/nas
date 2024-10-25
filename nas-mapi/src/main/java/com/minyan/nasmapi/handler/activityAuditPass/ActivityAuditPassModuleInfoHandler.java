@@ -28,7 +28,8 @@ import org.springframework.util.CollectionUtils;
 @Order(30)
 @Service
 public class ActivityAuditPassModuleInfoHandler extends ActivityAuditPassAbstractHandler {
-  Logger logger = LoggerFactory.getLogger(ActivityAuditPassModuleInfoHandler.class);
+  public static final Logger logger =
+      LoggerFactory.getLogger(ActivityAuditPassModuleInfoHandler.class);
   @Autowired private NasModuleInfoTempDAO moduleInfoTempDAO;
   @Autowired private NasModuleInfoDAO moduleInfoDAO;
 
@@ -66,6 +67,27 @@ public class ActivityAuditPassModuleInfoHandler extends ActivityAuditPassAbstrac
           .eq(ModuleInfoPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
       moduleInfoDAO.update(null, moduleInfoPODeleteWrapper);
     }
+
+    // 临时表数据同步主表
+    for (ModuleInfoTempPO moduleInfoTempPO : moduleInfoTempPOS) {
+      moduleInfoDAO.insert(moduleInfoTempPOToModuleInfoPO(moduleInfoTempPO));
+    }
     return null;
+  }
+
+  /**
+   * 模块临时数据转化为模块主表数据
+   *
+   * @param moduleInfoTempPO
+   * @return
+   */
+  ModuleInfoPO moduleInfoTempPOToModuleInfoPO(ModuleInfoTempPO moduleInfoTempPO) {
+    ModuleInfoPO moduleInfoPO = new ModuleInfoPO();
+    moduleInfoPO.setActivityId(moduleInfoTempPO.getActivityId());
+    moduleInfoPO.setModuleId(moduleInfoTempPO.getModuleId());
+    moduleInfoPO.setModuleName(moduleInfoTempPO.getModuleName());
+    moduleInfoPO.setBeginTime(moduleInfoTempPO.getBeginTime());
+    moduleInfoPO.setEndTime(moduleInfoTempPO.getEndTime());
+    return moduleInfoPO;
   }
 }

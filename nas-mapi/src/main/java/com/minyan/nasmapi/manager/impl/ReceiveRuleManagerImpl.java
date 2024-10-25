@@ -267,7 +267,7 @@ public class ReceiveRuleManagerImpl implements ReceiveRuleManager {
    */
   @Override
   public void deleteReceiveRuleTempAndRewardRuleTemp(ActivityEventTempPO activityEventTempPO) {
-    Long eventId = activityEventTempPO.getId();
+    Long eventId = activityEventTempPO.getEventId();
 
     // 删除领取规则
     QueryWrapper<ReceiveRuleTempPO> receiveRuleTempPOQueryWrapper = new QueryWrapper<>();

@@ -3,8 +3,8 @@
 <mapper namespace="com.minyan.nasdao.NasJoinRecordDAO">
     <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.JoinRecordPO">
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="activity_id" jdbcType="BIGINT" property="activityId"/>
-        <result column="module_id" jdbcType="BIGINT" property="moduleId"/>
+        <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
+        <result column="module_id" jdbcType="INTEGER" property="moduleId"/>
         <result column="user_id" jdbcType="VARCHAR" property="userId"/>
         <result column="join_type" jdbcType="INTEGER" property="joinType"/>
         <result column="join_info" jdbcType="VARCHAR" property="joinInfo"/>
@@ -31,7 +31,7 @@
         insert into nas_join_record (activity_id, module_id, user_id,
         join_type, join_info, create_time,
         update_time, del_tag)
-        values (#{activity_id,jdbcType=BIGINT}, #{module_id,jdbcType=BIGINT}, #{user_id,jdbcType=VARCHAR},
+        values (#{activity_id,jdbcType=INTEGER}, #{module_id,jdbcType=INTEGER}, #{user_id,jdbcType=VARCHAR},
         #{join_type,jdbcType=INTEGER}, #{join_info,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP},
         #{update_time,jdbcType=TIMESTAMP}, #{del_tag,jdbcType=INTEGER})
     </insert>
@@ -66,10 +66,10 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="activity_id != null">
-                #{activity_id,jdbcType=BIGINT},
+                #{activity_id,jdbcType=INTEGER},
             </if>
             <if test="module_id != null">
-                #{module_id,jdbcType=BIGINT},
+                #{module_id,jdbcType=INTEGER},
             </if>
             <if test="user_id != null">
                 #{user_id,jdbcType=VARCHAR},
@@ -95,10 +95,10 @@
         update nas_join_record
         <set>
             <if test="activity_id != null">
-                activity_id = #{activity_id,jdbcType=BIGINT},
+                activity_id = #{activity_id,jdbcType=INTEGER},
             </if>
             <if test="module_id != null">
-                module_id = #{module_id,jdbcType=BIGINT},
+                module_id = #{module_id,jdbcType=INTEGER},
             </if>
             <if test="user_id != null">
                 user_id = #{user_id,jdbcType=VARCHAR},
@@ -123,8 +123,8 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.JoinRecordPO">
         update nas_join_record
-        set activity_id = #{activity_id,jdbcType=BIGINT},
-        module_id = #{module_id,jdbcType=BIGINT},
+        set activity_id = #{activity_id,jdbcType=INTEGER},
+        module_id = #{module_id,jdbcType=INTEGER},
         user_id = #{user_id,jdbcType=VARCHAR},
         join_type = #{join_type,jdbcType=INTEGER},
         join_info = #{join_info,jdbcType=VARCHAR},

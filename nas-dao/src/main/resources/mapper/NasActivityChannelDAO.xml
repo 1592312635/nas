@@ -28,7 +28,7 @@
         insert into nas_activity_channel (activity_id, channel_name, channel_code,
         create_time, update_time, del_tag
         )
-        values (#{activity_id,jdbcType=BIGINT}, #{channel_name,jdbcType=VARCHAR}, #{channel_code,jdbcType=VARCHAR},
+        values (#{activity_id,jdbcType=INTEGER}, #{channel_name,jdbcType=VARCHAR}, #{channel_code,jdbcType=VARCHAR},
         #{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP}, #{del_tag,jdbcType=INTEGER}
         )
     </insert>
@@ -57,7 +57,7 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="activity_id != null">
-                #{activity_id,jdbcType=BIGINT},
+                #{activity_id,jdbcType=INTEGER},
             </if>
             <if test="channel_name != null">
                 #{channel_name,jdbcType=VARCHAR},
@@ -80,7 +80,7 @@
         update nas_activity_channel
         <set>
             <if test="activity_id != null">
-                activity_id = #{activity_id,jdbcType=BIGINT},
+                activity_id = #{activity_id,jdbcType=INTEGER},
             </if>
             <if test="channel_name != null">
                 channel_name = #{channel_name,jdbcType=VARCHAR},
@@ -102,7 +102,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.ActivityChannelPO">
         update nas_activity_channel
-        set activity_id = #{activity_id,jdbcType=BIGINT},
+        set activity_id = #{activity_id,jdbcType=INTEGER},
         channel_name = #{channel_name,jdbcType=VARCHAR},
         channel_code = #{channel_code,jdbcType=VARCHAR},
         create_time = #{create_time,jdbcType=TIMESTAMP},

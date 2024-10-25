@@ -3,8 +3,8 @@
 <mapper namespace="com.minyan.nasdao.NasRewardRuleTempDAO">
     <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.RewardRuleTempPO">
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="activity_id" jdbcType="BIGINT" property="activityId"/>
-        <result column="module_id" jdbcType="BIGINT" property="moduleId"/>
+        <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
+        <result column="module_id" jdbcType="INTEGER" property="moduleId"/>
         <result column="event_id" jdbcType="BIGINT" property="eventId"/>
         <result column="reward_type" jdbcType="INTEGER" property="rewardType"/>
         <result column="reward_id" jdbcType="BIGINT" property="rewardId"/>

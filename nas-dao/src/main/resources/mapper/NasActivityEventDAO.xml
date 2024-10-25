@@ -3,8 +3,9 @@
 <mapper namespace="com.minyan.nasdao.NasActivityEventDAO">
     <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.ActivityEventPO">
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="activity_id" jdbcType="BIGINT" property="activityId"/>
-        <result column="module_id" jdbcType="BIGINT" property="moduleId"/>
+        <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
+        <result column="module_id" jdbcType="INTEGER" property="moduleId"/>
+        <result column="event_id" jdbcType="BIGINT" property="eventId"/>
         <result column="event_name" jdbcType="VARCHAR" property="eventName"/>
         <result column="event_type" jdbcType="VARCHAR" property="eventType"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
@@ -12,7 +13,7 @@
         <result column="del_tag" jdbcType="INTEGER" property="delTag"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, activity_id, module_id, event_name, event_type, create_time, update_time, del_tag
+        id, activity_id, module_id, event_id, event_name, event_type, create_time, update_time, del_tag
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -26,12 +27,12 @@
     </delete>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ActivityEventPO"
             useGeneratedKeys="true">
-        insert into nas_activity_event (activity_id, module_id, event_name,
+        insert into nas_activity_event (activity_id, module_id, event_id, event_name,
         event_type, create_time, update_time,
         del_tag)
-        values (#{activity_id,jdbcType=BIGINT}, #{module_id,jdbcType=BIGINT}, #{event_name,jdbcType=VARCHAR},
-        #{event_type,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP},
-        #{del_tag,jdbcType=INTEGER})
+        values (#{activity_id,jdbcType=INTEGER}, #{module_id,jdbcType=INTEGER}, #{eventId,jdbcType=BIGINT},
+        #{event_name,jdbcType=VARCHAR}, #{event_type,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP},
+        #{update_time,jdbcType=TIMESTAMP}, #{del_tag,jdbcType=INTEGER})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ActivityEventPO"
             useGeneratedKeys="true">
@@ -42,6 +43,9 @@
             </if>
             <if test="module_id != null">
                 module_id,
+            </if>
+            <if test="event_id != null">
+                event_id,
             </if>
             <if test="event_name != null">
                 event_name,
@@ -61,10 +65,13 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="activity_id != null">
-                #{activity_id,jdbcType=BIGINT},
+                #{activity_id,jdbcType=INTEGER},
             </if>
             <if test="module_id != null">
-                #{module_id,jdbcType=BIGINT},
+                #{module_id,jdbcType=INTEGER},
+            </if>
+            <if test="event_id != null">
+                #{event_id,jdbcType=BIGINT},
             </if>
             <if test="event_name != null">
                 #{event_name,jdbcType=VARCHAR},
@@ -87,10 +94,13 @@
         update nas_activity_event
         <set>
             <if test="activity_id != null">
-                activity_id = #{activity_id,jdbcType=BIGINT},
+                activity_id = #{activity_id,jdbcType=INTEGER},
             </if>
             <if test="module_id != null">
-                module_id = #{module_id,jdbcType=BIGINT},
+                module_id = #{module_id,jdbcType=INTEGER},
+            </if>
+            <if test="event_id != null">
+                event_id = #{event_id,jdbcType=BIGINT},
             </if>
             <if test="event_name != null">
                 event_name = #{event_name,jdbcType=VARCHAR},
@@ -112,8 +122,9 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.ActivityEventPO">
         update nas_activity_event
-        set activity_id = #{activity_id,jdbcType=BIGINT},
-        module_id = #{module_id,jdbcType=BIGINT},
+        set activity_id = #{activity_id,jdbcType=INTEGER},
+        module_id = #{module_id,jdbcType=INTEGER},
+        event_id = #{event_id,jdbcType=BIGINT},
         event_name = #{event_name,jdbcType=VARCHAR},
         event_type = #{event_type,jdbcType=VARCHAR},
         create_time = #{create_time,jdbcType=TIMESTAMP},

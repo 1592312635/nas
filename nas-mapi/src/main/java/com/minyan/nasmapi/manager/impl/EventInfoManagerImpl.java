@@ -9,6 +9,7 @@ import com.minyan.nascommon.param.MActivityEventSaveParam;
 import com.minyan.nascommon.param.MActivityModuleSaveParam;
 import com.minyan.nascommon.po.ActivityEventTempPO;
 import com.minyan.nascommon.po.ModuleInfoTempPO;
+import com.minyan.nascommon.utils.SnowFlakeUtil;
 import com.minyan.nascommon.vo.MActivityEventDetailVO;
 import com.minyan.nascommon.vo.MModuleInfoDetailVO;
 import com.minyan.nasdao.NasActivityEventTempDAO;
@@ -92,7 +93,7 @@ public class EventInfoManagerImpl implements EventInfoManager {
     activityEventTempDAO.insert(activityEventTempPO);
 
     // 后生成模块下事件下的领取规则和奖品规则
-    Long eventId = activityEventTempPO.getId();
+    Long eventId = activityEventTempPO.getEventId();
     eventSaveInfo.setEventId(eventId);
     receiveRuleManager.saveRuleTempInfos(activityId, moduleId, eventSaveInfo);
   }
@@ -110,6 +111,7 @@ public class EventInfoManagerImpl implements EventInfoManager {
     ActivityEventTempPO activityEventTempPO = new ActivityEventTempPO();
     activityEventTempPO.setActivityId(activityId);
     activityEventTempPO.setModuleId(moduleId);
+    activityEventTempPO.setEventId(SnowFlakeUtil.getDefaultSnowFlakeId());
     activityEventTempPO.setEventName(param.getEventName());
     activityEventTempPO.setEventType(param.getEventType());
     return activityEventTempPO;
@@ -140,7 +142,7 @@ public class EventInfoManagerImpl implements EventInfoManager {
     List<ActivityEventTempPO> toDelete = Lists.newArrayList();
     Map<Long, ActivityEventTempPO> tempMap = Maps.newHashMap();
     for (ActivityEventTempPO activityEventTempPO : activityEventTempPOS) {
-      Long eventId = activityEventTempPO.getId();
+      Long eventId = activityEventTempPO.getEventId();
       tempMap.put(eventId, activityEventTempPO);
     }
     for (MActivityEventSaveParam eventSaveInfo : eventSaveInfos) {
@@ -152,7 +154,7 @@ public class EventInfoManagerImpl implements EventInfoManager {
       }
     }
     for (ActivityEventTempPO activityEventTempPO : activityEventTempPOS) {
-      Long eventId = activityEventTempPO.getId();
+      Long eventId = activityEventTempPO.getEventId();
       if (!eventSaveInfos.stream()
           .map(MActivityEventSaveParam::getEventId)
           .collect(Collectors.toList())
@@ -198,7 +200,7 @@ public class EventInfoManagerImpl implements EventInfoManager {
       eventTempPODeleteWrapper
           .lambda()
           .set(ActivityEventTempPO::getDelTag, DelTagEnum.DEL.getValue())
-          .eq(ActivityEventTempPO::getId, activityEventTempPO.getId())
+          .eq(ActivityEventTempPO::getEventId, activityEventTempPO.getEventId())
           .eq(ActivityEventTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
     }
   }
@@ -217,7 +219,7 @@ public class EventInfoManagerImpl implements EventInfoManager {
         .lambda()
         .set(ActivityEventTempPO::getEventName, param.getEventName())
         .set(ActivityEventTempPO::getEventType, param.getEventType())
-        .eq(ActivityEventTempPO::getId, param.getEventId())
+        .eq(ActivityEventTempPO::getEventId, param.getEventId())
         .eq(ActivityEventTempPO::getActivityId, activityId)
         .eq(ActivityEventTempPO::getModuleId, moduleId)
         .eq(ActivityEventTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());

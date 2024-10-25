@@ -31,6 +31,7 @@ public enum CodeEnum {
   AUDIT_CHANNEL_NOT_EXIST("100014", "审核时渠道不存在"),
   AUDIT_REWARD_NOT_EXIST("100015", "审核时活动奖励不存在"),
   AUDIT_MODULE_NOT_EXIST("100016", "审核时活动模块不存在"),
+  AUDIT_EVENT_NOT_EXIST("100017", "审核时活动事件不存在"),
   ;
   private final String code;
   private final String message;

@@ -3,8 +3,8 @@
 <mapper namespace="com.minyan.nasdao.NasRewardRuleDAO">
     <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.RewardRulePO">
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="activity_id" jdbcType="BIGINT" property="activityId"/>
-        <result column="module_id" jdbcType="BIGINT" property="moduleId"/>
+        <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
+        <result column="module_id" jdbcType="INTEGER" property="moduleId"/>
         <result column="event_id" jdbcType="BIGINT" property="eventId"/>
         <result column="reward_type" jdbcType="INTEGER" property="rewardId"/>
         <result column="reward_id" jdbcType="BIGINT" property="rewardId"/>
@@ -31,7 +31,7 @@
         insert into nas_reward_rule (activity_id, module_id, event_id,
         reward_type, reward_id, create_time,
         update_time, del_tag)
-        values (#{activity_id,jdbcType=BIGINT}, #{module_id,jdbcType=BIGINT}, #{event_id,jdbcType=BIGINT},
+        values (#{activity_id,jdbcType=INTEGER}, #{module_id,jdbcType=INTEGER}, #{event_id,jdbcType=BIGINT},
         #{reward_type,jdbcType=INTEGER}, #{reward_id,jdbcType=BIGINT}, #{create_time,jdbcType=TIMESTAMP},
         #{update_time,jdbcType=TIMESTAMP}, #{del_tag,jdbcType=INTEGER})
     </insert>
@@ -66,10 +66,10 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="activity_id != null">
-                #{activity_id,jdbcType=BIGINT},
+                #{activity_id,jdbcType=INTEGER},
             </if>
             <if test="module_id != null">
-                #{module_id,jdbcType=BIGINT},
+                #{module_id,jdbcType=INTEGER},
             </if>
             <if test="event_id != null">
                 #{event_id,jdbcType=BIGINT},
@@ -95,10 +95,10 @@
         update nas_reward_rule
         <set>
             <if test="activity_id != null">
-                activity_id = #{activity_id,jdbcType=BIGINT},
+                activity_id = #{activity_id,jdbcType=INTEGER},
             </if>
             <if test="module_id != null">
-                module_id = #{module_id,jdbcType=BIGINT},
+                module_id = #{module_id,jdbcType=INTEGER},
             </if>
             <if test="event_id != null">
                 event_id = #{event_id,jdbcType=BIGINT},
@@ -123,8 +123,8 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.RewardRulePO">
         update nas_reward_rule
-        set activity_id = #{activity_id,jdbcType=BIGINT},
-        module_id = #{module_id,jdbcType=BIGINT},
+        set activity_id = #{activity_id,jdbcType=INTEGER},
+        module_id = #{module_id,jdbcType=INTEGER},
         event_id = #{event_id,jdbcType=BIGINT},
         reward_type = #{reward_type,jdbcType=INTEGER},
         reward_id = #{reward_id,jdbcType=BIGINT},

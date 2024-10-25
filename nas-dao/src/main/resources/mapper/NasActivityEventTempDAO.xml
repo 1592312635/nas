@@ -5,6 +5,7 @@
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
         <result column="module_id" jdbcType="INTEGER" property="moduleId"/>
+        <result column="event_id" jdbcType="BIGINT" property="eventId"/>
         <result column="event_name" jdbcType="VARCHAR" property="eventName"/>
         <result column="event_type" jdbcType="VARCHAR" property="eventType"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
@@ -12,7 +13,7 @@
         <result column="del_tag" jdbcType="INTEGER" property="delTag"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, activity_id, module_id, event_name, event_type, create_time, update_time, del_tag
+        id, activity_id, module_id, event_id, event_name, event_type, create_time, update_time, del_tag
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -26,10 +27,10 @@
     </delete>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ActivityEventTempPO"
             useGeneratedKeys="true">
-        insert into nas_activity_event_temp (activity_id, module_id, event_name,
+        insert into nas_activity_event_temp (activity_id, module_id, event_id, event_name,
         event_type, create_time, update_time,
         del_tag)
-        values (#{activityId,jdbcType=INTEGER}, #{moduleId,jdbcType=INTEGER}, #{eventName,jdbcType=VARCHAR},
+        values (#{activityId,jdbcType=INTEGER}, #{moduleId,jdbcType=INTEGER}, #{eventId,jdbcType=BIGINT}, #{eventName,jdbcType=VARCHAR},
         #{eventType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
         #{delTag,jdbcType=INTEGER})
     </insert>
@@ -42,6 +43,9 @@
             </if>
             <if test="moduleId != null">
                 module_id,
+            </if>
+            <if test="eventId != null">
+                event_id,
             </if>
             <if test="eventName != null">
                 event_name,
@@ -65,6 +69,9 @@
             </if>
             <if test="moduleId != null">
                 #{moduleId,jdbcType=INTEGER},
+            </if>
+            <if test="eventId != null">
+                #{eventId,jdbcType=BIGINT},
             </if>
             <if test="eventName != null">
                 #{eventName,jdbcType=VARCHAR},
@@ -92,6 +99,9 @@
             <if test="moduleId != null">
                 module_id = #{moduleId,jdbcType=INTEGER},
             </if>
+            <if test="eventId != null">
+                event_id = #{eventId,jdbcType=BIGINT},
+            </if>
             <if test="eventName != null">
                 event_name = #{eventName,jdbcType=VARCHAR},
             </if>
@@ -114,6 +124,7 @@
         update nas_activity_event_temp
         set activity_id = #{activityId,jdbcType=INTEGER},
         module_id = #{moduleId,jdbcType=INTEGER},
+        event_id = #{eventId,jdbcType=BIGINT},
         event_name = #{eventName,jdbcType=VARCHAR},
         event_type = #{eventType,jdbcType=VARCHAR},
         create_time = #{createTime,jdbcType=TIMESTAMP},
