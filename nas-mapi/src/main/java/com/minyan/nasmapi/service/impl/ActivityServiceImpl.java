@@ -50,23 +50,6 @@ public class ActivityServiceImpl implements ActivityService {
   @Autowired private ActivityChannelManager activityChannelManager;
 
   @Autowired private NasActivityInfoDAO activityInfoDAO;
-  @Autowired private NasActivityInfoTempDAO activityInfoTempDAO;
-  @Autowired private NasModuleInfoDAO moduleInfoDAO;
-  @Autowired private NasModuleInfoTempDAO moduleInfoTempDAO;
-  @Autowired private NasActivityRewardDAO activityRewardDAO;
-  @Autowired private NasActivityRewardTempDAO activityRewardTempDAO;
-  @Autowired private NasActivityEventDAO activityEventDAO;
-  @Autowired private NasActivityEventTempDAO activityEventTempDAO;
-  @Autowired private NasReceiveRuleDAO receiveRuleDAO;
-  @Autowired private NasReceiveRuleTempDAO receiveRuleTempDAO;
-  @Autowired private NasReceiveLimitDAO receiveLimitDAO;
-  @Autowired private NasReceiveLimitTempDAO receiveLimitTempDAO;
-  @Autowired private NasRewardRuleDAO rewardRuleDAO;
-  @Autowired private NasRewardRuleTempDAO rewardRuleTempDAO;
-  @Autowired private NasRewardLimitDAO rewardLimitDAO;
-  @Autowired private NasRewardLimitTempDAO rewardLimitTempDAO;
-  @Autowired private NasActivityChannelDAO activityChannelDAO;
-  @Autowired private NasActivityChannelTempDAO activityChannelTempDAO;
 
   @Override
   public ApiResult<List<MActivityInfoVO>> getActivityInfoList(MActivityInfoQueryParam param) {

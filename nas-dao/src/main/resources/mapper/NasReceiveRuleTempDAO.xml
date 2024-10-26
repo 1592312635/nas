@@ -6,13 +6,14 @@
         <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
         <result column="module_id" jdbcType="INTEGER" property="moduleId"/>
         <result column="event_id" jdbcType="BIGINT" property="eventId"/>
+        <result column="receive_rule_id" jdbcType="BIGINT" property="receiveRuleId"/>
         <result column="rule_type" jdbcType="INTEGER" property="ruleType"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="del_tag" jdbcType="INTEGER" property="delTag"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, activity_id, module_id, event_id, rule_type, create_time, update_time, del_tag
+        id, activity_id, module_id, event_id, receive_rule_id, rule_type, create_time, update_time, del_tag
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -26,11 +27,12 @@
     </delete>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ReceiveRuleTempPO"
             useGeneratedKeys="true">
-        insert into nas_receive_rule_temp (activity_id, module_id, event_id, rule_type, create_time,
+        insert into nas_receive_rule_temp (activity_id, module_id, event_id, receive_rule_id, rule_type, create_time,
         update_time, del_tag)
-        values (#{activityId,jdbcType=INTEGER},#{moduleId,jdbcType=INTEGER},#{eventId,jdbcType=BIGINT},
-        #{ruleType,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
-        #{delTag,jdbcType=INTEGER})
+        values
+        (#{activityId,jdbcType=INTEGER},#{moduleId,jdbcType=INTEGER},#{eventId,jdbcType=BIGINT},#{receiveRuleId,jdbcType=BIGINT},
+        #{ruleType,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP},#{delTag,jdbcType=INTEGER})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id"
             parameterType="com.minyan.nascommon.po.ReceiveRuleTempPO" useGeneratedKeys="true">
@@ -44,6 +46,9 @@
             </if>
             <if test="eventId != null">
                 event_id,
+            </if>
+            <if test="receiveRuleId != null">
+                receive_rule_id,
             </if>
             <if test="ruleType != null">
                 rule_type,
@@ -67,6 +72,9 @@
             </if>
             <if test="eventId != null">
                 #{eventId,jdbcType=BIGINT},
+            </if>
+            <if test="receiveRuleId != null">
+                #{receiveRuleId,jdbcType=BIGINT},
             </if>
             <if test="ruleType != null">
                 #{ruleType,jdbcType=INTEGER},
@@ -94,6 +102,9 @@
             <if test="eventId != null">
                 event_id = #{eventId,jdbcType=BIGINT},
             </if>
+            <if test="receiveRuleId != null">
+                receive_rule_id = #{receiveRuleId,jdbcType=BIGINT},
+            </if>
             <if test="ruleType != null">
                 rule_type = #{ruleType,jdbcType=INTEGER},
             </if>
@@ -111,7 +122,10 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.ReceiveRuleTempPO">
         update nas_receive_rule_temp
-        set event_id = #{eventId,jdbcType=BIGINT},
+        set activity_id = #{activityId,jdbcType=INTEGER},
+        module_id = #{moduleId,jdbcType=INTEGER},
+        event_id = #{eventId,jdbcType=BIGINT},
+        receive_rule_id = #{receiveRuleId,jdbcType=BIGINT},
         rule_type = #{ruleType,jdbcType=INTEGER},
         create_time = #{createTime,jdbcType=TIMESTAMP},
         update_time = #{updateTime,jdbcType=TIMESTAMP},

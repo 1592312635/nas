@@ -41,4 +41,19 @@ public class ReceiveRulePO implements Serializable {
   private Integer delTag;
 
   private static final long serialVersionUID = 1L;
+
+  /**
+   * 临时表temp转化主表
+   *
+   * @param receiveRuleTempPO
+   * @return
+   */
+  public static ReceiveRulePO tempConvertToReceiveRulePO(ReceiveRuleTempPO receiveRuleTempPO) {
+    ReceiveRulePO receiveRulePO = new ReceiveRulePO();
+    receiveRulePO.setActivityId(receiveRuleTempPO.getActivityId());
+    receiveRulePO.setModuleId(receiveRuleTempPO.getModuleId());
+    receiveRulePO.setEventId(receiveRuleTempPO.getEventId());
+    receiveRulePO.setRuleType(receiveRuleTempPO.getRuleType());
+    return receiveRulePO;
+  }
 }

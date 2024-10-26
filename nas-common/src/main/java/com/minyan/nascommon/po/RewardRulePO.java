@@ -3,10 +3,9 @@ package com.minyan.nascommon.po;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
  * @author 活动奖品规则表
@@ -45,4 +44,20 @@ public class RewardRulePO implements Serializable {
   private Integer delTag;
 
   private static final long serialVersionUID = 1L;
+
+  /**
+   * 临时表奖品规则转化主表奖品规则
+   *
+   * @param rewardRuleTempPO
+   * @return
+   */
+  public static RewardRulePO tempConvertToRewardRulePO(RewardRuleTempPO rewardRuleTempPO) {
+    RewardRulePO rewardRulePO = new RewardRulePO();
+    rewardRulePO.setActivityId(rewardRuleTempPO.getActivityId());
+    rewardRulePO.setModuleId(rewardRuleTempPO.getModuleId());
+    rewardRulePO.setEventId(rewardRuleTempPO.getEventId());
+    rewardRulePO.setRewardId(rewardRuleTempPO.getRewardId());
+    rewardRulePO.setRewardType(rewardRuleTempPO.getRewardType());
+    return rewardRulePO;
+  }
 }

@@ -6,6 +6,7 @@
         <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
         <result column="module_id" jdbcType="INTEGER" property="moduleId"/>
         <result column="event_id" jdbcType="BIGINT" property="eventId"/>
+        <result column="reward_rule_id" jdbcType="BIGINT" property="rewardRuleId"/>
         <result column="reward_type" jdbcType="INTEGER" property="rewardType"/>
         <result column="reward_id" jdbcType="BIGINT" property="rewardId"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
@@ -13,7 +14,7 @@
         <result column="del_tag" jdbcType="INTEGER" property="delTag"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, activity_id, module_id, event_id, reward_type, reward_id, create_time, update_time,
+        id, activity_id, module_id, event_id, reward_rule_id, reward_type, reward_id, create_time, update_time,
         del_tag
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -28,12 +29,12 @@
     </delete>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.RewardRuleTempPO"
             useGeneratedKeys="true">
-        insert into nas_reward_rule_temp (activity_id, module_id, event_id,
-        reward_type, reward_id, create_time,
-        update_time, del_tag)
-        values (#{activityId,jdbcType=BIGINT}, #{moduleId,jdbcType=BIGINT}, #{eventId,jdbcType=BIGINT},
-        #{rewardType,jdbcType=INTEGER}, #{rewardId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
-        #{updateTime,jdbcType=TIMESTAMP}, #{delTag,jdbcType=INTEGER})
+        insert into nas_reward_rule_temp (activity_id, module_id, event_id, reward_rule_id, reward_type, reward_id,
+        create_time, update_time, del_tag)
+        values (#{activityId,jdbcType=BIGINT}, #{moduleId,jdbcType=BIGINT},
+        #{eventId,jdbcType=BIGINT},#{rewardRuleId,jdbcType=BIGINT}, #{rewardType,jdbcType=INTEGER},
+        #{rewardId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+        #{delTag,jdbcType=INTEGER})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id"
             parameterType="com.minyan.nascommon.po.RewardRuleTempPO" useGeneratedKeys="true">
@@ -47,6 +48,9 @@
             </if>
             <if test="eventId != null">
                 event_id,
+            </if>
+            <if test="rewardRuleId != null">
+                reward_rule_id,
             </if>
             <if test="rewardType != null">
                 reward_type,
@@ -73,6 +77,9 @@
             </if>
             <if test="eventId != null">
                 #{eventId,jdbcType=BIGINT},
+            </if>
+            <if test="rewardRuleId != null">
+                #{rewardRuleId,jdbcType=BIGINT},
             </if>
             <if test="rewardType != null">
                 #{rewardType,jdbcType=INTEGER},
@@ -103,6 +110,9 @@
             <if test="eventId != null">
                 event_id = #{eventId,jdbcType=BIGINT},
             </if>
+            <if test="rewardRuleId != null">
+                reward_rule_id = #{rewardRuleId,jdbcType=BIGINT},
+            </if>
             <if test="rewardType != null">
                 reward_type = #{rewardType,jdbcType=INTEGER},
             </if>
@@ -126,6 +136,7 @@
         set activity_id = #{activityId,jdbcType=BIGINT},
         module_id = #{moduleId,jdbcType=BIGINT},
         event_id = #{eventId,jdbcType=BIGINT},
+        reward_rule_id = #{rewardRuleId,jdbcType=BIGINT},
         reward_type = #{rewardType,jdbcType=INTEGER},
         reward_id = #{rewardId,jdbcType=BIGINT},
         create_time = #{createTime,jdbcType=TIMESTAMP},

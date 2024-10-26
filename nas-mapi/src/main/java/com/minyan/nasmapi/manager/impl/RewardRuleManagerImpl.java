@@ -118,7 +118,8 @@ public class RewardRuleManagerImpl implements RewardRuleManager {
       for (MActivityRewardLimitSaveParam rewardLimitSaveInfo :
           rewardRuleSaveInfo.getRewardLimitSaveInfos()) {
         rewardLimitTempDAO.insert(
-            buildRewardLimitTempPO(rewardRuleTempPO.getId(), rewardLimitSaveInfo));
+            buildRewardLimitTempPO(
+                activityId, moduleId, eventId, rewardRuleTempPO.getId(), rewardLimitSaveInfo));
       }
     }
   }
@@ -146,12 +147,23 @@ public class RewardRuleManagerImpl implements RewardRuleManager {
   /**
    * 构建奖品规则门槛
    *
+   * @param activityId
+   * @param moduleId
+   * @param eventId
    * @param rewardRuleId
    * @param param
    * @return
    */
-  RewardLimitTempPO buildRewardLimitTempPO(Long rewardRuleId, MActivityRewardLimitSaveParam param) {
+  RewardLimitTempPO buildRewardLimitTempPO(
+      Integer activityId,
+      Integer moduleId,
+      Long eventId,
+      Long rewardRuleId,
+      MActivityRewardLimitSaveParam param) {
     RewardLimitTempPO rewardLimitTempPO = new RewardLimitTempPO();
+    rewardLimitTempPO.setActivityId(activityId);
+    rewardLimitTempPO.setModuleId(moduleId);
+    rewardLimitTempPO.setEventId(eventId);
     rewardLimitTempPO.setRewardRuleId(rewardRuleId);
     rewardLimitTempPO.setLimitKey(param.getLimitKey());
     rewardLimitTempPO.setLimitJson(param.getLimitJson());
@@ -240,7 +252,11 @@ public class RewardRuleManagerImpl implements RewardRuleManager {
         for (MActivityRewardLimitSaveParam rewardLimitSaveInfo : rewardLimitSaveInfos) {
           rewardLimitTempDAO.insert(
               buildRewardLimitTempPO(
-                  mActivityRewardRuleSaveParam.getRewardRuleId(), rewardLimitSaveInfo));
+                  activityId,
+                  moduleId,
+                  eventId,
+                  mActivityRewardRuleSaveParam.getRewardRuleId(),
+                  rewardLimitSaveInfo));
         }
       }
     }

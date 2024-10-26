@@ -1,6 +1,6 @@
 spring:
   application:
-    name: currencycapi
+    name: nascapi
   datasource:
     url: jdbc:mysql://148.135.93.196:3306/nas
     username: nas

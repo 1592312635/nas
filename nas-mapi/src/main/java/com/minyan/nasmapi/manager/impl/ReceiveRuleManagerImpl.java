@@ -136,7 +136,9 @@ public class ReceiveRuleManagerImpl implements ReceiveRuleManager {
       Long receiveRuleId = receiveRuleTempPO.getId();
       for (MActivityReceiveLimitSaveParam receiveLimitSaveInfo :
           receiveRuleSaveInfo.getReceiveLimitSaveInfos()) {
-        receiveLimitTempDAO.insert(buildReceiveLimitTempPO(receiveRuleId, receiveLimitSaveInfo));
+        receiveLimitTempDAO.insert(
+            buildReceiveLimitTempPO(
+                activityId, moduleId, eventId, receiveRuleId, receiveLimitSaveInfo));
       }
     }
   }
@@ -161,14 +163,21 @@ public class ReceiveRuleManagerImpl implements ReceiveRuleManager {
   }
 
   /**
-   * 构建领取门槛实体
+   * 构建了领取门槛实体
    *
+   * @param activityId
+   * @param moduleId
+   * @param eventId
    * @param receiveRuleId
    * @param param
    * @return
    */
   ReceiveLimitTempPO buildReceiveLimitTempPO(
-      Long receiveRuleId, MActivityReceiveLimitSaveParam param) {
+      Integer activityId,
+      Integer moduleId,
+      Long eventId,
+      Long receiveRuleId,
+      MActivityReceiveLimitSaveParam param) {
     ReceiveLimitTempPO receiveLimitTempPO = new ReceiveLimitTempPO();
     receiveLimitTempPO.setReceiveRuleId(receiveRuleId);
     receiveLimitTempPO.setLimitKey(param.getLimitKey());
@@ -254,7 +263,11 @@ public class ReceiveRuleManagerImpl implements ReceiveRuleManager {
         for (MActivityReceiveLimitSaveParam receiveLimitSaveInfo : receiveLimitSaveInfos) {
           receiveLimitTempDAO.insert(
               buildReceiveLimitTempPO(
-                  mActivityReceiveRuleSaveParam.getReceiveRuleId(), receiveLimitSaveInfo));
+                  activityId,
+                  moduleId,
+                  eventId,
+                  mActivityReceiveRuleSaveParam.getReceiveRuleId(),
+                  receiveLimitSaveInfo));
         }
       }
     }
