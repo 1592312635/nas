@@ -22,11 +22,11 @@ public class ReceiveRuleTempPO implements Serializable {
   /** 模块id */
   private Integer moduleId;
 
-  /** 领取规则id */
-  private Long receiveRuleId;
-
   /** 事件id */
   private Long eventId;
+
+  /** 领取规则id */
+  private Long receiveRuleId;
 
   /** 规则类型(1前台规则2异步发奖规则) */
   private Integer ruleType;
