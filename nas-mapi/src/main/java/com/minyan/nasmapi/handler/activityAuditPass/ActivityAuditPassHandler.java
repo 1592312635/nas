@@ -1,7 +1,7 @@
 package com.minyan.nasmapi.handler.activityAuditPass;
 
 import com.minyan.nascommon.vo.ApiResult;
-import com.minyan.nascommon.vo.context.ActivityAuditPassContext;
+import com.minyan.nascommon.dto.context.ActivityAuditPassContext;
 
 /**
  * @decription 活动审核处理handler

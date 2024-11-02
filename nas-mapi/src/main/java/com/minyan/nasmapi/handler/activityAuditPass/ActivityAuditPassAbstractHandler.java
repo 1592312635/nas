@@ -1,6 +1,6 @@
 package com.minyan.nasmapi.handler.activityAuditPass;
 
-import com.minyan.nascommon.vo.context.ActivityAuditPassContext;
+import com.minyan.nascommon.dto.context.ActivityAuditPassContext;
 import org.springframework.stereotype.Service;
 
 /**

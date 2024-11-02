@@ -9,7 +9,7 @@ import com.minyan.nascommon.param.MActivityInfoAuditParam;
 import com.minyan.nascommon.po.ActivityEventPO;
 import com.minyan.nascommon.po.ActivityEventTempPO;
 import com.minyan.nascommon.vo.ApiResult;
-import com.minyan.nascommon.vo.context.ActivityAuditPassContext;
+import com.minyan.nascommon.dto.context.ActivityAuditPassContext;
 import com.minyan.nasdao.NasActivityEventDAO;
 import com.minyan.nasdao.NasActivityEventTempDAO;
 import java.util.List;

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.minyan.nascommon.Enum.DelTagEnum;
 import com.minyan.nascommon.param.CReceiveSendParam;
 import com.minyan.nascommon.po.ActivityEventPO;
-import com.minyan.nascommon.vo.context.ReceiveSendContext;
+import com.minyan.nascommon.dto.context.ReceiveSendContext;
 import com.minyan.nasdao.NasActivityEventDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

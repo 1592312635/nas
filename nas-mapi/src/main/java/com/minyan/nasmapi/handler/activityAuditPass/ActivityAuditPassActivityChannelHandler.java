@@ -9,7 +9,7 @@ import com.minyan.nascommon.param.MActivityInfoAuditParam;
 import com.minyan.nascommon.po.ActivityChannelPO;
 import com.minyan.nascommon.po.ActivityChannelTempPO;
 import com.minyan.nascommon.vo.ApiResult;
-import com.minyan.nascommon.vo.context.ActivityAuditPassContext;
+import com.minyan.nascommon.dto.context.ActivityAuditPassContext;
 import com.minyan.nasdao.NasActivityChannelDAO;
 import com.minyan.nasdao.NasActivityChannelTempDAO;
 import java.util.List;

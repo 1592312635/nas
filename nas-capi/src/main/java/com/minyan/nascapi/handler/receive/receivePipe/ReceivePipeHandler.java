@@ -1,4 +1,4 @@
-package com.minyan.nascapi.handler.receivePipe;
+package com.minyan.nascapi.handler.receive.receivePipe;
 
 /**
  * @decription

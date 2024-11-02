@@ -1,6 +1,8 @@
-package com.minyan.nascommon.vo.context;
+package com.minyan.nascommon.dto.context;
 
 import com.minyan.nascommon.param.CReceiveSendParam;
+import com.minyan.nascommon.po.ReceiveLimitPO;
+import java.util.List;
 import lombok.Data;
 
 /**
@@ -11,4 +13,7 @@ import lombok.Data;
 @Data
 public class ReceiveSendContext {
   private CReceiveSendParam param;
+
+  // 本次请求事件涉及的所有领取门槛
+  List<ReceiveLimitPO> receiveLimitList;
 }

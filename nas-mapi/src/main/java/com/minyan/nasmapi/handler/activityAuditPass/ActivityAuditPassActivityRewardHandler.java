@@ -9,7 +9,7 @@ import com.minyan.nascommon.param.MActivityInfoAuditParam;
 import com.minyan.nascommon.po.ActivityRewardPO;
 import com.minyan.nascommon.po.ActivityRewardTempPO;
 import com.minyan.nascommon.vo.ApiResult;
-import com.minyan.nascommon.vo.context.ActivityAuditPassContext;
+import com.minyan.nascommon.dto.context.ActivityAuditPassContext;
 import com.minyan.nasdao.NasActivityRewardDAO;
 import com.minyan.nasdao.NasActivityRewardTempDAO;
 import java.util.List;

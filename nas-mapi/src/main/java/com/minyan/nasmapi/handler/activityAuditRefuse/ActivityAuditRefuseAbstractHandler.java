@@ -1,6 +1,6 @@
 package com.minyan.nasmapi.handler.activityAuditRefuse;
 
-import com.minyan.nascommon.vo.context.ActivityAuditRefuseContext;
+import com.minyan.nascommon.dto.context.ActivityAuditRefuseContext;
 import org.springframework.stereotype.Service;
 
 /**

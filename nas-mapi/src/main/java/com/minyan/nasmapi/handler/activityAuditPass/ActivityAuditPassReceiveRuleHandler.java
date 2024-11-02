@@ -9,7 +9,7 @@ import com.minyan.nascommon.po.ReceiveLimitTempPO;
 import com.minyan.nascommon.po.ReceiveRulePO;
 import com.minyan.nascommon.po.ReceiveRuleTempPO;
 import com.minyan.nascommon.vo.ApiResult;
-import com.minyan.nascommon.vo.context.ActivityAuditPassContext;
+import com.minyan.nascommon.dto.context.ActivityAuditPassContext;
 import com.minyan.nasdao.NasReceiveLimitDAO;
 import com.minyan.nasdao.NasReceiveLimitTempDAO;
 import com.minyan.nasdao.NasReceiveRuleDAO;

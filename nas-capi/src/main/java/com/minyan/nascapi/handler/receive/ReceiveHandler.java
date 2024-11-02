@@ -1,6 +1,6 @@
 package com.minyan.nascapi.handler.receive;
 
-import com.minyan.nascommon.vo.context.ReceiveSendContext;
+import com.minyan.nascommon.dto.context.ReceiveSendContext;
 
 /**
  * @decription 领取发放主流程handler

@@ -7,7 +7,7 @@ import com.minyan.nascapi.service.ReceiveService;
 import com.minyan.nascommon.Enum.CodeEnum;
 import com.minyan.nascommon.param.CReceiveSendParam;
 import com.minyan.nascommon.vo.ApiResult;
-import com.minyan.nascommon.vo.context.ReceiveSendContext;
+import com.minyan.nascommon.dto.context.ReceiveSendContext;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

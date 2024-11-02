@@ -1,7 +1,7 @@
 package com.minyan.nasmapi.handler.activityAuditRefuse;
 
 import com.minyan.nascommon.vo.ApiResult;
-import com.minyan.nascommon.vo.context.ActivityAuditRefuseContext;
+import com.minyan.nascommon.dto.context.ActivityAuditRefuseContext;
 
 /**
  * @decription 活动审核不通过handler

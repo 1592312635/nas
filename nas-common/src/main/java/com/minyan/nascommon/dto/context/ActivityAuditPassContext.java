@@ -1,4 +1,4 @@
-package com.minyan.nascommon.vo.context;
+package com.minyan.nascommon.dto.context;
 
 import com.minyan.nascommon.param.MActivityInfoAuditParam;
 import lombok.Data;

@@ -34,6 +34,10 @@ public class TimeUtil {
     return SIMPLE_DATE_FORMAT.parse(dateString);
   }
 
+  public static Date stringToSecondsDate(String dateString) throws ParseException {
+    return SIMPLE_DATE_FORMAT_SECONDS.parse(dateString);
+  }
+
   // String 转 LocalDate
   public static LocalDate stringToLocalDate(String dateString) {
     return LocalDate.parse(dateString, DATE_FORMATTER);
@@ -151,5 +155,30 @@ public class TimeUtil {
         return period.longValue() * 60 * 60 * 24 * 30;
     }
     return 0L;
+  }
+
+  /**
+   * 字符串转化时间格式(仅支持时间戳和yyyy-MM-dd HH:mm:ss格式)
+   *
+   * @param dateStr
+   * @return
+   */
+  public static Date analyzeDate(String dateStr) {
+    try {
+      // 尝试将字符串解析为时间戳
+      long timestamp = Long.parseLong(dateStr);
+      return new Date(timestamp);
+    } catch (NumberFormatException e) {
+      // 不是时间戳，继续尝试解析日期格式
+    }
+
+    try {
+      // 尝试将字符串解析为 yyyy-MM-dd 格式
+      return stringToSecondsDate(dateStr);
+    } catch (Exception e) {
+      // 不是 yyyy-MM-dd 格式
+    }
+
+    return null;
   }
 }

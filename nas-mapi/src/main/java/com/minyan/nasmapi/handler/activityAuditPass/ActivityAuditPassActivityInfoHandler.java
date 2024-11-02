@@ -10,7 +10,7 @@ import com.minyan.nascommon.param.MActivityInfoAuditParam;
 import com.minyan.nascommon.po.ActivityInfoPO;
 import com.minyan.nascommon.po.ActivityInfoTempPO;
 import com.minyan.nascommon.vo.ApiResult;
-import com.minyan.nascommon.vo.context.ActivityAuditPassContext;
+import com.minyan.nascommon.dto.context.ActivityAuditPassContext;
 import com.minyan.nasdao.NasActivityInfoDAO;
 import com.minyan.nasdao.NasActivityInfoTempDAO;
 import org.slf4j.Logger;

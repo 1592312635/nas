@@ -1,7 +1,7 @@
 package com.minyan.nascapi.handler.receive;
 
 import com.minyan.nascommon.param.CReceiveSendParam;
-import com.minyan.nascommon.vo.context.ReceiveSendContext;
+import com.minyan.nascommon.dto.context.ReceiveSendContext;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 

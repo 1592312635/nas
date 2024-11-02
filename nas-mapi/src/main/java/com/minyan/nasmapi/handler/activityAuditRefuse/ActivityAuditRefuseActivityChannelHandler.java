@@ -7,7 +7,7 @@ import com.minyan.nascommon.Enum.DelTagEnum;
 import com.minyan.nascommon.po.ActivityChannelPO;
 import com.minyan.nascommon.po.ActivityChannelTempPO;
 import com.minyan.nascommon.vo.ApiResult;
-import com.minyan.nascommon.vo.context.ActivityAuditRefuseContext;
+import com.minyan.nascommon.dto.context.ActivityAuditRefuseContext;
 import com.minyan.nasdao.NasActivityChannelDAO;
 import com.minyan.nasdao.NasActivityChannelTempDAO;
 import java.util.List;
