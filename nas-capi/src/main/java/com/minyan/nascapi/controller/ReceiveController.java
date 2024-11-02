@@ -1,9 +1,11 @@
 package com.minyan.nascapi.controller;
 
+import com.minyan.nascapi.service.ReceiveService;
 import com.minyan.nascommon.param.CReceiveSendParam;
 import com.minyan.nascommon.vo.ApiResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,10 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/c/receive")
 public class ReceiveController {
-  Logger logger = LoggerFactory.getLogger(ReceiveController.class);
+  public static final Logger logger = LoggerFactory.getLogger(ReceiveController.class);
+  @Autowired private ReceiveService receiveService;
 
   @RequestMapping("/send")
   public ApiResult<?> send(@RequestBody CReceiveSendParam param) {
-    return ApiResult.buildSuccess("领取成功");
+    return receiveService.send(param);
   }
 }

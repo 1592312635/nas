@@ -32,6 +32,7 @@ public enum CodeEnum {
   AUDIT_REWARD_NOT_EXIST("100015", "审核时活动奖励不存在"),
   AUDIT_MODULE_NOT_EXIST("100016", "审核时活动模块不存在"),
   AUDIT_EVENT_NOT_EXIST("100017", "审核时活动事件不存在"),
+  RECEIVE_SEND_INNER_EXCEPTION("100018", "奖励发放时内部异常")
   ;
   private final String code;
   private final String message;

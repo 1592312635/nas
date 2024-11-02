@@ -26,6 +26,10 @@ public class ApiResult<T> {
     return new ApiResult<>(code, message, null);
   }
 
+  public static ApiResult build(String code, String message, Object data) {
+    return new ApiResult<>(code, message, data);
+  }
+
   public static ApiResult buildSuccess(Object data) {
     return new ApiResult<>(CodeEnum.SUCCESS.getCode(), CodeEnum.SUCCESS.getMessage(), data);
   }

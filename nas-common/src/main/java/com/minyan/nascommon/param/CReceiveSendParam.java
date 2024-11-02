@@ -1,5 +1,6 @@
 package com.minyan.nascommon.param;
 
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -9,7 +10,9 @@ import lombok.Data;
  */
 @Data
 public class CReceiveSendParam {
+  @NotNull(message = "活动id不能为空")
   private Integer activityId;
+
   private Integer moduleId;
   private Long eventId;
   private String eventType;
