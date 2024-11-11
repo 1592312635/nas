@@ -13,6 +13,7 @@ import lombok.Getter;
 public enum CodeEnum {
   SUCCESS("200", "成功"),
   FAIL("9999", "失败"),
+  SYSTEM_ERROR("500", "系统错误"),
 
   IDEMPOTENT_EXIST("100000", "幂等性校验失败"),
   ACTIVITY_NOT_EXIST("100001", "活动不存在"),

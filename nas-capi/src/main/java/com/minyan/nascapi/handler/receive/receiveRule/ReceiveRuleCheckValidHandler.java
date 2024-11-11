@@ -43,6 +43,7 @@ public class ReceiveRuleCheckValidHandler implements ReceiveRuleCheckHandler {
             .collect(Collectors.toList())) {
       // 每次循环重置当前需要验证的门槛
       receiveLimitCheckContext.setReceiveLimitPO(receiveLimitPO);
+//      receiveLimitCheckContext.setLimitMap(param.getJsonData());
       ReceiveLimitCheckHandler limitCheckHandler =
           receiveLimitCheckHandlers.stream()
               .filter(
