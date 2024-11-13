@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
 import com.minyan.nascapi.handler.receive.receiveRule.ReceiveRuleCheckHandler;
 import com.minyan.nascommon.Enum.DelTagEnum;
+import com.minyan.nascommon.dto.context.ReceiveSendContext;
 import com.minyan.nascommon.param.CReceiveSendParam;
 import com.minyan.nascommon.po.ReceiveLimitPO;
-import com.minyan.nascommon.dto.context.ReceiveSendContext;
 import com.minyan.nasdao.NasReceiveLimitDAO;
 import java.util.List;
 import org.slf4j.Logger;
@@ -31,14 +31,12 @@ public class ReceiveRuleHandler extends ReceiveAbstractHandler {
   @Override
   public Boolean handle(ReceiveSendContext context) {
     CReceiveSendParam param = context.getParam();
-    List<ReceiveRuleCheckHandler> fallBackHandlers = Lists.newArrayList();
     // 先获取要验证的门槛信息
     List<ReceiveLimitPO> receiveLimitList = getReceiveLimitList(param);
     context.setReceiveLimitList(receiveLimitList);
 
     // 开始处理领取门槛验证
     for (ReceiveRuleCheckHandler handler : receiveRuleCheckHandlers) {
-      fallBackHandlers.add(handler);
       Boolean result = handler.handle(context);
       if (!result) {
         logger.info(
