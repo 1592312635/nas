@@ -3,11 +3,12 @@ package com.minyan.nascapi.handler.receive.receiveRule;
 import com.alibaba.fastjson2.JSONObject;
 import com.minyan.nascapi.handler.receive.receiveRule.receiveLimit.ReceiveLimitCheckHandler;
 import com.minyan.nascommon.Enum.ReceiveLimitTypeEnum;
-import com.minyan.nascommon.param.CReceiveSendParam;
-import com.minyan.nascommon.po.ReceiveLimitPO;
 import com.minyan.nascommon.dto.context.ReceiveLimitCheckContext;
 import com.minyan.nascommon.dto.context.ReceiveSendContext;
+import com.minyan.nascommon.param.CReceiveSendParam;
+import com.minyan.nascommon.po.ReceiveLimitPO;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 /**
  * @decription 有效门槛处理handler
@@ -43,7 +45,11 @@ public class ReceiveRuleCheckValidHandler implements ReceiveRuleCheckHandler {
             .collect(Collectors.toList())) {
       // 每次循环重置当前需要验证的门槛
       receiveLimitCheckContext.setReceiveLimitPO(receiveLimitPO);
-//      receiveLimitCheckContext.setLimitMap(param.getJsonData());
+      // 提取出当前需要校验的json数据
+      if (!StringUtils.isEmpty(param.getJsonData())) {
+        Map<String, String> map = JSONObject.parseObject(param.getJsonData(), Map.class);
+        receiveLimitCheckContext.setLimitMap(map);
+      }
       ReceiveLimitCheckHandler limitCheckHandler =
           receiveLimitCheckHandlers.stream()
               .filter(

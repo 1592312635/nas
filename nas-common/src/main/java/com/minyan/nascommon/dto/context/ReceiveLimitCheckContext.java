@@ -1,5 +1,6 @@
 package com.minyan.nascommon.dto.context;
 
+import com.google.common.collect.Maps;
 import com.minyan.nascommon.param.CReceiveSendParam;
 import com.minyan.nascommon.po.ReceiveLimitPO;
 import java.util.Map;
@@ -15,5 +16,5 @@ public class ReceiveLimitCheckContext {
   CReceiveSendParam param;
   ReceiveLimitPO receiveLimitPO;
   // 临时存放待验证门槛信息的map，key是limitKey，value是需要与活动门槛进行验证的数据
-  Map<String, String> limitMap;
+  Map<String, String> limitMap = Maps.newHashMap();
 }
