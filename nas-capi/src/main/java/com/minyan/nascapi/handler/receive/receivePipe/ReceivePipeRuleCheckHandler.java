@@ -5,10 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.minyan.nascommon.Enum.DelTagEnum;
 import com.minyan.nascommon.dto.context.ReceivePipeContext;
 import com.minyan.nascommon.param.CReceiveSendParam;
-import com.minyan.nascommon.po.ActivityEventPO;
 import com.minyan.nascommon.po.RewardLimitPO;
 import com.minyan.nascommon.po.RewardRulePO;
-import com.minyan.nasdao.NasActivityEventDAO;
 import com.minyan.nasdao.NasRewardLimitDAO;
 import com.minyan.nasdao.NasRewardRuleDAO;
 import java.util.List;
@@ -19,39 +17,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
 
 /**
- * @decription
+ * @decription 奖品规则验证handler
  * @author minyan.he
- * @date 2024/11/21 12:08
+ * @date 2024/11/21 20:09
  */
 @Order(10)
 @Service
-public class ReceiveEventCheckHandler extends ReceivePipeAbstractHandler {
-  public static final Logger logger = LoggerFactory.getLogger(ReceiveEventCheckHandler.class);
+public class ReceivePipeRuleCheckHandler extends ReceivePipeAbstractHandler {
+  public static final Logger logger = LoggerFactory.getLogger(ReceivePipeRuleCheckHandler.class);
 
-  @Autowired private NasActivityEventDAO activityEventDAO;
   @Autowired private NasRewardRuleDAO rewardRuleDAO;
   @Autowired private NasRewardLimitDAO rewardLimitDAO;
 
   @Override
   public Boolean handle(ReceivePipeContext context) {
     CReceiveSendParam param = context.getParam();
-    QueryWrapper<ActivityEventPO> activityEventPOQueryWrapper = new QueryWrapper<>();
-    activityEventPOQueryWrapper
-        .lambda()
-        .eq(ActivityEventPO::getEventId, param.getEventId())
-        .eq(ActivityEventPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
-    ActivityEventPO activityEventPO = activityEventDAO.selectOne(activityEventPOQueryWrapper);
-    if (ObjectUtils.isEmpty(activityEventPO)) {
-      logger.info(
-          "[ReceiveEventCheckHandler][handle]领取接口事件验证不通过，事件信息不存在，请求参数：{}",
-          JSONObject.toJSONString(param));
-      return false;
-    }
-
-    // 补充事件下的奖品规则信息
     QueryWrapper<RewardRulePO> rewardRulePOQueryWrapper = new QueryWrapper<>();
     rewardRulePOQueryWrapper
         .lambda()
@@ -82,7 +64,6 @@ public class ReceiveEventCheckHandler extends ReceivePipeAbstractHandler {
       return false;
     }
 
-    context.setActivityEventPO(activityEventPO);
     context.setRewardRulePOList(rewardRulePOList);
     context.setRewardLimitPOList(rewardLimitPOS);
     return null;
