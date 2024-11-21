@@ -1,8 +1,8 @@
 package com.minyan.nascommon.dto.context;
 
 import com.minyan.nascommon.param.CReceiveSendParam;
-import com.minyan.nascommon.po.ActivityInfoPO;
-import com.minyan.nascommon.po.ModuleInfoPO;
+import com.minyan.nascommon.po.*;
+import java.util.List;
 import lombok.Data;
 
 /**
@@ -17,4 +17,8 @@ public class ReceivePipeContext {
   private ActivityInfoPO activityInfoPO;
   // 当前处理模块信息
   private ModuleInfoPO moduleInfoPO;
+  private ActivityEventPO activityEventPO;
+  private ActivityChannelPO activityChannelPO;
+  private List<RewardRulePO> rewardRulePOList;
+  private List<RewardLimitPO> rewardLimitPOList;
 }

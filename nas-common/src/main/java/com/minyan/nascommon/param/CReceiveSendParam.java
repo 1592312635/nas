@@ -14,6 +14,10 @@ public class CReceiveSendParam {
   private Integer activityId;
 
   private Integer moduleId;
+
+  @NotNull(message = "渠道编码不能为空")
+  private String channelCode;
+
   private Long eventId;
   private String eventType;
   private String jsonData;
