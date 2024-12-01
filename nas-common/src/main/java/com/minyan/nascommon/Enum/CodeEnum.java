@@ -14,6 +14,7 @@ public enum CodeEnum {
   SUCCESS("200", "成功"),
   FAIL("9999", "失败"),
   SYSTEM_ERROR("500", "系统错误"),
+  HTTP_ERROR("400", "HTTP错误"),
 
   IDEMPOTENT_EXIST("100000", "幂等性校验失败"),
   ACTIVITY_NOT_EXIST("100001", "活动不存在"),
@@ -38,6 +39,10 @@ public enum CodeEnum {
   ACTIVITY_STATUS_NOT_RUN("100020", "活动状态非启用"),
   MODULE_END("100021", "模块已结束"),
   MODULE_NOT_START("100022", "模块未开始"),
+  SEND_REWARD_RULE_IS_EMPTY("100023", "奖品发放时待发放奖品规则为空"),
+  SEND_REWARD_LIMIT_IS_EMPTY("100024", "奖品发放时待发放奖品规则门槛为空"),
+  SEND_REWARD_LIMIT_EXCEPTION("100025", "奖品发放时待发放奖品规则门槛解析异常"),
+  CURRENCY_SEND_FAIL("100026", "货币发放失败"),
   ;
   private final String code;
   private final String message;

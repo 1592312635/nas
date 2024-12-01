@@ -21,4 +21,6 @@ public class ReceivePipeContext {
   private ActivityChannelPO activityChannelPO;
   private List<RewardRulePO> rewardRulePOList;
   private List<RewardLimitPO> rewardLimitPOList;
+  // 管道筛选后的领取项
+  private List<RewardRulePO> sendRewardRuleList;
 }

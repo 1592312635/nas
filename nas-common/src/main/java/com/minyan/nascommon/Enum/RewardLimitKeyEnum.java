@@ -13,6 +13,8 @@ import lombok.Getter;
 public enum RewardLimitKeyEnum {
   USER_TYPE("userType", "用户类型"),
   PRIORITY("priority", "优先级"),
+  AMOUNT("amount", "金额"),
+  CURRENCY_TYPE("currencyType", "货币类型"),
   ;
 
   private final String value;
