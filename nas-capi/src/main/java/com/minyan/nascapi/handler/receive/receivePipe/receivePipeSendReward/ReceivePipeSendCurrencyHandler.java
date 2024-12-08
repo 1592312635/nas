@@ -5,12 +5,14 @@ import com.minyan.nascapi.service.HttpService;
 import com.minyan.nascommon.Enum.CodeEnum;
 import com.minyan.nascommon.Enum.RewardLimitKeyEnum;
 import com.minyan.nascommon.Enum.RewardTypeEnum;
+import com.minyan.nascommon.Enum.SystemEnum;
 import com.minyan.nascommon.dto.context.ReceivePipeContext;
 import com.minyan.nascommon.exception.CustomException;
 import com.minyan.nascommon.httpRequest.CurrencySendRequest;
 import com.minyan.nascommon.param.CReceiveSendParam;
 import com.minyan.nascommon.po.RewardLimitPO;
 import com.minyan.nascommon.po.RewardRulePO;
+import com.minyan.nascommon.utils.SnowFlakeUtil;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -131,7 +133,8 @@ public class ReceivePipeSendCurrencyHandler implements ReceivePipeSendRewardInte
     currencySendRequest.setUserId(param.getUserId());
     currencySendRequest.setAddCurrency(amount);
     currencySendRequest.setCurrencyType(currencyType);
-    currencySendRequest.setBusinessId(param.getEventId().toString());
+    currencySendRequest.setBusinessId(
+        String.format("%s:%s", SystemEnum.NAS.getValue(), SnowFlakeUtil.getDefaultSnowFlakeId()));
     currencySendRequest.setBehaviorCode(param.getEventType());
     currencySendRequest.setBehaviorDesc(param.getEventType());
     return currencySendRequest;

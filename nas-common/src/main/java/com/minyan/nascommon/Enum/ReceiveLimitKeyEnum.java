@@ -14,6 +14,8 @@ public enum ReceiveLimitKeyEnum {
   AMOUNT("amount", "金额门槛"),
   STRING("string", "字符串门槛"),
   EXPIRE("expire", "有效期门槛"),
+
+  CONSUME_INFO("consume_info","前置消耗信息"),
   ;
 
   private final String value;

@@ -31,6 +31,7 @@ public class ReceivePipeHandler extends ReceiveAbstractHandler {
     CReceiveSendParam param = context.getParam();
     ReceivePipeContext receivePipeContext = new ReceivePipeContext();
     receivePipeContext.setParam(param);
+    receivePipeContext.setReceiveLimitPOList(context.getReceiveLimitList());
     List<ReceivePipeAbstractHandler> fallBackList = Lists.newArrayList();
 
     try {

@@ -43,6 +43,8 @@ public enum CodeEnum {
   SEND_REWARD_LIMIT_IS_EMPTY("100024", "奖品发放时待发放奖品规则门槛为空"),
   SEND_REWARD_LIMIT_EXCEPTION("100025", "奖品发放时待发放奖品规则门槛解析异常"),
   CURRENCY_SEND_FAIL("100026", "货币发放失败"),
+  CURRENCY_DEDUCT_FAIL("100027", "货币扣除失败"),
+  CURRENCY_CONFIRM_FAIL("100028", "货币确认失败"),
   ;
   private final String code;
   private final String message;
