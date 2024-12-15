@@ -28,7 +28,7 @@ public class ReceivePipeContext {
   // 所有奖品规则门槛
   private List<RewardLimitPO> rewardLimitPOList;
   // 管道筛选后的领取项
-  private List<RewardRulePO> sendRewardRuleList;
+  private List<RewardRulePO> finalRewardRuleList;
 
   // 管道单个handler处理结果
   private Map<String, Boolean> pipeResultMap = Maps.newHashMap();
