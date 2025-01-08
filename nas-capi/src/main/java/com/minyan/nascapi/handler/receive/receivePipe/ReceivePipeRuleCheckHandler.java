@@ -34,6 +34,8 @@ public class ReceivePipeRuleCheckHandler extends ReceivePipeAbstractHandler {
   @Override
   public Boolean handle(ReceivePipeContext context) {
     CReceiveSendParam param = context.getParam();
+
+    // 获取奖品规则
     QueryWrapper<RewardRulePO> rewardRulePOQueryWrapper = new QueryWrapper<>();
     rewardRulePOQueryWrapper
         .lambda()
@@ -47,6 +49,8 @@ public class ReceivePipeRuleCheckHandler extends ReceivePipeAbstractHandler {
           JSONObject.toJSONString(param));
       return false;
     }
+
+    // 通过奖品规则获取奖品门槛
     List<Long> rewardRuleIds =
         rewardRulePOList.stream().map(RewardRulePO::getId).collect(Collectors.toList());
     QueryWrapper<RewardLimitPO> rewardLimitPOQueryWrapper = new QueryWrapper<>();

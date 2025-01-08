@@ -2,6 +2,8 @@ package com.minyan.nascommon.po;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
@@ -9,6 +11,7 @@ import lombok.Data;
  * 活动奖励规则门槛表
  */
 @Data
+@TableName("nas_reward_limit")
 public class RewardLimitPO implements Serializable {
     /**
      * 主键

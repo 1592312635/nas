@@ -2,6 +2,8 @@ package com.minyan.nascommon.po;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 /**
@@ -9,6 +11,7 @@ import lombok.Data;
  * 领取门槛临时表
  */
 @Data
+@TableName("nas_receive_limit_temp")
 public class ReceiveLimitTempPO implements Serializable {
     /**
      * 主键

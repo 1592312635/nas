@@ -8,7 +8,9 @@ import com.minyan.nascommon.Enum.DelTagEnum;
 import com.minyan.nascommon.dto.context.ReceiveSendContext;
 import com.minyan.nascommon.param.CReceiveSendParam;
 import com.minyan.nascommon.po.ReceiveLimitPO;
+import com.minyan.nascommon.po.ReceiveRulePO;
 import com.minyan.nasdao.NasReceiveLimitDAO;
+import com.minyan.nasdao.NasReceiveRuleDAO;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,13 +27,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReceiveRuleHandler extends ReceiveAbstractHandler {
   public static final Logger logger = LoggerFactory.getLogger(ReceiveRuleHandler.class);
-  @Autowired NasReceiveLimitDAO receiveLimitDAO;
-  @Autowired List<ReceiveRuleCheckHandler> receiveRuleCheckHandlers;
+  @Autowired private NasReceiveRuleDAO receiveRuleDAO;
+  @Autowired private NasReceiveLimitDAO receiveLimitDAO;
+  @Autowired private List<ReceiveRuleCheckHandler> receiveRuleCheckHandlers;
 
   @Override
   public Boolean handle(ReceiveSendContext context) {
     CReceiveSendParam param = context.getParam();
-    // 先获取要验证的门槛信息
+    // 获取领取规则信息
+    List<ReceiveRulePO> receiveRuleLists = getReceiveRuleLists(param);
+    context.setReceiveRulePOList(receiveRuleLists);
+    // 获取待验证领取门槛信息
     List<ReceiveLimitPO> receiveLimitList = getReceiveLimitList(param);
     context.setReceiveLimitList(receiveLimitList);
 
@@ -51,7 +57,26 @@ public class ReceiveRuleHandler extends ReceiveAbstractHandler {
   }
 
   /**
-   * 通过请求参数干活去当前需要校验的receiveLimit
+   * 通过请求参数筛选当前需要的receiveRule
+   *
+   * @param param
+   * @return
+   */
+  List<ReceiveRulePO> getReceiveRuleLists(CReceiveSendParam param) {
+    List<ReceiveRulePO> receiveRulePOS = Lists.newArrayList();
+    QueryWrapper<ReceiveRulePO> receiveRulePOQueryWrapper = new QueryWrapper<>();
+    receiveRulePOQueryWrapper
+        .lambda()
+        .eq(ReceiveRulePO::getActivityId, param.getActivityId())
+        .eq(ReceiveRulePO::getModuleId, param.getModuleId())
+        .eq(ReceiveRulePO::getEventId, param.getEventId())
+        .eq(ReceiveRulePO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+    receiveRulePOS = receiveRuleDAO.selectList(receiveRulePOQueryWrapper);
+    return receiveRulePOS;
+  }
+
+  /**
+   * 通过请求参数筛选当前需要校验的receiveLimit
    *
    * @param param
    * @return

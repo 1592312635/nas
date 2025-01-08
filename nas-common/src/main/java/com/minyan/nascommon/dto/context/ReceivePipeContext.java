@@ -1,5 +1,6 @@
 package com.minyan.nascommon.dto.context;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.minyan.nascommon.param.CReceiveSendParam;
 import com.minyan.nascommon.po.*;
@@ -21,15 +22,16 @@ public class ReceivePipeContext {
   private ModuleInfoPO moduleInfoPO;
   private ActivityEventPO activityEventPO;
   private ActivityChannelPO activityChannelPO;
+  // 所有领取规则
+  private List<ReceiveRulePO> receiveRulePOList = Lists.newArrayList();
   // 所有领取门槛
-  private List<ReceiveLimitPO> receiveLimitPOList;
+  private List<ReceiveLimitPO> receiveLimitPOList = Lists.newArrayList();
   // 所有奖品规则
-  private List<RewardRulePO> rewardRulePOList;
+  private List<RewardRulePO> rewardRulePOList = Lists.newArrayList();
+  // 管道筛选后的奖品规则
+  private List<RewardRulePO> finalRewardRuleList = Lists.newArrayList();
   // 所有奖品规则门槛
-  private List<RewardLimitPO> rewardLimitPOList;
-  // 管道筛选后的领取项
-  private List<RewardRulePO> finalRewardRuleList;
-
+  private List<RewardLimitPO> rewardLimitPOList = Lists.newArrayList();
   // 管道单个handler处理结果
   private Map<String, Boolean> pipeResultMap = Maps.newHashMap();
   // 临时数据存储器
