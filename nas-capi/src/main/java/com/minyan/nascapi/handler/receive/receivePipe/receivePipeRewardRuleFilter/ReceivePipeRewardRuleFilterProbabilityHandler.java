@@ -24,7 +24,7 @@ import org.springframework.util.StringUtils;
  * @date 2025/1/8 21:12
  */
 @Service
-@Order(30)
+@Order(40)
 public class ReceivePipeRewardRuleFilterProbabilityHandler
     implements ReceivePipeRewardRuleFilterInterfaceHandler {
   Logger logger = LoggerFactory.getLogger(ReceivePipeRewardRuleFilterProbabilityHandler.class);
