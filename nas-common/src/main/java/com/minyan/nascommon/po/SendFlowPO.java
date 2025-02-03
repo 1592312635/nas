@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Data
 @TableName("nas_send_flow")
-public class NasSendFlowPO implements Serializable {
+public class SendFlowPO implements Serializable {
   /** 主键 */
   private Integer id;
 
@@ -26,7 +26,7 @@ public class NasSendFlowPO implements Serializable {
   private String userId;
 
   /** 奖品id */
-  private Integer rewardId;
+  private Long rewardId;
 
   /** 奖品规则 */
   private Integer rewardType;

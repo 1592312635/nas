@@ -33,3 +33,6 @@ eureka:
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.minyan.nascommon.po
+
+currency:
+  url: http://204.13.153.225:8001

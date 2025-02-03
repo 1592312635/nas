@@ -110,7 +110,7 @@ public class ReceivePipeRewardRuleProbabilityFilterPartHandler
       }
     }
 
-    // 如果没有找到（理论上不会发生），返回 null 或者抛出异常
+    // 如果没有找到（理论上不会发生），返回 null
     return null;
   }
 }

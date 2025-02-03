@@ -1,6 +1,8 @@
 package com.minyan.nascapi.handler.receive.receivePipe.receivePipeRewardRuleFilter;
 
 import com.minyan.nascommon.dto.context.ReceivePipeContext;
+import com.minyan.nasdao.NasSendFlowDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,12 @@ import org.springframework.stereotype.Service;
 @Order(20)
 public class ReceivePipeRewardRuleFilterTimesHandler
     implements ReceivePipeRewardRuleFilterInterfaceHandler {
+
+  @Autowired private NasSendFlowDAO sendFlowDAO;
+
   @Override
-  public void handle(ReceivePipeContext context) {}
+  public void handle(ReceivePipeContext context) {
+    // 获取当前发奖次数匹配当前次数对应奖品规则
+    
+  }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minyan.nasdao.NasSendRecordDAO">
-  <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.NasSendRecordPO">
+  <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.SendRecordPO">
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="activity_id" jdbcType="INTEGER" property="activityId" />
     <result column="module_id" jdbcType="INTEGER" property="moduleId" />
@@ -15,7 +15,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="del_tag" jdbcType="INTEGER" property="delTag" />
   </resultMap>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.NasSendRecordPO" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.SendRecordPO" useGeneratedKeys="true">
     insert into nas_send_record (activity_id, module_id, user_id, 
       reward_rule_id, reward_id, reward_type, 
       reward_name, image_url, create_time, 
@@ -25,7 +25,7 @@
       #{rewardName,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{delTag,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.NasSendRecordPO" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.SendRecordPO" useGeneratedKeys="true">
     insert into nas_send_record
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="activityId != null">

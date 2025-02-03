@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Data
 @TableName("nas_send_record")
-public class NasSendRecordPO implements Serializable {
+public class SendRecordPO implements Serializable {
   /** 主键 */
   private Integer id;
 
