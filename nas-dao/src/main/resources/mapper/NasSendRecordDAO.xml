@@ -6,8 +6,8 @@
     <result column="activity_id" jdbcType="INTEGER" property="activityId" />
     <result column="module_id" jdbcType="INTEGER" property="moduleId" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
-    <result column="reward_rule_id" jdbcType="INTEGER" property="rewardRuleId" />
-    <result column="reward_id" jdbcType="INTEGER" property="rewardId" />
+    <result column="reward_rule_id" jdbcType="BIGINT" property="rewardRuleId" />
+    <result column="reward_id" jdbcType="BIGINT" property="rewardId" />
     <result column="reward_type" jdbcType="INTEGER" property="rewardType" />
     <result column="reward_name" jdbcType="VARCHAR" property="rewardName" />
     <result column="image_url" jdbcType="VARCHAR" property="imageUrl" />
@@ -21,7 +21,7 @@
       reward_name, image_url, create_time, 
       update_time, del_tag)
     values (#{activityId,jdbcType=INTEGER}, #{moduleId,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, 
-      #{rewardRuleId,jdbcType=INTEGER}, #{rewardId,jdbcType=INTEGER}, #{rewardType,jdbcType=INTEGER}, 
+      #{rewardRuleId,jdbcType=BIGINT}, #{rewardId,jdbcType=BIGINT}, #{rewardType,jdbcType=INTEGER},
       #{rewardName,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{delTag,jdbcType=INTEGER})
   </insert>
@@ -73,10 +73,10 @@
         #{userId,jdbcType=VARCHAR},
       </if>
       <if test="rewardRuleId != null">
-        #{rewardRuleId,jdbcType=INTEGER},
+        #{rewardRuleId,jdbcType=BIGINT},
       </if>
       <if test="rewardId != null">
-        #{rewardId,jdbcType=INTEGER},
+        #{rewardId,jdbcType=BIGINT},
       </if>
       <if test="rewardType != null">
         #{rewardType,jdbcType=INTEGER},

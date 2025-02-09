@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.minyan.nascommon.Enum.DelTagEnum;
 import com.minyan.nascommon.dto.context.ReceivePipeContext;
 import com.minyan.nascommon.param.CReceiveSendParam;
+import com.minyan.nascommon.po.ActivityRewardPO;
 import com.minyan.nascommon.po.RewardLimitPO;
 import com.minyan.nascommon.po.RewardRulePO;
+import com.minyan.nasdao.NasActivityRewardDAO;
 import com.minyan.nasdao.NasRewardLimitDAO;
 import com.minyan.nasdao.NasRewardRuleDAO;
 import java.util.List;
@@ -30,10 +32,26 @@ public class ReceivePipeRuleCheckHandler extends ReceivePipeAbstractHandler {
 
   @Autowired private NasRewardRuleDAO rewardRuleDAO;
   @Autowired private NasRewardLimitDAO rewardLimitDAO;
+  @Autowired private NasActivityRewardDAO activityRewardDAO;
 
   @Override
   public Boolean handle(ReceivePipeContext context) {
     CReceiveSendParam param = context.getParam();
+
+    // 获得奖品信息
+    QueryWrapper<ActivityRewardPO> activityRewardPOQueryWrapper = new QueryWrapper<>();
+    activityRewardPOQueryWrapper
+        .lambda()
+        .eq(ActivityRewardPO::getActivityId, param.getActivityId())
+        .eq(ActivityRewardPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+    List<ActivityRewardPO> activityRewardPOS =
+        activityRewardDAO.selectList(activityRewardPOQueryWrapper);
+    if (CollectionUtils.isEmpty(activityRewardPOS)){
+      logger.info(
+          "[ReceiveEventCheckHandler][handle]领取接口事件验证不通过，奖品信息不存在，请求参数：{}",
+          JSONObject.toJSONString(param));
+      return false;
+    }
 
     // 获取奖品规则
     QueryWrapper<RewardRulePO> rewardRulePOQueryWrapper = new QueryWrapper<>();
@@ -68,6 +86,7 @@ public class ReceivePipeRuleCheckHandler extends ReceivePipeAbstractHandler {
       return false;
     }
 
+    context.setActivityRewardPOS(activityRewardPOS);
     context.setRewardRulePOList(rewardRulePOList);
     context.setRewardLimitPOList(rewardLimitPOS);
     return null;

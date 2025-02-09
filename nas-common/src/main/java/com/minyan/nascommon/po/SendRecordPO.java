@@ -26,10 +26,10 @@ public class SendRecordPO implements Serializable {
   private String userId;
 
   /** 奖品规则id */
-  private Integer rewardRuleId;
+  private Long rewardRuleId;
 
   /** 奖品id */
-  private Integer rewardId;
+  private Long rewardId;
 
   /** 奖品类型 */
   private Integer rewardType;

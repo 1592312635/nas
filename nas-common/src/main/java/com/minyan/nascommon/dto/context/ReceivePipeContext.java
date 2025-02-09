@@ -22,6 +22,8 @@ public class ReceivePipeContext {
   private ModuleInfoPO moduleInfoPO;
   private ActivityEventPO activityEventPO;
   private ActivityChannelPO activityChannelPO;
+  // 所有奖品信息
+  private List<ActivityRewardPO> activityRewardPOS = Lists.newArrayList();
   // 所有领取规则
   private List<ReceiveRulePO> receiveRulePOList = Lists.newArrayList();
   // 所有领取门槛
