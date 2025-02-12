@@ -30,9 +30,9 @@
         insert into nas_activity_reward (activity_id, reward_type, reward_name, batch_code,
         image_url, create_time, update_time,
         del_tag)
-        values (#{activityId,jdbcType=INTEGER}, #{reward_type,jdbcType=INTEGER}, #{reward_name,jdbcType=VARCHAR}, #{batch_code,jdbcType=VARCHAR},
-        #{image_url,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP},
-        #{del_tag,jdbcType=INTEGER})
+        values (#{activityId,jdbcType=INTEGER}, #{rewardType,jdbcType=INTEGER}, #{rewardName,jdbcType=VARCHAR}, #{batchCode,jdbcType=VARCHAR},
+        #{imageUrl,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+        #{delTag,jdbcType=INTEGER})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id"
             parameterType="com.minyan.nascommon.po.ActivityRewardPO" useGeneratedKeys="true">
@@ -68,25 +68,25 @@
                 #{activity_id,jdbcType=INTEGER},
             </if>
             <if test="reward_type != null">
-                #{reward_type,jdbcType=INTEGER},
+                #{rewardType,jdbcType=INTEGER},
             </if>
             <if test="reward_name != null">
-                #{reward_name,jdbcType=VARCHAR},
+                #{rewardName,jdbcType=VARCHAR},
             </if>
             <if test="batch_code != null">
-                #{batch_code,jdbcType=VARCHAR},
+                #{batchCode,jdbcType=VARCHAR},
             </if>
             <if test="image_url != null">
-                #{image_url,jdbcType=VARCHAR},
+                #{imageUrl,jdbcType=VARCHAR},
             </if>
             <if test="create_time != null">
-                #{create_time,jdbcType=TIMESTAMP},
+                #{createTime,jdbcType=TIMESTAMP},
             </if>
             <if test="update_time != null">
-                #{update_time,jdbcType=TIMESTAMP},
+                #{updateTime,jdbcType=TIMESTAMP},
             </if>
             <if test="del_tag != null">
-                #{del_tag,jdbcType=INTEGER},
+                #{delTag,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -97,25 +97,25 @@
                 activity_id = #{activity_id,jdbcType=INTEGER},
             </if>
             <if test="reward_type != null">
-                reward_type = #{reward_type,jdbcType=INTEGER},
+                reward_type = #{rewardType,jdbcType=INTEGER},
             </if>
             <if test="reward_name != null">
-                reward_name = #{reward_name,jdbcType=VARCHAR},
+                reward_name = #{rewardName,jdbcType=VARCHAR},
             </if>
             <if test="batch_code != null">
-                batch_code = #{batch_code,jdbcType=VARCHAR},
+                batch_code = #{batchCode,jdbcType=VARCHAR},
             </if>
             <if test="image_url != null">
-                image_url = #{image_url,jdbcType=VARCHAR},
+                image_url = #{imageUrl,jdbcType=VARCHAR},
             </if>
             <if test="create_time != null">
-                create_time = #{create_time,jdbcType=TIMESTAMP},
+                create_time = #{createTime,jdbcType=TIMESTAMP},
             </if>
             <if test="update_time != null">
-                update_time = #{update_time,jdbcType=TIMESTAMP},
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
             </if>
             <if test="del_tag != null">
-                del_tag = #{del_tag,jdbcType=INTEGER},
+                del_tag = #{delTag,jdbcType=INTEGER},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
@@ -123,13 +123,13 @@
     <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.ActivityRewardPO">
         update nas_activity_reward
         set activity_id = #{activity_id,jdbcType=INTEGER},
-        reward_type = #{reward_type,jdbcType=INTEGER},
-        reward_name = #{reward_name,jdbcType=VARCHAR},
-        batch_code = #{batch_code,jdbcType=VARCHAR},
-        image_url = #{image_url,jdbcType=VARCHAR},
-        create_time = #{create_time,jdbcType=TIMESTAMP},
-        update_time = #{update_time,jdbcType=TIMESTAMP},
-        del_tag = #{del_tag,jdbcType=INTEGER}
+        reward_type = #{rewardType,jdbcType=INTEGER},
+        reward_name = #{rewardName,jdbcType=VARCHAR},
+        batch_code = #{batchCode,jdbcType=VARCHAR},
+        image_url = #{imageUrl,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        del_tag = #{delTag,jdbcType=INTEGER}
         where id = #{id,jdbcType=BIGINT}
     </update>
 </mapper>

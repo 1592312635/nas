@@ -30,9 +30,9 @@
         insert into nas_activity_event (activity_id, module_id, event_id, event_name,
         event_type, create_time, update_time,
         del_tag)
-        values (#{activity_id,jdbcType=INTEGER}, #{module_id,jdbcType=INTEGER}, #{eventId,jdbcType=BIGINT},
-        #{event_name,jdbcType=VARCHAR}, #{event_type,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP},
-        #{update_time,jdbcType=TIMESTAMP}, #{del_tag,jdbcType=INTEGER})
+        values (#{activityId,jdbcType=INTEGER}, #{moduleId,jdbcType=INTEGER}, #{eventId,jdbcType=BIGINT},
+        #{eventName,jdbcType=VARCHAR}, #{eventType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP}, #{delTag,jdbcType=INTEGER})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.ActivityEventPO"
             useGeneratedKeys="true">
@@ -65,28 +65,28 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="activity_id != null">
-                #{activity_id,jdbcType=INTEGER},
+                #{activityId,jdbcType=INTEGER},
             </if>
             <if test="module_id != null">
-                #{module_id,jdbcType=INTEGER},
+                #{moduleId,jdbcType=INTEGER},
             </if>
             <if test="event_id != null">
-                #{event_id,jdbcType=BIGINT},
+                #{eventId,jdbcType=BIGINT},
             </if>
             <if test="event_name != null">
-                #{event_name,jdbcType=VARCHAR},
+                #{eventName,jdbcType=VARCHAR},
             </if>
             <if test="event_type != null">
-                #{event_type,jdbcType=VARCHAR},
+                #{eventType,jdbcType=VARCHAR},
             </if>
             <if test="create_time != null">
-                #{create_time,jdbcType=TIMESTAMP},
+                #{createTime,jdbcType=TIMESTAMP},
             </if>
             <if test="update_time != null">
-                #{update_time,jdbcType=TIMESTAMP},
+                #{updateTime,jdbcType=TIMESTAMP},
             </if>
             <if test="del_tag != null">
-                #{del_tag,jdbcType=INTEGER},
+                #{delTag,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -94,42 +94,42 @@
         update nas_activity_event
         <set>
             <if test="activity_id != null">
-                activity_id = #{activity_id,jdbcType=INTEGER},
+                activity_id = #{activityId,jdbcType=INTEGER},
             </if>
             <if test="module_id != null">
-                module_id = #{module_id,jdbcType=INTEGER},
+                module_id = #{moduleId,jdbcType=INTEGER},
             </if>
             <if test="event_id != null">
-                event_id = #{event_id,jdbcType=BIGINT},
+                event_id = #{eventId,jdbcType=BIGINT},
             </if>
             <if test="event_name != null">
-                event_name = #{event_name,jdbcType=VARCHAR},
+                event_name = #{eventName,jdbcType=VARCHAR},
             </if>
             <if test="event_type != null">
-                event_type = #{event_type,jdbcType=VARCHAR},
+                event_type = #{eventType,jdbcType=VARCHAR},
             </if>
             <if test="create_time != null">
-                create_time = #{create_time,jdbcType=TIMESTAMP},
+                create_time = #{createTime,jdbcType=TIMESTAMP},
             </if>
             <if test="update_time != null">
-                update_time = #{update_time,jdbcType=TIMESTAMP},
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
             </if>
             <if test="del_tag != null">
-                del_tag = #{del_tag,jdbcType=INTEGER},
+                del_tag = #{delTag,jdbcType=INTEGER},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.ActivityEventPO">
         update nas_activity_event
-        set activity_id = #{activity_id,jdbcType=INTEGER},
-        module_id = #{module_id,jdbcType=INTEGER},
-        event_id = #{event_id,jdbcType=BIGINT},
-        event_name = #{event_name,jdbcType=VARCHAR},
-        event_type = #{event_type,jdbcType=VARCHAR},
-        create_time = #{create_time,jdbcType=TIMESTAMP},
-        update_time = #{update_time,jdbcType=TIMESTAMP},
-        del_tag = #{del_tag,jdbcType=INTEGER}
+        set activity_id = #{activityId,jdbcType=INTEGER},
+        module_id = #{moduleId,jdbcType=INTEGER},
+        event_id = #{eventId,jdbcType=BIGINT},
+        event_name = #{eventName,jdbcType=VARCHAR},
+        event_type = #{eventType,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        del_tag = #{delTag,jdbcType=INTEGER}
         where id = #{id,jdbcType=BIGINT}
     </update>
 </mapper>

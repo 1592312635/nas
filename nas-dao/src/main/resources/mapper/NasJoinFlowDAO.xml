@@ -47,13 +47,13 @@
         column10, flow_status, ack_status,
         schedule_time, create_time, update_time,
         del_tag)
-        values (#{user_id,jdbcType=VARCHAR}, #{flow_type,jdbcType=INTEGER}, #{flow_sub_type,jdbcType=INTEGER},
+        values (#{userId,jdbcType=VARCHAR}, #{flowType,jdbcType=INTEGER}, #{flowSubType,jdbcType=INTEGER},
         #{column1,jdbcType=VARCHAR}, #{column2,jdbcType=VARCHAR}, #{column3,jdbcType=VARCHAR},
         #{column4,jdbcType=VARCHAR}, #{column5,jdbcType=VARCHAR}, #{column6,jdbcType=VARCHAR},
         #{column7,jdbcType=VARCHAR}, #{column8,jdbcType=VARCHAR}, #{column9,jdbcType=VARCHAR},
-        #{column10,jdbcType=VARCHAR}, #{flow_status,jdbcType=INTEGER}, #{ack_status,jdbcType=INTEGER},
-        #{schedule_time,jdbcType=TIMESTAMP}, #{create_time,jdbcType=TIMESTAMP}, #{update_time,jdbcType=TIMESTAMP},
-        #{del_tag,jdbcType=INTEGER})
+        #{column10,jdbcType=VARCHAR}, #{flowStatus,jdbcType=INTEGER}, #{ackStatus,jdbcType=INTEGER},
+        #{scheduleTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+        #{delTag,jdbcType=INTEGER})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.JoinFlowPO"
             useGeneratedKeys="true">
@@ -119,13 +119,13 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="user_id != null">
-                #{user_id,jdbcType=VARCHAR},
+                #{userId,jdbcType=VARCHAR},
             </if>
             <if test="flow_type != null">
-                #{flow_type,jdbcType=INTEGER},
+                #{flowType,jdbcType=INTEGER},
             </if>
             <if test="flow_sub_type != null">
-                #{flow_sub_type,jdbcType=INTEGER},
+                #{flowSubType,jdbcType=INTEGER},
             </if>
             <if test="column1 != null">
                 #{column1,jdbcType=VARCHAR},
@@ -158,22 +158,22 @@
                 #{column10,jdbcType=VARCHAR},
             </if>
             <if test="flow_status != null">
-                #{flow_status,jdbcType=INTEGER},
+                #{flowStatus,jdbcType=INTEGER},
             </if>
             <if test="ack_status != null">
-                #{ack_status,jdbcType=INTEGER},
+                #{ackStatus,jdbcType=INTEGER},
             </if>
             <if test="schedule_time != null">
-                #{schedule_time,jdbcType=TIMESTAMP},
+                #{scheduleTime,jdbcType=TIMESTAMP},
             </if>
             <if test="create_time != null">
-                #{create_time,jdbcType=TIMESTAMP},
+                #{createTime,jdbcType=TIMESTAMP},
             </if>
             <if test="update_time != null">
-                #{update_time,jdbcType=TIMESTAMP},
+                #{updateTime,jdbcType=TIMESTAMP},
             </if>
             <if test="del_tag != null">
-                #{del_tag,jdbcType=INTEGER},
+                #{delTag,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -181,13 +181,13 @@
         update nas_join_flow
         <set>
             <if test="user_id != null">
-                user_id = #{user_id,jdbcType=VARCHAR},
+                user_id = #{userId,jdbcType=VARCHAR},
             </if>
             <if test="flow_type != null">
-                flow_type = #{flow_type,jdbcType=INTEGER},
+                flow_type = #{flowType,jdbcType=INTEGER},
             </if>
             <if test="flow_sub_type != null">
-                flow_sub_type = #{flow_sub_type,jdbcType=INTEGER},
+                flow_sub_type = #{flowSubType,jdbcType=INTEGER},
             </if>
             <if test="column1 != null">
                 column1 = #{column1,jdbcType=VARCHAR},
@@ -220,31 +220,31 @@
                 column10 = #{column10,jdbcType=VARCHAR},
             </if>
             <if test="flow_status != null">
-                flow_status = #{flow_status,jdbcType=INTEGER},
+                flow_status = #{flowStatus,jdbcType=INTEGER},
             </if>
             <if test="ack_status != null">
-                ack_status = #{ack_status,jdbcType=INTEGER},
+                ack_status = #{ackStatus,jdbcType=INTEGER},
             </if>
             <if test="schedule_time != null">
-                schedule_time = #{schedule_time,jdbcType=TIMESTAMP},
+                schedule_time = #{scheduleTime,jdbcType=TIMESTAMP},
             </if>
             <if test="create_time != null">
-                create_time = #{create_time,jdbcType=TIMESTAMP},
+                create_time = #{createTime,jdbcType=TIMESTAMP},
             </if>
             <if test="update_time != null">
-                update_time = #{update_time,jdbcType=TIMESTAMP},
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
             </if>
             <if test="del_tag != null">
-                del_tag = #{del_tag,jdbcType=INTEGER},
+                del_tag = #{delTag,jdbcType=INTEGER},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.minyan.nascommon.po.JoinFlowPO">
         update nas_join_flow
-        set user_id = #{user_id,jdbcType=VARCHAR},
-        flow_type = #{flow_type,jdbcType=INTEGER},
-        flow_sub_type = #{flow_sub_type,jdbcType=INTEGER},
+        set user_id = #{userId,jdbcType=VARCHAR},
+        flow_type = #{flowType,jdbcType=INTEGER},
+        flow_sub_type = #{flowSubType,jdbcType=INTEGER},
         column1 = #{column1,jdbcType=VARCHAR},
         column2 = #{column2,jdbcType=VARCHAR},
         column3 = #{column3,jdbcType=VARCHAR},
@@ -255,12 +255,12 @@
         column8 = #{column8,jdbcType=VARCHAR},
         column9 = #{column9,jdbcType=VARCHAR},
         column10 = #{column10,jdbcType=VARCHAR},
-        flow_status = #{flow_status,jdbcType=INTEGER},
-        ack_status = #{ack_status,jdbcType=INTEGER},
-        schedule_time = #{schedule_time,jdbcType=TIMESTAMP},
-        create_time = #{create_time,jdbcType=TIMESTAMP},
-        update_time = #{update_time,jdbcType=TIMESTAMP},
-        del_tag = #{del_tag,jdbcType=INTEGER}
+        flow_status = #{flowStatus,jdbcType=INTEGER},
+        ack_status = #{ackStatus,jdbcType=INTEGER},
+        schedule_time = #{scheduleTime,jdbcType=TIMESTAMP},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        del_tag = #{delTag,jdbcType=INTEGER}
         where id = #{id,jdbcType=BIGINT}
     </update>
 </mapper>

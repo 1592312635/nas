@@ -16,7 +16,7 @@ public enum RewardLimitKeyEnum {
   AMOUNT("amount", "金额"),
   CURRENCY_TYPE("currencyType", "货币类型"),
   PROBABILITY("probability", "概率(和为1)"),
-  REWARD_TIMES("rewardTimes", "发奖次数"),
+  REWARD_TIMES("rewardTimes", "发奖次数限制"),
   ;
 
   private final String value;

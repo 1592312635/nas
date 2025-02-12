@@ -157,15 +157,15 @@ public class ActivityInfoManagerImpl implements ActivityInfoManager {
    */
   Integer produceActivityId() {
     QueryWrapper<ActivityInfoTempPO> activityInfoTempPOQueryWrapper = new QueryWrapper<>();
-    activityInfoTempPOQueryWrapper.select("max(activity_id)");
-    ActivityInfoTempPO activityInfoTempPO =
-        activityInfoTempDAO.selectOne(activityInfoTempPOQueryWrapper);
-    Integer targetActivityId =
-        ObjectUtils.isEmpty(activityInfoTempPO) ? 60000 : activityInfoTempPO.getActivityId() + 1;
+    activityInfoTempPOQueryWrapper.select("max(activity_id) as max_activity_id");
+    List<Object> result = activityInfoTempDAO.selectObjs(activityInfoTempPOQueryWrapper);
+    Integer maxActivityId = result.isEmpty() ? null : (Integer) result.get(0);
+    Integer targetActivityId = ObjectUtils.isEmpty(maxActivityId) ? 60000 : maxActivityId + 1;
     redisService.lock(
-        String.format("%s:%s", RedisKeyEnum.ACTIVITY_SAVE_ACTIVITY_ID.getKey(), targetActivityId));
+            String.format("%s:%s", RedisKeyEnum.ACTIVITY_SAVE_ACTIVITY_ID.getKey(), targetActivityId));
     return targetActivityId;
   }
+
 
   /**
    * 构建活动临时数据

@@ -182,6 +182,9 @@ public class ReceiveRuleManagerImpl implements ReceiveRuleManager {
       Long receiveRuleId,
       MActivityReceiveLimitSaveParam param) {
     ReceiveLimitTempPO receiveLimitTempPO = new ReceiveLimitTempPO();
+    receiveLimitTempPO.setActivityId(activityId);
+    receiveLimitTempPO.setModuleId(moduleId);
+    receiveLimitTempPO.setEventId(eventId);
     receiveLimitTempPO.setReceiveRuleId(receiveRuleId);
     receiveLimitTempPO.setLimitKey(param.getLimitKey());
     receiveLimitTempPO.setLimitJson(param.getLimitJson());
