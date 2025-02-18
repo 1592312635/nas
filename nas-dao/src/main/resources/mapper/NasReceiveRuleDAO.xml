@@ -28,7 +28,7 @@
             useGeneratedKeys="true">
         insert into nas_receive_rule (activity_id, module_id, event_id, rule_type, create_time,
         update_time, del_tag)
-        values (#{activity_id,jdbcType=INTEGER},#{moduleId,jdbcType=INTEGER},#{eventId,jdbcType=INTEGER},
+        values (#{activityId,jdbcType=INTEGER},#{moduleId,jdbcType=INTEGER},#{eventId,jdbcType=INTEGER},
         #{ruleType,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
         #{delTag,jdbcType=INTEGER})
     </insert>

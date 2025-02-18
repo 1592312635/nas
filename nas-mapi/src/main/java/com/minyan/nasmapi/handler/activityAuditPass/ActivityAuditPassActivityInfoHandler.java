@@ -6,11 +6,11 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.minyan.nascommon.Enum.AuditStatusEnum;
 import com.minyan.nascommon.Enum.CodeEnum;
 import com.minyan.nascommon.Enum.DelTagEnum;
+import com.minyan.nascommon.dto.context.ActivityAuditPassContext;
 import com.minyan.nascommon.param.MActivityInfoAuditParam;
 import com.minyan.nascommon.po.ActivityInfoPO;
 import com.minyan.nascommon.po.ActivityInfoTempPO;
 import com.minyan.nascommon.vo.ApiResult;
-import com.minyan.nascommon.dto.context.ActivityAuditPassContext;
 import com.minyan.nasdao.NasActivityInfoDAO;
 import com.minyan.nasdao.NasActivityInfoTempDAO;
 import org.slf4j.Logger;
@@ -28,7 +28,8 @@ import org.springframework.util.ObjectUtils;
 @Order(10)
 @Service
 public class ActivityAuditPassActivityInfoHandler extends ActivityAuditPassAbstractHandler {
-  private final static Logger logger = LoggerFactory.getLogger(ActivityAuditPassActivityInfoHandler.class);
+  private static final Logger logger =
+      LoggerFactory.getLogger(ActivityAuditPassActivityInfoHandler.class);
   @Autowired private NasActivityInfoTempDAO activityInfoTempDAO;
   @Autowired private NasActivityInfoDAO activityInfoDAO;
 
@@ -50,6 +51,12 @@ public class ActivityAuditPassActivityInfoHandler extends ActivityAuditPassAbstr
           JSONObject.toJSONString(param));
       return ApiResult.build(CodeEnum.AUDIT_ACTIVITY_NOT_EXIST);
     }
+    if (!AuditStatusEnum.DEFAULT.getValue().equals(activityInfoTempPO.getAuditStatus())) {
+      logger.info(
+          "[ActivityAuditActivityInfoHandler][handle]审核活动时待审核活动状态异常，请求参数：{}",
+          JSONObject.toJSONString(param));
+      return ApiResult.build(CodeEnum.AUDIT_ACTIVITY_STATUS_ERROR);
+    }
 
     // 主表数据删除
     QueryWrapper<ActivityInfoPO> activityInfoPOQueryWrapper = new QueryWrapper<>();
@@ -69,6 +76,16 @@ public class ActivityAuditPassActivityInfoHandler extends ActivityAuditPassAbstr
 
     // 临时表数据同步主表
     activityInfoDAO.insert(activityInfoTempPOToACtivityInfoPO(activityInfoTempPO));
+
+    // 临时表审核状态变更
+    UpdateWrapper<ActivityInfoTempPO> activityInfoTempPOUpdateWrapper = new UpdateWrapper<>();
+    activityInfoTempPOUpdateWrapper
+        .lambda()
+        .set(ActivityInfoTempPO::getAuditStatus, AuditStatusEnum.PASS.getValue())
+        .eq(ActivityInfoTempPO::getActivityId, activityInfoTempPO.getActivityId())
+        .eq(ActivityInfoTempPO::getAuditStatus, AuditStatusEnum.DEFAULT.getValue())
+        .eq(ActivityInfoTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+    activityInfoTempDAO.update(null, activityInfoTempPOUpdateWrapper);
     return null;
   }
 

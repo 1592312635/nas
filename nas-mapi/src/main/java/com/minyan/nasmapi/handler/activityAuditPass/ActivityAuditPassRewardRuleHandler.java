@@ -61,7 +61,7 @@ public class ActivityAuditPassRewardRuleHandler extends ActivityAuditPassAbstrac
         .lambda()
         .eq(RewardLimitTempPO::getActivityId, param.getActivityId())
         .eq(RewardLimitTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
-    List<RewardLimitTempPO> receiveLimitTempPOS =
+    List<RewardLimitTempPO> rewardLimitTempPOS =
         rewardLimitTempDAO.selectList(receiveLimitTempPOQueryWrapper);
 
     // 删除多余的rewardRule
@@ -111,7 +111,7 @@ public class ActivityAuditPassRewardRuleHandler extends ActivityAuditPassAbstrac
       // 同步临时表receiveLimit到主表
       for (RewardRuleTempPO updateRewardRuleTemp : updateRewardRuleTemps) {
         List<RewardLimitTempPO> tempRewardLimits =
-            receiveLimitTempPOS.stream()
+                rewardLimitTempPOS.stream()
                 .filter(
                     receiveLimitTempPO ->
                         updateRewardRuleTemp.getId().equals(receiveLimitTempPO.getRewardRuleId()))
@@ -130,7 +130,7 @@ public class ActivityAuditPassRewardRuleHandler extends ActivityAuditPassAbstrac
         RewardRulePO addRewardRulePO = RewardRulePO.tempConvertToRewardRulePO(addRewardRuleTemp);
         rewardRuleDAO.insert(addRewardRulePO);
         List<RewardLimitTempPO> tempRewardLimits =
-            receiveLimitTempPOS.stream()
+                rewardLimitTempPOS.stream()
                 .filter(
                     receiveLimitTempPO ->
                         addRewardRuleTemp.getId().equals(receiveLimitTempPO.getRewardRuleId()))
@@ -158,7 +158,7 @@ public class ActivityAuditPassRewardRuleHandler extends ActivityAuditPassAbstrac
     rewardLimitPO.setModuleId(rewardLimitTempPO.getModuleId());
     rewardLimitPO.setEventId(rewardLimitTempPO.getEventId());
     rewardLimitPO.setRewardRuleId(rewardRuleId);
-    rewardLimitPO.setLimitKey(rewardLimitPO.getLimitKey());
+    rewardLimitPO.setLimitKey(rewardLimitTempPO.getLimitKey());
     rewardLimitPO.setLimitJson(rewardLimitTempPO.getLimitJson());
     return rewardLimitPO;
   }
