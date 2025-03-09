@@ -4,7 +4,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.minyan.nascapi.service.HttpService;
 import com.minyan.nascommon.Enum.CodeEnum;
 import com.minyan.nascommon.Enum.ConsumeTypeEnum;
-import com.minyan.nascommon.Enum.ReceiveLimitJsonKeyEnum;
+import com.minyan.nascommon.Enum.LimitJsonKeyEnum;
 import com.minyan.nascommon.Enum.SystemEnum;
 import com.minyan.nascommon.dto.context.ReceivePipeContext;
 import com.minyan.nascommon.exception.CustomException;
@@ -52,10 +52,10 @@ public class ReceivePipeConsumeCurrencyHandler implements ReceivePipeConsumeInte
     BigDecimal amount = null;
     String behaviorCode = null, behaviorDesc = null;
     try {
-      currencyType = consumeInfoJson.getInteger(ReceiveLimitJsonKeyEnum.CURRENCY_TYPE.getValue());
-      amount = consumeInfoJson.getBigDecimal(ReceiveLimitJsonKeyEnum.AMOUNT.getValue());
-      behaviorCode = consumeInfoJson.getString(ReceiveLimitJsonKeyEnum.BEHAVIOR_CODE.getValue());
-      behaviorDesc = consumeInfoJson.getString(ReceiveLimitJsonKeyEnum.BEHAVIOR_DESC.getValue());
+      currencyType = consumeInfoJson.getInteger(LimitJsonKeyEnum.CURRENCY_TYPE.getValue());
+      amount = consumeInfoJson.getBigDecimal(LimitJsonKeyEnum.AMOUNT.getValue());
+      behaviorCode = consumeInfoJson.getString(LimitJsonKeyEnum.BEHAVIOR_CODE.getValue());
+      behaviorDesc = consumeInfoJson.getString(LimitJsonKeyEnum.BEHAVIOR_DESC.getValue());
     } catch (Exception e) {
       logger.info(
           "[ReceivePipeConsumeCurrencyHandler][handle]前置消耗处理代币扣减时解析异常，请求参数：{}，消耗信息：{}",
@@ -96,7 +96,7 @@ public class ReceivePipeConsumeCurrencyHandler implements ReceivePipeConsumeInte
     Integer currencyType = null;
     String orderNo = null;
     try {
-      currencyType = consumeInfoJson.getInteger(ReceiveLimitJsonKeyEnum.CURRENCY_TYPE.getValue());
+      currencyType = consumeInfoJson.getInteger(LimitJsonKeyEnum.CURRENCY_TYPE.getValue());
       orderNo = context.getTempMap().get("currencyDeductOrderNo").toString();
     } catch (Exception e) {
       logger.info(

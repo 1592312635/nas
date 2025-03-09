@@ -27,7 +27,7 @@ public class JoinInfoPO implements Serializable {
   private Integer moduleId;
 
   /** 事件id */
-  private Integer eventId;
+  private Long eventId;
 
   /** 创建时间 */
   @TableField(fill = FieldFill.INSERT)

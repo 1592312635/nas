@@ -6,7 +6,7 @@
         <result column="user_id" jdbcType="VARCHAR" property="userId"/>
         <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
         <result column="module_id" jdbcType="INTEGER" property="moduleId"/>
-        <result column="event_id" jdbcType="INTEGER" property="eventId"/>
+        <result column="event_id" jdbcType="BIGINT" property="eventId"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="del_tag" jdbcType="INTEGER" property="delTag"/>
@@ -30,7 +30,7 @@
         event_id, create_time, update_time,
         del_tag)
         values (#{userId,jdbcType=VARCHAR}, #{activityId,jdbcType=INTEGER}, #{moduleId,jdbcType=INTEGER},
-        #{eventId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+        #{eventId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
         #{delTag,jdbcType=INTEGER})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.JoinInfoPO"
@@ -70,7 +70,7 @@
                 #{moduleId,jdbcType=INTEGER},
             </if>
             <if test="event_id != null">
-                #{eventId,jdbcType=INTEGER},
+                #{eventId,jdbcType=BIGINT},
             </if>
             <if test="create_time != null">
                 #{createTime,jdbcType=TIMESTAMP},
@@ -96,7 +96,7 @@
                 module_id = #{moduleId,jdbcType=INTEGER},
             </if>
             <if test="event_id != null">
-                event_id = #{eventId,jdbcType=INTEGER},
+                event_id = #{eventId,jdbcType=BIGINT},
             </if>
             <if test="create_time != null">
                 create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -115,7 +115,7 @@
         set user_id = #{userId,jdbcType=VARCHAR},
         activity_id = #{activityId,jdbcType=INTEGER},
         module_id = #{moduleId,jdbcType=INTEGER},
-        event_id = #{eventId,jdbcType=INTEGER},
+        event_id = #{eventId,jdbcType=BIGINT},
         create_time = #{createTime,jdbcType=TIMESTAMP},
         update_time = #{updateTime,jdbcType=TIMESTAMP},
         del_tag = #{delTag,jdbcType=INTEGER}

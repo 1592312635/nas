@@ -47,8 +47,7 @@ public class HttpServiceImpl implements HttpService {
           restTemplate.postForObject(
               String.format("%s%s", currencyUrl, SEND_CURRENCY_URL), entity, String.class);
       JSONObject jsonResponse = JSON.parseObject(response);
-      if (!CodeEnum.SUCCESS.getCode().equals(jsonResponse.getString("code"))
-          || !jsonResponse.getBoolean("data")) {
+      if (!CodeEnum.SUCCESS.getCode().equals(jsonResponse.getString("code"))) {
         logger.error("[HttpServiceImpl][sendCurrency]远程调用代币发放失败，响应：{}", response);
         return false;
       }

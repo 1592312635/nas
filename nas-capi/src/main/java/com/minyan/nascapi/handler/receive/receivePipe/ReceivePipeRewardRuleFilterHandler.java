@@ -25,6 +25,7 @@ public class ReceivePipeRewardRuleFilterHandler extends ReceivePipeAbstractHandl
 
   @Override
   public Boolean handle(ReceivePipeContext context) {
+    context.setFinalRewardRuleList(context.getRewardRulePOList());
 
     // 依次执行过滤逻辑
     for (ReceivePipeRewardRuleFilterInterfaceHandler receivePipeRewardRuleFilterInterfaceHandler :

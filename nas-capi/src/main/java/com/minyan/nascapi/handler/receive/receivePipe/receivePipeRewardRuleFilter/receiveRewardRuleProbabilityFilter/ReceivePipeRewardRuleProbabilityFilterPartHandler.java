@@ -2,6 +2,7 @@ package com.minyan.nascapi.handler.receive.receivePipe.receivePipeRewardRuleFilt
 
 import com.alibaba.fastjson2.JSONObject;
 import com.google.common.collect.Lists;
+import com.minyan.nascommon.Enum.LimitJsonKeyEnum;
 import com.minyan.nascommon.Enum.RewardLimitKeyEnum;
 import com.minyan.nascommon.Enum.SendTypeEnum;
 import com.minyan.nascommon.dto.context.ReceivePipeContext;
@@ -52,7 +53,7 @@ public class ReceivePipeRewardRuleProbabilityFilterPartHandler
                       try {
                         JSONObject jsonObject =
                             JSONObject.parseObject(rewardLimitPO.getLimitJson());
-                        return jsonObject.getDouble(RewardLimitKeyEnum.PROBABILITY.getValue());
+                        return jsonObject.getDouble(LimitJsonKeyEnum.VALUE.getValue());
                       } catch (Exception e) {
                         logger.info(
                             "[ReceivePipeRewardRuleFilterPartHandler][handle]获取奖品规则概率时，异常：{}",

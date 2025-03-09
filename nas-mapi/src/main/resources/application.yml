@@ -7,15 +7,16 @@ spring:
     password: s9636h8n2455
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
-    host: 204.13.153.225
-    port: 6379
-    password: s9636h8n2455
+    host: redis-15148.c279.us-central1-1.gce.redns.redis-cloud.com
+    port: 15148
+    password: MYiwHfUGi9xmw1sWYiqjkhDNabeQBIyj
     lettuce:
       pool:
         max-active: 8  #最大连接
         max-idle: 8   #最大空闲连接
         min-idle: 0   #最小空闲连接
         max-wait: 100ms #连接等待时间
+    timeout: 5000ms
 
 server:
   port: 8021

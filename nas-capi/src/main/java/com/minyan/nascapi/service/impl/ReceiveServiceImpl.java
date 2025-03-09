@@ -12,12 +12,14 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * @decription
  * @author minyan.he
  * @date 2024/10/30 21:24
  */
+@Service
 public class ReceiveServiceImpl implements ReceiveService {
   public static final Logger logger = LoggerFactory.getLogger(ReceiveServiceImpl.class);
   @Autowired private List<ReceiveAbstractHandler> receiveHandlers;

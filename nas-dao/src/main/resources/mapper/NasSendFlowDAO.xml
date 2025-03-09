@@ -1,101 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minyan.nasdao.NasSendFlowDAO">
-  <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.SendFlowPO">
-    <result column="id" jdbcType="INTEGER" property="id" />
-    <result column="activity_id" jdbcType="INTEGER" property="activityId" />
-    <result column="module_id" jdbcType="INTEGER" property="moduleId" />
-    <result column="user_id" jdbcType="VARCHAR" property="userId" />
-    <result column="reward_id" jdbcType="BIGINT" property="rewardId" />
-    <result column="reward_type" jdbcType="INTEGER" property="rewardType" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="response" jdbcType="VARCHAR" property="response" />
-    <result column="schedule_time" jdbcType="TIMESTAMP" property="scheduleTime" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="del_tag" jdbcType="INTEGER" property="delTag" />
-  </resultMap>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.SendFlowPO" useGeneratedKeys="true">
-    insert into nas_send_flow (activity_id, module_id, user_id, 
-      reward_id, reward_type, `status`, 
-      response, schedule_time, create_time, 
-      update_time, del_tag)
-    values (#{activityId,jdbcType=INTEGER}, #{moduleId,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, 
-      #{rewardId,jdbcType=INTEGER}, #{rewardType,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{response,jdbcType=VARCHAR}, #{scheduleTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{delTag,jdbcType=INTEGER})
-  </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.SendFlowPO" useGeneratedKeys="true">
-    insert into nas_send_flow
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="activityId != null">
-        activity_id,
-      </if>
-      <if test="moduleId != null">
-        module_id,
-      </if>
-      <if test="userId != null">
-        user_id,
-      </if>
-      <if test="rewardId != null">
-        reward_id,
-      </if>
-      <if test="rewardType != null">
-        reward_type,
-      </if>
-      <if test="status != null">
-        `status`,
-      </if>
-      <if test="response != null">
-        response,
-      </if>
-      <if test="scheduleTime != null">
-        schedule_time,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-      <if test="updateTime != null">
-        update_time,
-      </if>
-      <if test="delTag != null">
-        del_tag,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="activityId != null">
-        #{activityId,jdbcType=INTEGER},
-      </if>
-      <if test="moduleId != null">
-        #{moduleId,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null">
-        #{userId,jdbcType=VARCHAR},
-      </if>
-      <if test="rewardId != null">
-        #{rewardId,jdbcType=BIGINT},
-      </if>
-      <if test="rewardType != null">
-        #{rewardType,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="response != null">
-        #{response,jdbcType=VARCHAR},
-      </if>
-      <if test="scheduleTime != null">
-        #{scheduleTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="delTag != null">
-        #{delTag,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
+    <resultMap id="BaseResultMap" type="com.minyan.nascommon.po.SendFlowPO">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
+        <result column="module_id" jdbcType="INTEGER" property="moduleId"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="reward_id" jdbcType="BIGINT" property="rewardId"/>
+        <result column="reward_type" jdbcType="INTEGER" property="rewardType"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="response" jdbcType="VARCHAR" property="response"/>
+        <result column="schedule_time" jdbcType="TIMESTAMP" property="scheduleTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="del_tag" jdbcType="INTEGER" property="delTag"/>
+    </resultMap>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.SendFlowPO"
+            useGeneratedKeys="true">
+        insert into nas_send_flow (activity_id, module_id, user_id,
+        reward_id, reward_type, `status`,
+        response)
+        values (#{activityId,jdbcType=INTEGER}, #{moduleId,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR},
+        #{rewardId,jdbcType=INTEGER}, #{rewardType,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+        #{response,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.SendFlowPO"
+            useGeneratedKeys="true">
+        insert into nas_send_flow
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="activityId != null">
+                activity_id,
+            </if>
+            <if test="moduleId != null">
+                module_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="rewardId != null">
+                reward_id,
+            </if>
+            <if test="rewardType != null">
+                reward_type,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+            <if test="response != null">
+                response,
+            </if>
+            <if test="scheduleTime != null">
+                schedule_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="delTag != null">
+                del_tag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="activityId != null">
+                #{activityId,jdbcType=INTEGER},
+            </if>
+            <if test="moduleId != null">
+                #{moduleId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="rewardId != null">
+                #{rewardId,jdbcType=BIGINT},
+            </if>
+            <if test="rewardType != null">
+                #{rewardType,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="response != null">
+                #{response,jdbcType=VARCHAR},
+            </if>
+            <if test="scheduleTime != null">
+                #{scheduleTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delTag != null">
+                #{delTag,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
 </mapper>

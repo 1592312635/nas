@@ -2,14 +2,12 @@ package com.minyan.nascapi.handler.receive.receivePipe.receivePipeSendReward;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.minyan.nascapi.service.HttpService;
-import com.minyan.nascommon.Enum.CodeEnum;
-import com.minyan.nascommon.Enum.RewardLimitKeyEnum;
-import com.minyan.nascommon.Enum.RewardTypeEnum;
-import com.minyan.nascommon.Enum.SystemEnum;
+import com.minyan.nascommon.Enum.*;
 import com.minyan.nascommon.dto.context.ReceivePipeContext;
 import com.minyan.nascommon.exception.CustomException;
 import com.minyan.nascommon.httpRequest.CurrencySendRequest;
 import com.minyan.nascommon.param.CReceiveSendParam;
+import com.minyan.nascommon.po.ActivityEventPO;
 import com.minyan.nascommon.po.RewardLimitPO;
 import com.minyan.nascommon.po.RewardRulePO;
 import com.minyan.nascommon.utils.SnowFlakeUtil;
@@ -44,6 +42,7 @@ public class ReceivePipeSendCurrencyHandler implements ReceivePipeSendRewardInte
   @Override
   public void handle(ReceivePipeContext context, RewardRulePO rewardRulePO) {
     CReceiveSendParam param = context.getParam();
+    ActivityEventPO activityEventPO = context.getActivityEventPO();
     List<RewardLimitPO> rewardLimitPOList = context.getRewardLimitPOList();
     // 获取本次实际发放奖品项的奖品规则门槛
     rewardLimitPOList =
@@ -70,7 +69,7 @@ public class ReceivePipeSendCurrencyHandler implements ReceivePipeSendRewardInte
     }
     JSONObject amountJsonObject = JSONObject.parseObject(amountRewardLimit.getLimitJson());
     try {
-      amount = amountJsonObject.getBigDecimal(RewardLimitKeyEnum.AMOUNT.getValue());
+      amount = amountJsonObject.getBigDecimal(LimitJsonKeyEnum.VALUE.getValue());
     } catch (Exception e) {
       logger.info(
           "[ReceivePipeSendCurrencyHandler][handle]发放代币时，奖品规则门槛代币发放金额解析异常，请求参数：{}，奖品规则：{}",
@@ -99,7 +98,7 @@ public class ReceivePipeSendCurrencyHandler implements ReceivePipeSendRewardInte
     JSONObject currencyTypeJsonObject =
         JSONObject.parseObject(currencyTypeRewardLimit.getLimitJson());
     try {
-      currencyType = currencyTypeJsonObject.getInteger(RewardLimitKeyEnum.CURRENCY_TYPE.getValue());
+      currencyType = currencyTypeJsonObject.getInteger(LimitJsonKeyEnum.VALUE.getValue());
     } catch (Exception e) {
       logger.info(
           "[ReceivePipeSendCurrencyHandler][handle]发放代币时，奖品规则门槛代币发放代币类型解析异常，请求参数：{}，奖品规则：{}",
@@ -108,7 +107,8 @@ public class ReceivePipeSendCurrencyHandler implements ReceivePipeSendRewardInte
       throw new CustomException(CodeEnum.SEND_REWARD_LIMIT_EXCEPTION);
     }
 
-    CurrencySendRequest currencySendRequest = buildCurrencySendRequest(param, amount, currencyType);
+    CurrencySendRequest currencySendRequest =
+        buildCurrencySendRequest(param, amount, currencyType, activityEventPO);
     Boolean sendResult = httpService.sendCurrency(currencySendRequest);
     logger.info(
         "[ReceivePipeSendCurrencyHandler][handle]领取接口发放代币结束，请求参数：{}，返回结果：{}",
@@ -125,10 +125,14 @@ public class ReceivePipeSendCurrencyHandler implements ReceivePipeSendRewardInte
    * @param param
    * @param amount
    * @param currencyType
+   * @param activityEventPO
    * @return
    */
   CurrencySendRequest buildCurrencySendRequest(
-      CReceiveSendParam param, BigDecimal amount, Integer currencyType) {
+      CReceiveSendParam param,
+      BigDecimal amount,
+      Integer currencyType,
+      ActivityEventPO activityEventPO) {
     CurrencySendRequest currencySendRequest = new CurrencySendRequest();
     currencySendRequest.setUserId(param.getUserId());
     currencySendRequest.setAddCurrency(amount);
@@ -136,7 +140,7 @@ public class ReceivePipeSendCurrencyHandler implements ReceivePipeSendRewardInte
     currencySendRequest.setBusinessId(
         String.format("%s:%s", SystemEnum.NAS.getValue(), SnowFlakeUtil.getDefaultSnowFlakeId()));
     currencySendRequest.setBehaviorCode(param.getEventType());
-    currencySendRequest.setBehaviorDesc(param.getEventType());
+    currencySendRequest.setBehaviorDesc(activityEventPO.getEventName());
     return currencySendRequest;
   }
 }

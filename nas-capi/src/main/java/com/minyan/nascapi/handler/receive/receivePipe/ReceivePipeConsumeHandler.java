@@ -2,7 +2,7 @@ package com.minyan.nascapi.handler.receive.receivePipe;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.minyan.nascapi.handler.receive.receivePipe.receivePipeConsume.ReceivePipeConsumeInterfaceHandler;
-import com.minyan.nascommon.Enum.ReceiveLimitJsonKeyEnum;
+import com.minyan.nascommon.Enum.LimitJsonKeyEnum;
 import com.minyan.nascommon.Enum.ReceiveLimitKeyEnum;
 import com.minyan.nascommon.dto.context.ReceivePipeContext;
 import com.minyan.nascommon.param.CReceiveSendParam;
@@ -55,7 +55,7 @@ public class ReceivePipeConsumeHandler extends ReceivePipeAbstractHandler {
     try {
       // 解析消耗物品类型及具体消耗信息
       consumeInfoJson = JSONObject.parseObject(consumeInfoReceiveLimitPO.getLimitJson());
-      consumeType = consumeInfoJson.getInteger(ReceiveLimitJsonKeyEnum.CONSUME_TYPE.getValue());
+      consumeType = consumeInfoJson.getInteger(LimitJsonKeyEnum.CONSUME_TYPE.getValue());
     } catch (Exception e) {
       logger.info(
           "[ReceivePipeConsumeHandler][handle]前置消耗信息解析异常，消耗信息：{}",

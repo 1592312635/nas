@@ -10,7 +10,7 @@ import lombok.Getter;
  */
 @AllArgsConstructor
 @Getter
-public enum ReceiveLimitJsonKeyEnum {
+public enum LimitJsonKeyEnum {
   // 门槛信息
   VALUE("value", "值"),
   MAX("max", "最大值"),

@@ -3,6 +3,7 @@ package com.minyan.nasmapi.handler.activityAuditRefuse;
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.minyan.nascommon.Enum.ActivityStatusEnum;
 import com.minyan.nascommon.Enum.AuditStatusEnum;
 import com.minyan.nascommon.Enum.CodeEnum;
 import com.minyan.nascommon.Enum.DelTagEnum;
@@ -82,12 +83,24 @@ public class ActivityAuditRefuseActivityInfoHandler extends ActivityAuditRefuseA
     // 临时表审核状态变更
     UpdateWrapper<ActivityInfoTempPO> activityInfoTempPOStatusUpdateWrapper = new UpdateWrapper<>();
     activityInfoTempPOStatusUpdateWrapper
-            .lambda()
-            .set(ActivityInfoTempPO::getAuditStatus, AuditStatusEnum.REFUSE.getValue())
-            .eq(ActivityInfoTempPO::getActivityId, activityInfoTempPO.getActivityId())
-            .eq(ActivityInfoTempPO::getAuditStatus, AuditStatusEnum.DEFAULT.getValue())
-            .eq(ActivityInfoTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+        .lambda()
+        .set(ActivityInfoTempPO::getAuditStatus, AuditStatusEnum.REFUSE.getValue())
+        .set(ActivityInfoTempPO::getStatus, ActivityStatusEnum.STOP.getValue())
+        .eq(ActivityInfoTempPO::getActivityId, activityInfoTempPO.getActivityId())
+        .eq(ActivityInfoTempPO::getAuditStatus, AuditStatusEnum.DEFAULT.getValue())
+        .eq(ActivityInfoTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
     activityInfoTempDAO.update(null, activityInfoTempPOStatusUpdateWrapper);
+
+    // 主表审核状态变更
+    UpdateWrapper<ActivityInfoPO> activityInfoPOStatusUpdateWrapper = new UpdateWrapper<>();
+    activityInfoPOStatusUpdateWrapper
+        .lambda()
+        .set(ActivityInfoPO::getAuditStatus, AuditStatusEnum.REFUSE.getValue())
+        .set(ActivityInfoPO::getStatus, ActivityStatusEnum.STOP.getValue())
+        .eq(ActivityInfoPO::getActivityId, activityInfoTempPO.getActivityId())
+        .eq(ActivityInfoPO::getAuditStatus, AuditStatusEnum.DEFAULT.getValue())
+        .eq(ActivityInfoPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+    activityInfoDAO.update(null, activityInfoPOStatusUpdateWrapper);
     return null;
   }
 

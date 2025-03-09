@@ -15,8 +15,8 @@ public enum ReceiveLimitKeyEnum {
   STRING("string", "字符串门槛"),
   EXPIRE("expire", "有效期门槛"),
 
-  CONSUME_INFO("consume_info","前置消耗信息"),
-  SEND_TYPE("send_type", "发放类型"),
+  CONSUME_INFO("consumeInfo","前置消耗信息"),
+  SEND_TYPE("sendType", "发放类型"),
   ;
 
   private final String value;
