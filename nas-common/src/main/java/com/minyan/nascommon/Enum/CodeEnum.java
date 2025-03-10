@@ -47,6 +47,7 @@ public enum CodeEnum {
   CURRENCY_CONFIRM_FAIL("100028", "货币确认失败"),
   REWARD_NOT_EXIST("100029", "奖品不存在"),
   AUDIT_ACTIVITY_STATUS_ERROR("100030", "审核时活动状态错误"),
+  JOIN_RECORD_EXIST("100031", "参与记录已存在"),
   ;
   private final String code;
   private final String message;

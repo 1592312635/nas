@@ -1,6 +1,11 @@
 package com.minyan.nascapi.controller;
 
+import com.minyan.nascapi.service.JoinRecordService;
+import com.minyan.nascommon.param.CJoinQueryParam;
+import com.minyan.nascommon.param.CJoinRecordParam;
 import com.minyan.nascommon.vo.ApiResult;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,13 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/c/join")
 public class JoinController {
+  @Autowired private JoinRecordService joinRecordService;
+
     @RequestMapping("/record")
-    public ApiResult record(){
-        return ApiResult.buildSuccess("参与记录");
+    public ApiResult record(@RequestBody CJoinRecordParam param){
+        return joinRecordService.record(param);
     }
 
     @RequestMapping("/query")
-    public ApiResult query(){
-        return ApiResult.buildSuccess("查询参与记录");
+    public ApiResult query(@RequestBody CJoinQueryParam param){
+        return joinRecordService.query(param);
     }
 }
