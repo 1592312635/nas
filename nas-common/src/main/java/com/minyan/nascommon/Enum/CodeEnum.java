@@ -48,6 +48,7 @@ public enum CodeEnum {
   REWARD_NOT_EXIST("100029", "奖品不存在"),
   AUDIT_ACTIVITY_STATUS_ERROR("100030", "审核时活动状态错误"),
   JOIN_RECORD_EXIST("100031", "参与记录已存在"),
+  PARAM_ERROR("100032", "参数错误"),
   ;
   private final String code;
   private final String message;

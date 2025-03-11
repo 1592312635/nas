@@ -29,11 +29,9 @@
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.JoinRecordPO"
             useGeneratedKeys="true">
         insert into nas_join_record (activity_id, module_id, user_id,
-        join_type, join_info, create_time,
-        update_time, del_tag)
+        join_type, join_info)
         values (#{activityId,jdbcType=INTEGER}, #{moduleId,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR},
-        #{joinType,jdbcType=INTEGER}, #{joinInfo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
-        #{updateTime,jdbcType=TIMESTAMP}, #{delTag,jdbcType=INTEGER})
+        #{joinType,jdbcType=INTEGER}, #{joinInfo,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minyan.nascommon.po.JoinRecordPO"
             useGeneratedKeys="true">
