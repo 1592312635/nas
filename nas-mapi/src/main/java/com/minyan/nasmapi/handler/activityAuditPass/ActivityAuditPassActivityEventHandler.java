@@ -41,7 +41,7 @@ public class ActivityAuditPassActivityEventHandler extends ActivityAuditPassAbst
     activityEventTempPOQueryWrapper
         .lambda()
         .eq(ActivityEventTempPO::getActivityId, param.getActivityId())
-        .eq(ActivityEventTempPO::getDelTag, 0);
+        .eq(ActivityEventTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
     List<ActivityEventTempPO> activityEventTempPOS =
         activityEventTempDAO.selectList(activityEventTempPOQueryWrapper);
     if (CollectionUtils.isEmpty(activityEventTempPOS)) {

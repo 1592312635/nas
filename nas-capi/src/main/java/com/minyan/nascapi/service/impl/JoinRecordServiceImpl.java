@@ -33,7 +33,13 @@ public class JoinRecordServiceImpl implements JoinRecordService {
   @Autowired private NasJoinRecordDAO joinRecordDAO;
 
   @Override
-  public ApiResult record(CJoinRecordParam param) {
+  public ApiResult<Boolean> record(CJoinRecordParam param) {
+    if (ObjectUtils.isEmpty(param.getActivityId()) && ObjectUtils.isEmpty(param.getUserId())) {
+      logger.info(
+              "[JoinRecordServiceImpl][record]记录参与记录请求参数异常，请求参数：{}", JSONObject.toJSONString(param));
+      return ApiResult.build(CodeEnum.PARAM_ERROR);
+    }
+
     joinTypeRecordHandlerList.forEach(
         joinTypeRecordHandler -> {
           if (joinTypeRecordHandler.match(param.getJoinType())) {
@@ -44,7 +50,7 @@ public class JoinRecordServiceImpl implements JoinRecordService {
   }
 
   @Override
-  public ApiResult query(CJoinQueryParam param) {
+  public ApiResult<List<CJoinRecordVO>> query(CJoinQueryParam param) {
     List<CJoinRecordVO> cJoinRecordVOS = Lists.newArrayList();
 
     if (ObjectUtils.isEmpty(param.getActivityId()) && ObjectUtils.isEmpty(param.getUserId())) {

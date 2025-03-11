@@ -1,7 +1,11 @@
 package com.minyan.nascapi.service;
 
+import com.minyan.nascommon.param.CReceiveQueryParam;
 import com.minyan.nascommon.param.CReceiveSendParam;
 import com.minyan.nascommon.vo.ApiResult;
+import com.minyan.nascommon.vo.CReceiveInfoVO;
+
+import java.util.List;
 
 /**
  * @decription
@@ -10,4 +14,6 @@ import com.minyan.nascommon.vo.ApiResult;
  */
 public interface ReceiveService {
     ApiResult<Boolean> send(CReceiveSendParam param);
+
+    ApiResult<List<CReceiveInfoVO>> query(CReceiveQueryParam param);
 }
