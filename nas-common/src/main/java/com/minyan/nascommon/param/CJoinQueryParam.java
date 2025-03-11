@@ -1,5 +1,6 @@
 package com.minyan.nascommon.param;
 
+import com.minyan.nascommon.Enum.JoinTypeEnum;
 import lombok.Data;
 
 /**
@@ -9,5 +10,10 @@ import lombok.Data;
  */
 @Data
 public class CJoinQueryParam {
-
+  private String userId;
+  private Integer activityId;
+  private Integer moduleId;
+  private Integer joinType = JoinTypeEnum.DEFAULT.getValue();
+  private Integer pageNum = 1;
+  private Integer pageSize = 15;
 }
