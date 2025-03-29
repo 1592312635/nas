@@ -64,8 +64,8 @@ public class ActivityRewardManagerImpl implements ActivityRewardManager {
 
     // 数据库操作
     for (MActivityRewardSaveParam mActivityRewardSaveParam : toAdd) {
-      activityRewardTempDAO.insert(
-          buildActivityRewardTempPO(param.getActivityId(), mActivityRewardSaveParam));
+      ActivityRewardTempPO activityRewardTempPO = buildActivityRewardTempPO(param.getActivityId(), mActivityRewardSaveParam);
+      activityRewardTempDAO.insert(activityRewardTempPO);
     }
     for (MActivityRewardSaveParam mActivityRewardSaveParam : toUpdate) {
       UpdateWrapper<ActivityRewardTempPO> updateWrapper = new UpdateWrapper<>();
