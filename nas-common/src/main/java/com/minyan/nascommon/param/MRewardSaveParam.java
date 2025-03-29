@@ -11,8 +11,6 @@ import lombok.Data;
  */
 @Data
 public class MRewardSaveParam {
-  private Long rewardId;
-
   @NotNull(message = "奖品类型不能为空")
   private Integer rewardType;
 

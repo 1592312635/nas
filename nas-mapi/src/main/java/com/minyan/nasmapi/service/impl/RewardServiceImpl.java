@@ -34,7 +34,6 @@ public class RewardServiceImpl implements RewardService {
    */
   private ActivityRewardTempPO buildActivityRewardTempPO(MRewardSaveParam param) {
     ActivityRewardTempPO activityRewardTempPO = new ActivityRewardTempPO();
-    activityRewardTempPO.setRewardId(param.getRewardId());
     activityRewardTempPO.setRewardType(param.getRewardType());
     activityRewardTempPO.setRewardName(param.getRewardName());
     activityRewardTempPO.setBatchCode(param.getBatchCode());
@@ -52,7 +51,6 @@ public class RewardServiceImpl implements RewardService {
   private MRewardSaveVO buildMRewardSaveVO(Long id, ActivityRewardTempPO activityRewardTempPO) {
     MRewardSaveVO mRewardSaveVO = new MRewardSaveVO();
     mRewardSaveVO.setId(id);
-    mRewardSaveVO.setRewardId(activityRewardTempPO.getRewardId());
     mRewardSaveVO.setRewardType(activityRewardTempPO.getRewardType());
     mRewardSaveVO.setRewardName(activityRewardTempPO.getRewardName());
     mRewardSaveVO.setBatchCode(activityRewardTempPO.getBatchCode());

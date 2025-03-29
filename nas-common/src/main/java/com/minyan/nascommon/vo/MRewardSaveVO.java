@@ -10,7 +10,6 @@ import lombok.Data;
 @Data
 public class MRewardSaveVO {
   private Long id;
-  private Long rewardId;
   private Integer rewardType;
   private String rewardName;
   private String batchCode;
