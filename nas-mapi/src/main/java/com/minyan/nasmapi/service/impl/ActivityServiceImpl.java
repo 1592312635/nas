@@ -171,7 +171,7 @@ public class ActivityServiceImpl implements ActivityService {
 
   @Transactional(rollbackFor = Exception.class)
   @Override
-  public ApiResult<Boolean> saveActivityInfo(MActivityInfoSaveParam param) {
+  public ApiResult<?> saveActivityInfo(MActivityInfoSaveParam param) {
     Boolean activityInfoSaveResult = activityInfoManager.saveActivityInfoTemp(param);
     if (!activityInfoSaveResult) {
       logger.info("[ActivityServiceImpl][saveActivityInfo]活动信息保存失败，活动id：{}", param.getActivityId());
@@ -203,7 +203,7 @@ public class ActivityServiceImpl implements ActivityService {
 
   @Transactional(rollbackFor = Exception.class)
   @Override
-  public ApiResult<Boolean> auditActivityInfo(MActivityInfoAuditParam param) {
+  public ApiResult<?> auditActivityInfo(MActivityInfoAuditParam param) {
     ActivityAuditPassContext activityAuditPassContext = new ActivityAuditPassContext();
     ActivityAuditRefuseContext activityAuditRefuseContext = new ActivityAuditRefuseContext();
     activityAuditPassContext.setParam(param);
@@ -267,4 +267,15 @@ public class ActivityServiceImpl implements ActivityService {
     }
     return ApiResult.build(CodeEnum.SUCCESS);
   }
+
+  @Override
+  public ApiResult<?> changeActivityInfo(MActivityChangeParam param) {
+    return null;
+  }
+
+  @Override
+  public ApiResult<?> changeActivityAudit(MActivityChangeAuditParam param) {
+    return null;
+  }
+
 }

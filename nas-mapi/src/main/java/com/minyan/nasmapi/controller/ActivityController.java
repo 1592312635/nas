@@ -1,9 +1,6 @@
 package com.minyan.nasmapi.controller;
 
-import com.minyan.nascommon.param.MActivityInfoAuditParam;
-import com.minyan.nascommon.param.MActivityInfoDetailQueryParam;
-import com.minyan.nascommon.param.MActivityInfoQueryParam;
-import com.minyan.nascommon.param.MActivityInfoSaveParam;
+import com.minyan.nascommon.param.*;
 import com.minyan.nascommon.vo.ApiResult;
 import com.minyan.nascommon.vo.MActivityInfoDetailVO;
 import com.minyan.nascommon.vo.MActivityInfoVO;
@@ -42,12 +39,23 @@ public class ActivityController {
   }
 
   @RequestMapping("/save")
-  ApiResult<Boolean> saveActivityInfo(@RequestBody @Validated MActivityInfoSaveParam param) {
+  ApiResult<?> saveActivityInfo(@RequestBody @Validated MActivityInfoSaveParam param) {
     return activityService.saveActivityInfo(param);
   }
 
   @RequestMapping("/audit")
-  ApiResult<Boolean> auditActivityInfo(@RequestBody @Validated MActivityInfoAuditParam param) {
+  ApiResult<?> auditActivityInfo(@RequestBody @Validated MActivityInfoAuditParam param) {
     return activityService.auditActivityInfo(param);
   }
+
+  @RequestMapping("/change")
+  ApiResult<?> changeActivityInfo(@RequestBody @Validated MActivityChangeParam param) {
+    return activityService.changeActivityInfo(param);
+  }
+
+  @RequestMapping("/change/audit")
+  ApiResult<?> changeActivityInfoAudit(@RequestBody @Validated MActivityChangeAuditParam param) {
+    return activityService.changeActivityAudit(param);
+  }
+
 }
