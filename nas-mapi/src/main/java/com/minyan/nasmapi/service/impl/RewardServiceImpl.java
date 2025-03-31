@@ -1,5 +1,8 @@
 package com.minyan.nasmapi.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.minyan.nascommon.Enum.DelTagEnum;
+import com.minyan.nascommon.param.MRewardDeleteParam;
 import com.minyan.nascommon.param.MRewardSaveParam;
 import com.minyan.nascommon.po.ActivityRewardTempPO;
 import com.minyan.nascommon.vo.ApiResult;
@@ -24,6 +27,18 @@ public class RewardServiceImpl implements RewardService {
     activityRewardTempDAO.insert(activityRewardTempPO);
     return ApiResult.buildSuccess(
         buildMRewardSaveVO(activityRewardTempPO.getId(), activityRewardTempPO));
+  }
+
+  @Override
+  public ApiResult<?> deleteReward(MRewardDeleteParam param) {
+    UpdateWrapper<ActivityRewardTempPO> updateWrapper = new UpdateWrapper<>();
+    updateWrapper
+        .lambda()
+        .set(ActivityRewardTempPO::getDelTag, DelTagEnum.DEL.getValue())
+        .eq(ActivityRewardTempPO::getId, param.getId())
+        .eq(ActivityRewardTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+    activityRewardTempDAO.update(null, updateWrapper);
+    return ApiResult.buildSuccess(null);
   }
 
   /**

@@ -1,5 +1,6 @@
 package com.minyan.nasmapi.controller;
 
+import com.minyan.nascommon.param.MRewardDeleteParam;
 import com.minyan.nascommon.param.MRewardSaveParam;
 import com.minyan.nascommon.vo.ApiResult;
 import com.minyan.nascommon.vo.MRewardSaveVO;
@@ -27,7 +28,13 @@ public class RewardController {
    * @param param
    * @return
    */
+  @RequestMapping("/save")
   public ApiResult<MRewardSaveVO> saveReward(@RequestBody @Validated MRewardSaveParam param) {
     return rewardService.saveReward(param);
+  }
+
+  @RequestMapping("/delete")
+  public ApiResult<?> deleteReward(@RequestBody @Validated MRewardDeleteParam param) {
+    return rewardService.deleteReward(param);
   }
 }

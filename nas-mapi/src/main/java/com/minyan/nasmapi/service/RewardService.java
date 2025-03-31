@@ -1,5 +1,6 @@
 package com.minyan.nasmapi.service;
 
+import com.minyan.nascommon.param.MRewardDeleteParam;
 import com.minyan.nascommon.param.MRewardSaveParam;
 import com.minyan.nascommon.vo.ApiResult;
 import com.minyan.nascommon.vo.MRewardSaveVO;
@@ -11,4 +12,6 @@ import com.minyan.nascommon.vo.MRewardSaveVO;
  */
 public interface RewardService {
   ApiResult<MRewardSaveVO> saveReward(MRewardSaveParam param);
+
+  ApiResult<?> deleteReward(MRewardDeleteParam param);
 }
