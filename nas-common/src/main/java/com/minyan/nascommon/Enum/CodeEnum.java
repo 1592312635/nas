@@ -49,6 +49,7 @@ public enum CodeEnum {
   AUDIT_ACTIVITY_STATUS_ERROR("100030", "审核时活动状态错误"),
   JOIN_RECORD_EXIST("100031", "参与记录已存在"),
   PARAM_ERROR("100032", "参数错误"),
+  AUDIT_RECORD_EXIST("100033", "审核记录已存在"),
   ;
   private final String code;
   private final String message;

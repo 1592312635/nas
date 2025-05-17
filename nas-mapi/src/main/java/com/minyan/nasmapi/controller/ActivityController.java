@@ -52,10 +52,4 @@ public class ActivityController {
   ApiResult<?> changeActivityInfo(@RequestBody @Validated MActivityChangeParam param) {
     return activityService.changeActivityInfo(param);
   }
-
-  @RequestMapping("/change/audit")
-  ApiResult<?> changeActivityInfoAudit(@RequestBody @Validated MActivityChangeAuditParam param) {
-    return activityService.changeActivityAudit(param);
-  }
-
 }

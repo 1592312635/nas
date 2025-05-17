@@ -8,12 +8,14 @@ import com.minyan.nascommon.Enum.AuditStatusEnum;
 import com.minyan.nascommon.Enum.CodeEnum;
 import com.minyan.nascommon.Enum.DelTagEnum;
 import com.minyan.nascommon.Enum.IsProgressEnum;
+import com.minyan.nascommon.dto.context.ActivityChangeContext;
 import com.minyan.nascommon.param.*;
 import com.minyan.nascommon.po.*;
 import com.minyan.nascommon.vo.*;
 import com.minyan.nascommon.dto.context.ActivityAuditPassContext;
 import com.minyan.nascommon.dto.context.ActivityAuditRefuseContext;
 import com.minyan.nasdao.*;
+import com.minyan.nasmapi.handler.activityAuditChange.ActivityAuditChangeHandler;
 import com.minyan.nasmapi.handler.activityAuditPass.ActivityAuditPassAbstractHandler;
 import com.minyan.nasmapi.handler.activityAuditRefuse.ActivityAuditRefuseAbstractHandler;
 import com.minyan.nasmapi.manager.*;
@@ -41,6 +43,7 @@ public class ActivityServiceImpl implements ActivityService {
 
   @Autowired List<ActivityAuditPassAbstractHandler> activityAuditPassActivityInfoHandlers;
   @Autowired List<ActivityAuditRefuseAbstractHandler> activityAuditRefuseAbstractHandlers;
+  @Autowired List<ActivityAuditChangeHandler> activityAuditChangeHandlers;
   @Autowired private ActivityInfoManager activityInfoManager;
   @Autowired private ModuleInfoManager moduleInfoManager;
   @Autowired private EventInfoManager eventInfoManager;
@@ -48,8 +51,8 @@ public class ActivityServiceImpl implements ActivityService {
   @Autowired private ReceiveRuleManager receiveRuleManager;
   @Autowired private RewardRuleManager rewardRuleManager;
   @Autowired private ActivityChannelManager activityChannelManager;
-
   @Autowired private NasActivityInfoDAO activityInfoDAO;
+  @Autowired private NasActivityAuditRecordDAO activityAuditRecordDAO;
 
   @Override
   public ApiResult<List<MActivityInfoVO>> getActivityInfoList(MActivityInfoQueryParam param) {
@@ -270,12 +273,28 @@ public class ActivityServiceImpl implements ActivityService {
 
   @Override
   public ApiResult<?> changeActivityInfo(MActivityChangeParam param) {
+    // 前置校验
+    QueryWrapper<ActivityAuditRecordPO> queryWrapper = new QueryWrapper<>();
+    queryWrapper.lambda().eq(ActivityAuditRecordPO::getActivityId, param.getActivityId())
+            .eq(ActivityAuditRecordPO::getAuditStatus, AuditStatusEnum.DEFAULT.getValue());
+    ActivityAuditRecordPO activityAuditRecordPO = activityAuditRecordDAO.selectOne(queryWrapper);
+    if (!ObjectUtils.isEmpty(activityAuditRecordPO)){
+      return ApiResult.build(CodeEnum.AUDIT_RECORD_EXIST);
+    }
+
+    // 执行操作
+    ActivityAuditChangeHandler activityAuditChangeHandler = activityAuditChangeHandlers.stream()
+            .filter(
+                    activityAuditChangeHandler1 ->
+                            activityAuditChangeHandler1.match(activityAuditRecordPO.getOperateType()))
+            .findFirst()
+            .orElse(null);
+    if (!ObjectUtils.isEmpty(activityAuditChangeHandler)){
+      ActivityChangeContext activityChangeContext = new ActivityChangeContext();
+      activityChangeContext.setActivityChangeParam(param);
+      activityAuditChangeHandler.handle(activityChangeContext);
+    }
+
     return null;
   }
-
-  @Override
-  public ApiResult<?> changeActivityAudit(MActivityChangeAuditParam param) {
-    return null;
-  }
-
 }

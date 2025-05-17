@@ -10,6 +10,6 @@ import lombok.Data;
 @Data
 public class MActivityChangeParam {
     private Integer activityId;
-    private Integer changeType;
+    private Integer operateType;
 }
 

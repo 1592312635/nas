@@ -21,6 +21,4 @@ public interface ActivityService {
   ApiResult<?> auditActivityInfo(MActivityInfoAuditParam param);
 
   ApiResult<?> changeActivityInfo(MActivityChangeParam param);
-
-  ApiResult<?> changeActivityAudit(MActivityChangeAuditParam param);
 }
