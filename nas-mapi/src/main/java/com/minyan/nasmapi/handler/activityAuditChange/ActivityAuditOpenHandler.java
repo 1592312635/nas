@@ -38,7 +38,7 @@ public class ActivityAuditOpenHandler implements ActivityAuditChangeHandler {
     activityInfoTempPOUpdateWrapper
             .lambda()
             .set(ActivityInfoTempPO::getStatus, ActivityStatusEnum.RUN.getValue())
-            .eq(ActivityInfoTempPO::getActivityId, context.getActivityChangeParam().getActivityId())
+            .eq(ActivityInfoTempPO::getActivityId, context.getActivityInfoAuditParam().getActivityId())
             .eq(ActivityInfoTempPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
     activityInfoTempDAO.update(null, activityInfoTempPOUpdateWrapper);
 
@@ -47,7 +47,7 @@ public class ActivityAuditOpenHandler implements ActivityAuditChangeHandler {
     activityInfoPOUpdateWrapper
             .lambda()
             .set(ActivityInfoPO::getStatus, ActivityStatusEnum.RUN.getValue())
-            .eq(ActivityInfoPO::getActivityId, context.getActivityChangeParam().getActivityId())
+            .eq(ActivityInfoPO::getActivityId, context.getActivityInfoAuditParam().getActivityId())
             .eq(ActivityInfoPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
     activityInfoDAO.update(null, activityInfoPOUpdateWrapper);
   }

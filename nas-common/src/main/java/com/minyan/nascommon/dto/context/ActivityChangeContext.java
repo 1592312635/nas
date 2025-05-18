@@ -1,6 +1,6 @@
 package com.minyan.nascommon.dto.context;
 
-import com.minyan.nascommon.param.MActivityChangeParam;
+import com.minyan.nascommon.param.MActivityInfoAuditParam;
 import lombok.Data;
 
 /**
@@ -10,5 +10,5 @@ import lombok.Data;
  */
 @Data
 public class ActivityChangeContext {
-  MActivityChangeParam activityChangeParam;
+  MActivityInfoAuditParam activityInfoAuditParam;
 }

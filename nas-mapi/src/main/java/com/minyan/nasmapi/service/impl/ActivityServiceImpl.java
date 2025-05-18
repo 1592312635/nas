@@ -2,18 +2,19 @@ package com.minyan.nasmapi.service.impl;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.minyan.nascommon.Enum.AuditStatusEnum;
 import com.minyan.nascommon.Enum.CodeEnum;
 import com.minyan.nascommon.Enum.DelTagEnum;
 import com.minyan.nascommon.Enum.IsProgressEnum;
+import com.minyan.nascommon.dto.context.ActivityAuditPassContext;
+import com.minyan.nascommon.dto.context.ActivityAuditRefuseContext;
 import com.minyan.nascommon.dto.context.ActivityChangeContext;
 import com.minyan.nascommon.param.*;
 import com.minyan.nascommon.po.*;
 import com.minyan.nascommon.vo.*;
-import com.minyan.nascommon.dto.context.ActivityAuditPassContext;
-import com.minyan.nascommon.dto.context.ActivityAuditRefuseContext;
 import com.minyan.nasdao.*;
 import com.minyan.nasmapi.handler.activityAuditChange.ActivityAuditChangeHandler;
 import com.minyan.nasmapi.handler.activityAuditPass.ActivityAuditPassAbstractHandler;
@@ -211,10 +212,38 @@ public class ActivityServiceImpl implements ActivityService {
     ActivityAuditRefuseContext activityAuditRefuseContext = new ActivityAuditRefuseContext();
     activityAuditPassContext.setParam(param);
     activityAuditRefuseContext.setParam(param);
+
+    // 预查询活动操作审核记录
+    QueryWrapper<ActivityAuditRecordPO> queryWrapper = new QueryWrapper<>();
+    queryWrapper
+        .lambda()
+        .eq(ActivityAuditRecordPO::getActivityId, param.getActivityId())
+        .eq(ActivityAuditRecordPO::getAuditStatus, AuditStatusEnum.DEFAULT.getValue())
+        .eq(ActivityAuditRecordPO::getDelTag, DelTagEnum.NOT_DEL.getValue());
+    ActivityAuditRecordPO activityAuditRecordPO = activityAuditRecordDAO.selectOne(queryWrapper);
+
+    // 活动审核操作
     if (AuditStatusEnum.PASS.getValue().equals(param.getAuditStatus())) {
       List<ActivityAuditPassAbstractHandler> activityAuditPassFallBackHandlers =
           Lists.newArrayList();
       try {
+        // 活动操作记录审核通过
+        if (!ObjectUtils.isEmpty(activityAuditRecordPO)) {
+          ActivityAuditChangeHandler activityAuditChangeHandler =
+              activityAuditChangeHandlers.stream()
+                  .filter(
+                      activityAuditChangeHandler1 ->
+                          activityAuditChangeHandler1.match(activityAuditRecordPO.getOperateType()))
+                  .findFirst()
+                  .orElse(null);
+          if (!ObjectUtils.isEmpty(activityAuditChangeHandler)) {
+            ActivityChangeContext activityChangeContext = new ActivityChangeContext();
+            activityChangeContext.setActivityInfoAuditParam(param);
+            activityAuditChangeHandler.handle(activityChangeContext);
+          }
+        }
+
+        // 活动内容审核通过
         for (ActivityAuditPassAbstractHandler activityAuditPassHandler :
             activityAuditPassActivityInfoHandlers) {
           activityAuditPassFallBackHandlers.add(activityAuditPassHandler);
@@ -240,6 +269,17 @@ public class ActivityServiceImpl implements ActivityService {
         return ApiResult.build(CodeEnum.ACTIVITY_AUDIT_PASS_FAIL);
       }
     } else if (AuditStatusEnum.REFUSE.getValue().equals(param.getAuditStatus())) {
+      // 活动操作记录审核拒绝
+      if (!ObjectUtils.isEmpty(activityAuditRecordPO)) {
+        UpdateWrapper<ActivityAuditRecordPO> activityAuditRecordPOUpdateWrapper =
+            new UpdateWrapper<>();
+        activityAuditRecordPOUpdateWrapper
+            .lambda()
+            .set(ActivityAuditRecordPO::getAuditStatus, AuditStatusEnum.REFUSE.getValue())
+            .eq(ActivityAuditRecordPO::getId, activityAuditRecordPO.getId());
+      }
+
+      // 活动内容审核拒绝
       List<ActivityAuditRefuseAbstractHandler> activityAuditRefuseFallBackHandlers =
           Lists.newArrayList();
       try {
@@ -265,7 +305,7 @@ public class ActivityServiceImpl implements ActivityService {
             activityAuditRefuseFallBackHandlers) {
           activityAuditRefuseFallBackHandler.fallBack(activityAuditRefuseContext);
         }
-        return  ApiResult.build(CodeEnum.ACTIVITY_AUDIT_REFUSE_FAIL);
+        return ApiResult.build(CodeEnum.ACTIVITY_AUDIT_REFUSE_FAIL);
       }
     }
     return ApiResult.build(CodeEnum.SUCCESS);
@@ -275,26 +315,32 @@ public class ActivityServiceImpl implements ActivityService {
   public ApiResult<?> changeActivityInfo(MActivityChangeParam param) {
     // 前置校验
     QueryWrapper<ActivityAuditRecordPO> queryWrapper = new QueryWrapper<>();
-    queryWrapper.lambda().eq(ActivityAuditRecordPO::getActivityId, param.getActivityId())
-            .eq(ActivityAuditRecordPO::getAuditStatus, AuditStatusEnum.DEFAULT.getValue());
+    queryWrapper
+        .lambda()
+        .eq(ActivityAuditRecordPO::getActivityId, param.getActivityId())
+        .eq(ActivityAuditRecordPO::getAuditStatus, AuditStatusEnum.DEFAULT.getValue());
     ActivityAuditRecordPO activityAuditRecordPO = activityAuditRecordDAO.selectOne(queryWrapper);
-    if (!ObjectUtils.isEmpty(activityAuditRecordPO)){
+    if (!ObjectUtils.isEmpty(activityAuditRecordPO)) {
       return ApiResult.build(CodeEnum.AUDIT_RECORD_EXIST);
     }
 
-    // 执行操作
-    ActivityAuditChangeHandler activityAuditChangeHandler = activityAuditChangeHandlers.stream()
-            .filter(
-                    activityAuditChangeHandler1 ->
-                            activityAuditChangeHandler1.match(activityAuditRecordPO.getOperateType()))
-            .findFirst()
-            .orElse(null);
-    if (!ObjectUtils.isEmpty(activityAuditChangeHandler)){
-      ActivityChangeContext activityChangeContext = new ActivityChangeContext();
-      activityChangeContext.setActivityChangeParam(param);
-      activityAuditChangeHandler.handle(activityChangeContext);
-    }
-
+    // 生成活动审核操作记录
+    ActivityAuditRecordPO newActivityAuditRecordPO = buildActivityAuditRecordPO(param);
+    activityAuditRecordDAO.insert(newActivityAuditRecordPO);
     return null;
+  }
+
+  /**
+   * 构建活动审核记录参数
+   *
+   * @param param
+   * @return
+   */
+  ActivityAuditRecordPO buildActivityAuditRecordPO(MActivityChangeParam param) {
+    ActivityAuditRecordPO activityAuditRecordPO = new ActivityAuditRecordPO();
+    activityAuditRecordPO.setActivityId(param.getActivityId());
+    activityAuditRecordPO.setOperateType(param.getOperateType());
+    activityAuditRecordPO.setAuditStatus(AuditStatusEnum.DEFAULT.getValue());
+    return activityAuditRecordPO;
   }
 }

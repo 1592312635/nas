@@ -29,6 +29,6 @@ public class ActivityAuditDeleteHandler implements ActivityAuditChangeHandler {
   public void handle(ActivityChangeContext context) {
     activityDeleteHandlers.forEach(
         activityDeleteHandler ->
-            activityDeleteHandler.delete(context.getActivityChangeParam().getActivityId()));
+            activityDeleteHandler.delete(context.getActivityInfoAuditParam().getActivityId()));
   }
 }
